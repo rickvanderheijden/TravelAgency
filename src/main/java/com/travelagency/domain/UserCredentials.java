@@ -1,4 +1,4 @@
-package com.travelagency.interfaces;
+package com.travelagency.domain;
 
 
 //TODO (RvdH): Can some methods or constructors be removed?
