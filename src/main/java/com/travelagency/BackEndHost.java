@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@SpringBootApplication(scanBasePackages = "com.travelagency.interfaces")
+@SpringBootApplication(scanBasePackages = "com.travelagency")
 @EnableJpaRepositories(basePackages = "com.travelagency.repository")
 public class BackEndHost {
     public static void main(String[] args)

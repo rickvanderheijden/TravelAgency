@@ -2,11 +2,13 @@ package com.travelagency.interfaces;
 
 import com.travelagency.domain.User;
 import com.travelagency.repository.UserRepository;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
