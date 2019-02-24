@@ -1,6 +1,6 @@
 package unitttest;
 
-import com.travelagency.interfaces.UserCredentials;
+import com.travelagency.domain.UserCredentials;
 import io.restassured.RestAssured;
 import io.restassured.response.ResponseBody;
 import org.junit.After;

@@ -1,0 +1,4 @@
+language: java
+jdk: oraclejdk8
+#  Check this url for explanation
+#  https://sivalabs.in/2018/01/ci-cd-springboot-applications-using-travis-ci/
