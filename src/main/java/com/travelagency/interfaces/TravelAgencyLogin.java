@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.travelagency.UserManager;
+import com.travelagency.domain.UserCredentials;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TravelAgencyLogin {
@@ -88,5 +92,24 @@ public class TravelAgencyLogin {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Bad credentials!", e);
         }
-    }
+      
+//=======
+//    private UserManager userManager;
+
+//    public TravelAgencyLogin(UserManager userManager) {
+//        this.userManager = userManager;
+//    }
+
+//    @GetMapping("/test")
+//    @ResponseBody
+//    public String test() {
+//        return userManager.test();
+//    }
+
+//    @PostMapping("/login")
+//    @ResponseBody
+//    public String login(@RequestBody UserCredentials userCredentials) {
+//        return userManager.login(userCredentials);
+//>>>>>>> master
+//    }
 }

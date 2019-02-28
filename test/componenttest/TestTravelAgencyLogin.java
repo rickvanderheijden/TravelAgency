@@ -1,4 +1,4 @@
-package unitttest;
+package componenttest;
 
 import com.travelagency.domain.UserCredentials;
 import io.restassured.RestAssured;
@@ -13,7 +13,7 @@ public class TestTravelAgencyLogin {
     @BeforeClass
     public static void init() {
         RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8080;
+        RestAssured.port = 9000;
     }
 
     @Before

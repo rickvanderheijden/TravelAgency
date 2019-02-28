@@ -12,6 +12,7 @@ public class UserCredentials {
         this.password = password;
     }
 
+    //TODO (RvdH): Really needed?
     public UserCredentials() {
     }
 
