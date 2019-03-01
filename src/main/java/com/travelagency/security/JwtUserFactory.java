@@ -2,9 +2,8 @@ package com.travelagency.security;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.travelagency.domain.Authority;
-import com.travelagency.domain.User;
-import com.travelagency.security.JwtUser;
+import com.travelagency.model.security.Authority;
+import com.travelagency.model.security.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

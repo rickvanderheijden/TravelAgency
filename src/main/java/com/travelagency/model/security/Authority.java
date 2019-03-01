@@ -1,4 +1,4 @@
-package com.travelagency.domain;
+package com.travelagency.model.security;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,8 @@ public class Authority {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
+    @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", length = 50)
@@ -20,6 +21,13 @@ public class Authority {
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private List<User> users;
+
+    public Authority() {
+    }
+
+    public Authority(@NotNull AuthorityName name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

@@ -1,14 +1,14 @@
-package com.travelagency.domain;
+package com.travelagency.model.security;
 
 
 //TODO (RvdH): Can some methods or constructors be removed?
 
 public class UserCredentials {
-    private String emailAddress;
+    private String username;
     private String password;
 
-    public UserCredentials(String emailAddress, String password) {
-        this.emailAddress = emailAddress;
+    public UserCredentials(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -16,12 +16,12 @@ public class UserCredentials {
     public UserCredentials() {
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

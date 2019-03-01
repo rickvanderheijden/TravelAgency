@@ -1,4 +1,4 @@
-package com.travelagency.domain;
+package com.travelagency.model.security;
 
 import java.util.Date;
 import java.util.List;

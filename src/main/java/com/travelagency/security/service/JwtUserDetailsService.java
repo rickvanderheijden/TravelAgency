@@ -1,7 +1,7 @@
 package com.travelagency.security.service;
 
-import com.travelagency.domain.User;
-import com.travelagency.repository.UserRepository;
+import com.travelagency.model.security.User;
+import com.travelagency.security.repository.UserRepository;
 import com.travelagency.security.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
