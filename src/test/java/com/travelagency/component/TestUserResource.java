@@ -45,7 +45,24 @@ public class TestUserResource {
         Assert.assertEquals(expectedAuthorities, responseBody.jsonPath().getList("authorities").get(0));
     }
 
-    private String login(@SuppressWarnings("SameParameterValue") String username, @SuppressWarnings("SameParameterValue") String password) {
+    @Test
+    public void testGetAllUsersWithAdminAccount() {
+        String token = login("admin", "admin");
+        Header header = new Header("Authorization", "Bearer " + token);
+
+        int numberOfUsers = RestAssured.given().contentType("application/json").header(header).get("/users/all").jsonPath().getList("").size();
+        Assert.assertTrue(numberOfUsers > 0);
+    }
+
+    @Test
+    public void testGetAllUsersWithUserAccount() {
+        String token = login("user", "user");
+        Header header = new Header("Authorization", "Bearer " + token);
+
+        RestAssured.given().contentType("application/json").header(header).get("/users/all").then().statusCode(403);
+    }
+
+    private String login(String username, String password) {
         UserCredentials userCredentials = new UserCredentials(username, password);
         return RestAssured.given().contentType("application/json").body(userCredentials).when().post("/auth/login").then().statusCode(200).extract().path("token");
     }

@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,15 +33,14 @@ public class UserResource {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
-
-    //TODO: Only when admin
     @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAll() {
         return this.userRepository.findAll();
     }
 
-    //TODO: Only when admin
     @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> persist(@RequestBody final User user) {
         this.userRepository.save(user);
         return this.userRepository.findAll();
