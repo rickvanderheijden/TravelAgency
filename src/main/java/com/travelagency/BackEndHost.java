@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SuppressWarnings("SpellCheckingInspection")
@@ -40,5 +41,13 @@ public class BackEndHost implements WebMvcConfigurer {
                 "adminLastName",
                 "admin@travelagency.com",
                 AuthorityName.ROLE_ADMIN);
+    }
+
+    @Override
+    public void	addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("http://localhost:4200");
     }
 }
