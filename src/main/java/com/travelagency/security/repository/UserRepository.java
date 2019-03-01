@@ -1,6 +1,6 @@
-package com.travelagency.repository;
+package com.travelagency.security.repository;
 
-import com.travelagency.domain.User;
+import com.travelagency.model.security.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

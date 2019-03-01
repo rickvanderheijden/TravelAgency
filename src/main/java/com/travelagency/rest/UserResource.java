@@ -1,9 +1,9 @@
-package com.travelagency.interfaces;
+package com.travelagency.rest;
 
-import com.travelagency.domain.User;
-import com.travelagency.repository.UserRepository;
+import com.travelagency.model.security.User;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
+import com.travelagency.security.repository.UserRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,22 +32,24 @@ public class UserResource {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @GetMapping(value = "/all")
+
+    //TODO: Only when admin
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> getAll() {
         return this.userRepository.findAll();
     }
 
-    @PostMapping(value = "/save")
+    //TODO: Only when admin
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public List<User> persist(@RequestBody final User user) {
         this.userRepository.save(user);
         return this.userRepository.findAll();
     }
 
-    @RequestMapping(value = "user", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public JwtUser getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
-        return user;
+        return (JwtUser) userDetailsService.loadUserByUsername(username);
     }
 }

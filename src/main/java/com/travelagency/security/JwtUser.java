@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class JwtUser implements UserDetails {
 
     private final Long id;
@@ -15,7 +16,7 @@ public class JwtUser implements UserDetails {
     private final String firstname;
     private final String lastname;
     private final String password;
-    private final String email;
+    private final String emailAddress;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final Date lastPasswordResetDate;
@@ -25,7 +26,7 @@ public class JwtUser implements UserDetails {
             String username,
             String firstname,
             String lastname,
-            String email,
+            String emailAddress,
             String password, Collection<? extends GrantedAuthority> authorities,
             boolean enabled,
             Date lastPasswordResetDate
@@ -34,7 +35,7 @@ public class JwtUser implements UserDetails {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.email = email;
+        this.emailAddress = emailAddress;
         this.password = password;
         this.authorities = authorities;
         this.enabled = enabled;
@@ -77,8 +78,8 @@ public class JwtUser implements UserDetails {
         return lastname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     @JsonIgnore

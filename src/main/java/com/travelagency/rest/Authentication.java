@@ -1,13 +1,19 @@
-package com.travelagency.interfaces;
+package com.travelagency.rest;
 
-import java.util.Objects;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
-import com.travelagency.exceptions.AuthenticationException;
+import com.travelagency.model.security.Authority;
+import com.travelagency.model.security.AuthorityName;
+import com.travelagency.model.security.User;
+import com.travelagency.security.controller.AuthenticationException;
 import com.travelagency.security.JwtAuthenticationRequest;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
+import com.travelagency.security.repository.AuthorityRepository;
+import com.travelagency.security.repository.UserRepository;
 import com.travelagency.security.service.JwtAuthenticationResponse;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,21 +25,26 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.travelagency.UserManager;
-import com.travelagency.domain.UserCredentials;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
+@Api
 @RestController
-public class TravelAgencyLogin {
+@RequestMapping(value = "/auth")
+public class Authentication {
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -45,8 +56,11 @@ public class TravelAgencyLogin {
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+
+        //List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        //User user = new User(authenticationRequest.getUsername(), authenticationRequest.getPassword(), grantedAuthorities);
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -58,17 +72,19 @@ public class TravelAgencyLogin {
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
-    @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-        String authToken = request.getHeader(tokenHeader);
-        final String token = authToken.substring(7);
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        final String token    = request.getHeader(tokenHeader).substring(7);
+        final String username = jwtTokenUtil.getUsernameFromToken(token);
+        final JwtUser user    = (JwtUser) userDetailsService.loadUserByUsername(username);
 
-        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate()))
+        {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
             return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
-        } else {
+        }
+        else
+        {
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -76,6 +92,48 @@ public class TravelAgencyLogin {
     @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    public void createUser(
+            String username,
+            String password,
+            String firstName,
+            String lastName,
+            String emailAddress,
+            AuthorityName authorityName) {
+
+        Authority authority = authorityRepository.findByName(authorityName);
+        List<Authority> authorities = Collections.singletonList(authority);
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setAuthorities(authorities);
+        user.setFirstname(firstName);
+        user.setLastname(lastName);
+        user.setEmailAddress(emailAddress);
+        user.setEnabled(Boolean.TRUE);
+        user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
+
+        System.out.println(user.getLastPasswordResetDate().toString());
+
+        userRepository.saveAndFlush(user);
+
+        List<User> users = userRepository.findAll();
+        for(User singleUser : users){
+            System.out.println(singleUser.getUsername());
+        }
+    }
+
+
+    public void createAuthorities() {
+        Authority userRole = new Authority(AuthorityName.ROLE_USER);
+        Authority adminRole = new Authority(AuthorityName.ROLE_ADMIN);
+
+        authorityRepository.saveAndFlush(userRole);
+        authorityRepository.saveAndFlush(adminRole);
     }
 
     /**
@@ -92,24 +150,6 @@ public class TravelAgencyLogin {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Bad credentials!", e);
         }
-      
-//=======
-//    private UserManager userManager;
+    }
 
-//    public TravelAgencyLogin(UserManager userManager) {
-//        this.userManager = userManager;
-//    }
-
-//    @GetMapping("/test")
-//    @ResponseBody
-//    public String test() {
-//        return userManager.test();
-//    }
-
-//    @PostMapping("/login")
-//    @ResponseBody
-//    public String login(@RequestBody UserCredentials userCredentials) {
-//        return userManager.login(userCredentials);
-//>>>>>>> master
-//    }
 }

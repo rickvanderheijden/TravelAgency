@@ -23,7 +23,7 @@ public class JwtTokenUtil implements Serializable {
     static final String CLAIM_KEY_CREATED = "iat";
     private static final long serialVersionUID = -3301605591108950415L;
     @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
-    private Clock clock = DefaultClock.INSTANCE;
+    private final Clock clock = DefaultClock.INSTANCE;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -64,6 +64,7 @@ public class JwtTokenUtil implements Serializable {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
+    @SuppressWarnings("SameReturnValue")
     private Boolean ignoreTokenExpiration(String token) {
         // here you specify tokens, for that the expiration is ignored
         return false;
@@ -89,8 +90,12 @@ public class JwtTokenUtil implements Serializable {
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);
-        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
+
+        boolean createdBeforeLastPasswordReset = isCreatedBeforeLastPasswordReset(created, lastPasswordReset);
+        boolean tokenExpired = isTokenExpired(token);
+        boolean ignoreTokenExpiration = ignoreTokenExpiration(token);
+
+        return !createdBeforeLastPasswordReset && (!tokenExpired || ignoreTokenExpiration);
     }
 
     public String refreshToken(String token) {
