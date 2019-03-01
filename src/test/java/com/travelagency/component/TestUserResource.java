@@ -1,7 +1,7 @@
 package com.travelagency.component;
 
-import com.travelagency.model.security.AuthorityName;
-import com.travelagency.model.security.UserCredentials;
+import com.travelagency.model.AuthorityName;
+import com.travelagency.model.UserCredentials;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.response.ResponseBody;

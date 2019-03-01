@@ -1,6 +1,6 @@
 package com.travelagency;
 
-import com.travelagency.model.security.AuthorityName;
+import com.travelagency.model.AuthorityName;
 import com.travelagency.rest.Authentication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SuppressWarnings("SpellCheckingInspection")
 @SpringBootApplication(scanBasePackages = "com.travelagency")
-@EnableJpaRepositories(basePackages = "com.travelagency.security.repository")
+@EnableJpaRepositories(basePackages = "com.travelagency.repository")
 public class BackEndHost implements WebMvcConfigurer {
 
     public static void main(String[] args) {
