@@ -1,14 +1,17 @@
 package com.travelagency.unittest;
 
+import com.travelagency.model.City;
 import com.travelagency.model.Continent;
 import com.travelagency.model.Country;
-import com.travelagency.model.ICity;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Set;
+
+import static org.mockito.Mockito.when;
 
 
 //TODO: Use interface and stub instead of class
@@ -19,7 +22,7 @@ public class TestCountry {
 
     @Before
     public void setUp() {
-        country = new Country("Test", new Continent());
+        country = new Country("Test", new Continent("name"));
     }
 
     @After
@@ -35,45 +38,32 @@ public class TestCountry {
     @Test
     public void testAddDuplicateCityNotAllowed() {
         int expectedSize = 1;
-        CityStub city = new CityStub();
-        city.name = "Eindhoven";
+        City city = Mockito.mock(City.class);
+        when(city.getName()).thenReturn("Eindhoven");
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(city));
 
-        Set<ICity> cities = country.getCities();
+        Set<City> cities = country.getCities();
         Assert.assertEquals(expectedSize, cities.size());
     }
 
     @Test
     public void testAddCityWithExistingNameNotAllowed() {
         int expectedSize = 1;
-        CityStub city = new CityStub();
-        CityStub anotherCity = new CityStub();
-        city.name = "Eindhoven";
-        anotherCity.name = "Eindhoven";
+
+        City city = Mockito.mock(City.class);
+        City anotherCity = Mockito.mock(City.class);
+
+        String name = "Eindhoven";
+        when(city.getName()).thenReturn(name);
+        when(anotherCity.getName()).thenReturn(name);
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(anotherCity));
 
-        Set<ICity> cities = country.getCities();
+        Set<City> cities = country.getCities();
         Assert.assertEquals(expectedSize, cities.size());
-    }
-
-    private class CityStub implements ICity {
-
-        public String name;
-        public Country country;
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public Country getCountry() {
-            return country;
-        }
     }
 }
 

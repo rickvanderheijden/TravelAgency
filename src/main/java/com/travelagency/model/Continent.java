@@ -11,13 +11,17 @@ public class Continent {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Country> countries = new HashSet<>();
+
+    public Continent(String name) {
+        this.name = name;
+    }
 
     public boolean addCountry(Country country) {
         if (country == null) return false;
@@ -29,6 +33,10 @@ public class Continent {
         }
 
         return countries.add(country);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Set<Country> getCountries() {
