@@ -1,13 +1,13 @@
 package com.travelagency.unittest;
 
-import com.travelagency.model.City;
+import com.travelagency.model.Continent;
 import com.travelagency.model.Country;
+import com.travelagency.model.ICity;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Set;
 
 
@@ -15,11 +15,11 @@ import java.util.Set;
 
 public class TestCountry {
 
-    private Country country = new Country("Test");
+    private Country country;
 
     @Before
     public void setUp() {
-        country = new Country("Test");
+        country = new Country("Test", new Continent());
     }
 
     @After
@@ -35,25 +35,46 @@ public class TestCountry {
     @Test
     public void testAddDuplicateCityNotAllowed() {
         int expectedSize = 1;
-        City city = new City("Eindhoven");
+        CityStub city = new CityStub();
+        city.name = "Eindhoven";
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(city));
 
-        Set<City> cities = country.getCities();
+        Set<ICity> cities = country.getCities();
         Assert.assertEquals(expectedSize, cities.size());
     }
 
     @Test
     public void testAddCityWithExistingNameNotAllowed() {
         int expectedSize = 1;
-        City city = new City("Eindhoven");
-        City anotherCity = new City("Eindhoven");
+        CityStub city = new CityStub();
+        CityStub anotherCity = new CityStub();
+        city.name = "Eindhoven";
+        anotherCity.name = "Eindhoven";
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(anotherCity));
 
-        Set<City> cities = country.getCities();
+        Set<ICity> cities = country.getCities();
         Assert.assertEquals(expectedSize, cities.size());
     }
+
+    private class CityStub implements ICity {
+
+        public String name;
+        public Country country;
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public Country getCountry() {
+            return country;
+        }
+    }
 }
+
+

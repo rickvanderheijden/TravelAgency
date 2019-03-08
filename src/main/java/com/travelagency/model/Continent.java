@@ -17,7 +17,7 @@ public class Continent {
     private String name;
 
     @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Country> countries = new HashSet<>();
+    private final Set<Country> countries = new HashSet<>();
 
     public boolean addCountry(Country country) {
         if (country == null) return false;

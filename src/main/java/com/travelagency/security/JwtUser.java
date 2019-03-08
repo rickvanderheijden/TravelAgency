@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@SuppressWarnings("SpellCheckingInspection")
 public class JwtUser implements UserDetails {
 
     private final Long id;

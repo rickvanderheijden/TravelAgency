@@ -1,6 +1,5 @@
 package com.travelagency.unittest;
 
-import com.travelagency.model.City;
 import com.travelagency.model.Continent;
 import com.travelagency.model.Country;
 import org.junit.After;
@@ -35,7 +34,7 @@ public class TestContinent {
     @Test
     public void testAddDuplicateCountryNotAllowed() {
         int expectedSize = 1;
-        Country country = new Country("Netherlands");
+        Country country = new Country("Netherlands", continent);
 
         Assert.assertTrue(continent.addCountry(country));
         Assert.assertFalse(continent.addCountry(country));
@@ -47,8 +46,8 @@ public class TestContinent {
     @Test
     public void testAddCountryWithExistingNameNotAllowed() {
         int expectedSize = 1;
-        Country country = new Country("Netherlands");
-        Country anotherCountry = new Country("Netherlands");
+        Country country = new Country("Netherlands", continent);
+        Country anotherCountry = new Country("Netherlands", continent);
 
         Assert.assertTrue(continent.addCountry(country));
         Assert.assertFalse(continent.addCountry(anotherCountry));

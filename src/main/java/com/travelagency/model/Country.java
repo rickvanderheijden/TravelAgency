@@ -14,23 +14,24 @@ public class Country {
     private Long Id;
 
     @Column(name = "name")
-    private String name;
+    private final String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "continent_id")
-    private Continent continent;
+    private final Continent continent;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<City> cities = new HashSet<>();
+    private final Set<ICity> cities = new HashSet<>();
 
-    public Country(String name) {
+    public Country(String name, Continent continent) {
         this.name = name;
+        this.continent = continent;
     }
 
-    public boolean addCity(City city) {
+    public boolean addCity(ICity city) {
         if (city == null) return false;
 
-        for (City cityInList: cities) {
+        for (ICity cityInList: cities) {
             if (cityInList.getName().equals(city.getName())) {
                 return false;
             }
@@ -39,11 +40,15 @@ public class Country {
         return cities.add(city);
     }
 
-    public Set<City> getCities() {
+    public Set<ICity> getCities() {
         return cities;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Continent getContinent() {
+        return continent;
     }
 }
