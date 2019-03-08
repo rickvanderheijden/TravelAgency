@@ -7,4 +7,4 @@ services:
   - mysql
 #  Check this url for explanation
 #  https://sivalabs.in/2018/01/ci-cd-springboot-applications-using-travis-ci/
-script: mvn clean test -Dtest="com.travelagency.unittest.*Test"
+script: mvn clean test -Dtest="com.travelagency.unittest.Test*"
