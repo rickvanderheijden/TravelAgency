@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "city")
-public class City implements ICity {
+public class City {
 
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
     @Column(name = "name")
     private final String name;
@@ -23,12 +23,10 @@ public class City implements ICity {
         this.country = country;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public Country getCountry() {
         return country;
     }

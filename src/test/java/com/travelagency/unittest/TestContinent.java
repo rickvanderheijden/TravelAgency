@@ -14,11 +14,11 @@ import java.util.Set;
 
 public class TestContinent {
 
-    private Continent continent = new Continent();
+    private Continent continent;
 
     @Before
     public void setUp() {
-        continent= new Continent();
+        continent= new Continent("name");
     }
 
     @After

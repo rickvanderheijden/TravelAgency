@@ -11,7 +11,7 @@ public class Country {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
     @Column(name = "name")
     private final String name;
@@ -21,17 +21,17 @@ public class Country {
     private final Continent continent;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<ICity> cities = new HashSet<>();
+    private final Set<City> cities = new HashSet<>();
 
     public Country(String name, Continent continent) {
         this.name = name;
         this.continent = continent;
     }
 
-    public boolean addCity(ICity city) {
+    public boolean addCity(City city) {
         if (city == null) return false;
 
-        for (ICity cityInList: cities) {
+        for (City cityInList: cities) {
             if (cityInList.getName().equals(city.getName())) {
                 return false;
             }
@@ -40,7 +40,7 @@ public class Country {
         return cities.add(city);
     }
 
-    public Set<ICity> getCities() {
+    public Set<City> getCities() {
         return cities;
     }
 
