@@ -8,7 +8,7 @@ import org.junit.Test;
 
 //TODO: Use interface and stub instead of class
 
-public class TestCity {
+public class CityTest {
 
     private City city;
 

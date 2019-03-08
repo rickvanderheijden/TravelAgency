@@ -13,7 +13,7 @@ import java.util.Set;
 
 //TODO: Use interface and stub instead of class
 
-public class TestCountry {
+public class CountryTest {
 
     private Country country;
 

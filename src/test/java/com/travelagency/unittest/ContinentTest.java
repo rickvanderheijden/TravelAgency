@@ -12,7 +12,7 @@ import java.util.Set;
 
 //TODO: Use interface and stub instead of class
 
-public class TestContinent {
+public class ContinentTest {
 
     private Continent continent = new Continent();
 
