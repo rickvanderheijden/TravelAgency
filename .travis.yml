@@ -2,6 +2,10 @@ language: java
 sudo: true
 jdk: oraclejdk8
 
+branches:
+  only:
+  - master
+
 before_install:
   - chmod +x mvnw
   -
