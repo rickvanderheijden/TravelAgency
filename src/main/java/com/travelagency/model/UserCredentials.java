@@ -1,4 +1,4 @@
-package com.travelagency.model.security;
+package com.travelagency.model;
 
 
 //TODO (RvdH): Can some methods or constructors be removed?
