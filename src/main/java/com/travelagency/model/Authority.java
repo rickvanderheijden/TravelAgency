@@ -1,4 +1,4 @@
-package com.travelagency.model.security;
+package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

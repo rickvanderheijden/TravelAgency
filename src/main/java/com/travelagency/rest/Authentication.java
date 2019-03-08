@@ -3,15 +3,15 @@ package com.travelagency.rest;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
-import com.travelagency.model.security.Authority;
-import com.travelagency.model.security.AuthorityName;
-import com.travelagency.model.security.User;
-import com.travelagency.security.controller.AuthenticationException;
+import com.travelagency.model.Authority;
+import com.travelagency.model.AuthorityName;
+import com.travelagency.model.User;
+import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.repository.UserRepository;
 import com.travelagency.security.JwtAuthenticationRequest;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
-import com.travelagency.security.repository.AuthorityRepository;
-import com.travelagency.security.repository.UserRepository;
+import com.travelagency.security.controller.AuthenticationException;
 import com.travelagency.security.service.JwtAuthenticationResponse;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,11 +115,6 @@ public class Authentication {
         System.out.println(user.getLastPasswordResetDate().toString());
 
         userRepository.saveAndFlush(user);
-
-        List<User> users = userRepository.findAll();
-        for(User singleUser : users){
-            System.out.println(singleUser.getUsername());
-        }
     }
 
 
