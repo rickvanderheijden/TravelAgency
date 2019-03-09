@@ -2,7 +2,6 @@ package com.travelagency.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "trip")
@@ -43,11 +42,11 @@ public class Trip implements ITrip {
         this.name = name;
     }
 
-    public int getTotal_price() {
+    public int getTotalPrice() {
         return total_price;
     }
 
-    public void setTotal_price(int total_price) {
+    public void setTotalPrice(int total_price) {
         this.total_price = total_price;
     }
 
