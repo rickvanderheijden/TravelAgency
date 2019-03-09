@@ -21,7 +21,7 @@ import java.util.List;
 public class UserResource {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Value("${jwt.header}")
     private String tokenHeader;
