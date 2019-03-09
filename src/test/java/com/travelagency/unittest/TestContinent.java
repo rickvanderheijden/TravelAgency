@@ -9,16 +9,15 @@ import org.junit.Test;
 
 import java.util.Set;
 
-
-//TODO: Use interface and stub instead of class
-
 public class TestContinent {
 
+    private static String CountryName = "CountryName";
+    private static String ContinentName = "ContinentName";
     private Continent continent;
 
     @Before
     public void setUp() {
-        continent= new Continent("name");
+        continent= new Continent(ContinentName);
     }
 
     @After
@@ -34,7 +33,7 @@ public class TestContinent {
     @Test
     public void testAddDuplicateCountryNotAllowed() {
         int expectedSize = 1;
-        Country country = new Country("Netherlands", continent);
+        Country country = new Country(CountryName, continent);
 
         Assert.assertTrue(continent.addCountry(country));
         Assert.assertFalse(continent.addCountry(country));
@@ -46,13 +45,18 @@ public class TestContinent {
     @Test
     public void testAddCountryWithExistingNameNotAllowed() {
         int expectedSize = 1;
-        Country country = new Country("Netherlands", continent);
-        Country anotherCountry = new Country("Netherlands", continent);
+        Country country = new Country(CountryName, continent);
+        Country anotherCountry = new Country(CountryName, continent);
 
         Assert.assertTrue(continent.addCountry(country));
         Assert.assertFalse(continent.addCountry(anotherCountry));
 
         Set<Country> countries = continent.getCountries();
         Assert.assertEquals(expectedSize, countries.size());
+    }
+
+    @Test
+    public void testGetName() {
+        Assert.assertEquals(ContinentName, continent.getName());
     }
 }
