@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "trip")
-public class Trip implements ITrip {
+public class Trip {
 
     @Id
     @Column(name = "id")
