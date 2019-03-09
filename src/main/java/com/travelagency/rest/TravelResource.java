@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TravelResource {
 
 
-    ResponseEntity<?> getTravelById(@PathVariable String id) {
+    public ResponseEntity<?> getTravelById(@PathVariable String id) {
         //TODO: Get Travel from travel manager
         return null;
     }
