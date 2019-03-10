@@ -63,13 +63,13 @@ public class UserResource {
         return this.userRepository.findById(id);
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/byUsername/{username}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getByUsername(@PathVariable final String username) {
         return Optional.ofNullable(this.userRepository.findByUsername(username));
     }
 
-    @RequestMapping(value = "/{emailAddress}", method = RequestMethod.GET)
+    @RequestMapping(value = "/byEmail/{emailAddress}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getByEmailAddress(@PathVariable final String emailAddress) {
         return Optional.ofNullable(this.userRepository.findByEmailAddress(emailAddress));
