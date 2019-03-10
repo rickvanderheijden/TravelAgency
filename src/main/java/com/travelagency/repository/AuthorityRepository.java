@@ -1,9 +1,11 @@
-package com.travelagency.security.repository;
+package com.travelagency.repository;
 
-import com.travelagency.model.security.Authority;
-import com.travelagency.model.security.AuthorityName;
+import com.travelagency.model.Authority;
+import com.travelagency.model.AuthorityName;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
     Authority findByName(AuthorityName roleUser);
 }

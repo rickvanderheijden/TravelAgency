@@ -1,9 +1,9 @@
 package com.travelagency.rest;
 
-import com.travelagency.model.security.User;
+import com.travelagency.model.User;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
-import com.travelagency.security.repository.UserRepository;
+import com.travelagency.repository.UserRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class UserResource {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Value("${jwt.header}")
     private String tokenHeader;

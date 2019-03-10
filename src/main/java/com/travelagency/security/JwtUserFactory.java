@@ -2,8 +2,8 @@ package com.travelagency.security;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.travelagency.model.security.Authority;
-import com.travelagency.model.security.User;
+import com.travelagency.model.Authority;
+import com.travelagency.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
