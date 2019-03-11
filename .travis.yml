@@ -9,7 +9,6 @@ branches:
 before_install:
   - chmod +x mvnw
   -
-services:
-  - mysql
+services: mysql
 
 script: mvn clean test -Dtest="com.travelagency.unittest.Test*"
