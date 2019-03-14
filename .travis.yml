@@ -26,4 +26,5 @@ script:
   - mvn clean test
 
 after_success:
+  - ls target
   - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco.xml
