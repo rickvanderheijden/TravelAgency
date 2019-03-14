@@ -6,10 +6,18 @@ branches:
   only:
   - master
 
-before_install:
-  - chmod +x mvnw
-  -
 services:
   - mysql
 
-script: mvn clean test -Dtest="com.travelagency.unittest.Test*"
+before_install:
+  - chmod +x mvnw
+
+before_script:
+  - mysql -u root -e 'create database `travel-agency`';
+  - mysql -u root -e "CREATE USER 'user'@'localhost' IDENTIFIED BY 'user';"
+  - mysql -u root -e "GRANT ALL ON *.* TO 'user'@'localhost';"
+
+script:
+  - nohup mvn spring-boot:run &
+  - sleep 20
+  - mvn clean test
