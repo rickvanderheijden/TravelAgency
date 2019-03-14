@@ -121,9 +121,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>out/coverage/jacoco/</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
