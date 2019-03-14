@@ -8,12 +8,15 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @Api
 @RestController
@@ -47,9 +50,28 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public JwtUser getAuthenticatedUser(HttpServletRequest request) {
+    public ResponseEntity<JwtUser> getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        return (JwtUser) userDetailsService.loadUserByUsername(username);
+
+        return new ResponseEntity<>((JwtUser) userDetailsService.loadUserByUsername(username), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Optional<User> getById(@PathVariable final Long id) {
+        return this.userRepository.findById(id);
+    }
+
+    @RequestMapping(value = "/byUsername/{username}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Optional<User> getByUsername(@PathVariable final String username) {
+        return Optional.ofNullable(this.userRepository.findByUsername(username));
+    }
+
+    @RequestMapping(value = "/byEmail/{emailAddress}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Optional<User> getByEmailAddress(@PathVariable final String emailAddress) {
+        return Optional.ofNullable(this.userRepository.findByEmailAddress(emailAddress));
     }
 }
