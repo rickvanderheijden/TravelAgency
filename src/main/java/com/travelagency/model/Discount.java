@@ -12,25 +12,20 @@ public class Discount {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
-
     @Column(name = "percentage", length = 10)
     @NotNull
     private int percentage;
 
-    public Discount(Trip trip, @NotNull int percentage) {
-        this.trip = trip;
+    public Discount(@NotNull int percentage) {
         this.percentage = percentage;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public Long getId() {
+        return id;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getPercentage() {

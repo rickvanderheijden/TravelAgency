@@ -1,5 +1,6 @@
 package com.travelagency.model;
 
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +13,7 @@ public class Trip {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "name", length = 255)
+    @Column(name = "name")
     @NotNull
     private String name;
 
@@ -24,14 +25,21 @@ public class Trip {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    private List<Service> services;
+
     public Trip(@NotNull String name, @NotNull int total_price, Discount discount) {
         this.name = name;
         this.total_price = total_price;
         this.discount = discount;
+        services = new ArrayList<>();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -56,5 +64,20 @@ public class Trip {
 
     public void setDiscount(Discount discount) {
         this.discount = discount;
+    }
+
+    public boolean addService(Service service){
+
+        if(services.contains(service))
+            return false;
+
+        return services.add(service);
+    }
+
+    public boolean removeService(Service service){
+        if(!services.contains(service))
+            return false;
+
+        return services.remove(service);
     }
 }
