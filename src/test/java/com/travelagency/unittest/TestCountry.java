@@ -13,16 +13,16 @@ import java.util.Set;
 
 import static org.mockito.Mockito.when;
 
-
-//TODO: Use interface and stub instead of class
-
 public class TestCountry {
 
+    private static String CityName = "CityName";
+    private static String CountryName = "CountryName";
     private Country country;
 
     @Before
     public void setUp() {
-        country = new Country("Test", new Continent("name"));
+        Continent continent = Mockito.mock(Continent.class);
+        country = new Country(CountryName, continent);
     }
 
     @After
@@ -39,7 +39,7 @@ public class TestCountry {
     public void testAddDuplicateCityNotAllowed() {
         int expectedSize = 1;
         City city = Mockito.mock(City.class);
-        when(city.getName()).thenReturn("Eindhoven");
+        when(city.getName()).thenReturn(CityName);
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(city));
@@ -55,15 +55,24 @@ public class TestCountry {
         City city = Mockito.mock(City.class);
         City anotherCity = Mockito.mock(City.class);
 
-        String name = "Eindhoven";
-        when(city.getName()).thenReturn(name);
-        when(anotherCity.getName()).thenReturn(name);
+        when(city.getName()).thenReturn(CityName);
+        when(anotherCity.getName()).thenReturn(CityName);
 
         Assert.assertTrue(country.addCity(city));
         Assert.assertFalse(country.addCity(anotherCity));
 
         Set<City> cities = country.getCities();
         Assert.assertEquals(expectedSize, cities.size());
+    }
+
+    @Test
+    public void testGetName() {
+        Assert.assertEquals(CountryName, country.getName());
+    }
+
+    @Test
+    public void testGetContinent() {
+        Assert.assertNotNull(country.getContinent());
     }
 }
 

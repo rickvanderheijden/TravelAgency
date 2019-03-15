@@ -6,10 +6,24 @@ branches:
   only:
   - master
 
-before_install:
-  - chmod +x mvnw
-  -
 services:
   - mysql
 
-script: mvn clean test -Dtest="com.travelagency.unittest.Test*"
+before_install:
+  - export CODACY_PROJECT_TOKEN=067010ddf72a4d059700f17169539c4c
+  - chmod +x mvnw
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
+
+before_script:
+  - mysql -u root -e 'create database `travel-agency`';
+  - mysql -u root -e "CREATE USER 'user'@'localhost' IDENTIFIED BY 'user';"
+  - mysql -u root -e "GRANT ALL ON *.* TO 'user'@'localhost';"
+
+script:
+  - nohup mvn spring-boot:run &
+  - sleep 20
+  - mvn clean test
+
+after_success:
+  - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/jacoco/jacoco.xml
