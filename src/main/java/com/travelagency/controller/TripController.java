@@ -17,7 +17,7 @@ public class TripController {
         this.tripService = tripService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/createTrip", method = RequestMethod.POST)
     public Trip createTrip(@Valid @RequestBody Trip trip) {
         return this.tripService.createTrip(trip);
     }
