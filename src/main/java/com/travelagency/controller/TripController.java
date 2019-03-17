@@ -10,14 +10,14 @@ import javax.validation.Valid;
 @RequestMapping("/trips")
 public class TripController {
 
-    private TripService tripService;
+    private final TripService tripService;
 
     @Autowired
     public TripController(TripService tripService) {
         this.tripService = tripService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/createTrip", method = RequestMethod.POST)
     public Trip createTrip(@Valid @RequestBody Trip trip) {
         return this.tripService.createTrip(trip);
     }

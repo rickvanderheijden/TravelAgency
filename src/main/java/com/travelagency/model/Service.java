@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "trip")
+@Table(name = "service")
 public class Service {
 
     @Id
@@ -13,9 +13,10 @@ public class Service {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "ServiceTypeId")
+    @Column(name = "ServiceType", length = 50)
     @NotNull
-    private int serviceTypeId;
+    @Enumerated(EnumType.STRING)
+    private ServiceType serviceType;
 
     @Column(name = "name")
     @NotNull
@@ -32,8 +33,8 @@ public class Service {
     @NotNull
     private Date date;
 
-    public Service(@NotNull int serviceTypeId, @NotNull String name, Address address, @NotNull int price, @NotNull Date date) {
-        this.serviceTypeId = serviceTypeId;
+    public Service(@NotNull ServiceType serviceType, @NotNull String name, Address address, @NotNull int price, @NotNull Date date) {
+        this.serviceType = serviceType;
         this.name = name;
         this.address = address;
         this.price = price;
@@ -48,12 +49,12 @@ public class Service {
         this.id = id;
     }
 
-    public int getServiceTypeId() {
-        return serviceTypeId;
+    public ServiceType getServiceType() {
+        return serviceType;
     }
 
-    public void setServiceTypeId(int serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
     public String getName() {

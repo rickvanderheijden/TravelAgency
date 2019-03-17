@@ -2,6 +2,7 @@ package com.travelagency.unittest;
 
 import com.travelagency.model.Address;
 import com.travelagency.model.Service;
+import com.travelagency.model.ServiceType;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +13,7 @@ import java.util.Date;
 
 public class TestService {
     private static String Name = "Name";
-    private static int ServiceTypeId = 0;
+    private static ServiceType serviceType;
     private static int Price = 0;
     private static Date Date = new Date();
     private Service service;
@@ -20,7 +21,7 @@ public class TestService {
     @Before
     public void setUp() {
         Address address = Mockito.mock(Address.class);
-        service = new Service(ServiceTypeId, Name, address, Price, Date);
+        service = new Service(serviceType, Name, address, Price, Date);
     }
 
     @After
@@ -32,7 +33,7 @@ public class TestService {
     }
 
     @Test
-    public void testGetServiceTypeId() { Assert.assertEquals(ServiceTypeId, service.getServiceTypeId()); }
+    public void testGetServiceType() { Assert.assertEquals(serviceType, service.getServiceType()); }
 
     @Test
     public void testGetPrice() { Assert.assertEquals(Price, service.getPrice()); }
