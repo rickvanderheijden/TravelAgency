@@ -1,8 +1,11 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "service")
@@ -22,11 +25,17 @@ public class Service {
     @NotNull
     private String name;
 
+    @ManyToOne()
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Column(name = "price", length = 10)
     @NotNull
     private int price;
+
+    @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Trip> trips;
 
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)

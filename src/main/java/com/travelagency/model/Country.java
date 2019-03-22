@@ -14,11 +14,11 @@ public class Country {
     private Long id;
 
     @Column(name = "name")
-    private final String name;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "continent_id")
-    private final Continent continent;
+    private Continent continent;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<City> cities = new HashSet<>();

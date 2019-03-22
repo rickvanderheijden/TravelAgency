@@ -19,8 +19,7 @@ public class TestAddress {
     @Before
     public void setUp() {
         City city = Mockito.mock(City.class);
-        Country country = Mockito.mock(Country.class);
-        address = new Address(Address, city, ZipCode, country);
+        address = new Address(Address, city, ZipCode);
     }
 
     @After
@@ -46,16 +45,6 @@ public class TestAddress {
     public void testSetZipCode() {
         address.setZipCode(ZipCode2);
         Assert.assertEquals(ZipCode2, address.getZipCode());
-    }
-
-    @Test
-    public void testGetCountry() { Assert.assertNotNull(address.getCountry()); }
-
-    @Test
-    public void testSetCountry() {
-        Country c = Mockito.mock(Country.class);
-        address.setCountry(c);
-        Assert.assertEquals(c, address.getCountry());
     }
 
     @Test

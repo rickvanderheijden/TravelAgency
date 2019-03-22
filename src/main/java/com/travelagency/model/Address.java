@@ -16,23 +16,22 @@ public class Address {
     @NotNull
     private String address;
 
+    @ManyToOne()
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Column(name = "zip_code")
     @NotNull
     private String zipCode;
 
-    private Country country;
-
-    public Address(@NotNull String address, City city, @NotNull String zipCode, Country country) {
+    public Address(String address, City city, String zipCode) {
         this.address = address;
         this.city = city;
         this.zipCode = zipCode;
-        this.country =  country;
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -40,7 +39,7 @@ public class Address {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -48,7 +47,7 @@ public class Address {
     }
 
     public City getCity() {
-        return city;
+        return this.city;
     }
 
     public void setCity(City city) {
@@ -56,7 +55,7 @@ public class Address {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return this.zipCode;
     }
 
     public void setZipCode(String zipCode) {
@@ -64,10 +63,6 @@ public class Address {
     }
 
     public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
+        return this.city.getCountry();
     }
 }

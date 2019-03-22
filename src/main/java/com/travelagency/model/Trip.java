@@ -21,10 +21,14 @@ public class Trip {
     @NotNull
     private int total_price;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "trip_service",
+            joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
     private List<Service> services;
 
     public Trip(@NotNull String name, @NotNull int total_price, Discount discount) {
