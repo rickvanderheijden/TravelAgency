@@ -104,7 +104,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>travelagency</finalName>
+                    <mainClass>com.travelagency.BackEndHost</mainClass>
                 </configuration>
             </plugin>
             <plugin>
