@@ -37,14 +37,6 @@ public class Service {
     @JsonIgnore
     private List<Trip> trips;
 
-    public List<Trip> getTrips() {
-        return trips;
-    }
-
-    public void setTrips(List<Trip> trips) {
-        this.trips = trips;
-    }
-
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
@@ -105,4 +97,8 @@ public class Service {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public List<Trip> getTrips() { return this.trips; }
+
+    public void setTrips(List<Trip> trips) { this.trips = trips; }
 }
