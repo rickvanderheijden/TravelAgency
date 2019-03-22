@@ -4,6 +4,6 @@ COPY . /home/travelagency
 WORKDIR /home/travelagency
 
 RUN mvn -Dmaven.test.skip=true package
-COPY ./target/BackEnd-0.0.1-SNAPSHOT.jar travelagency.jar
+COPY target/BackEnd-0.0.1-SNAPSHOT.jar travelagency.jar
 
 ENTRYPOINT ["java","-jar","travelagency.jar"]
