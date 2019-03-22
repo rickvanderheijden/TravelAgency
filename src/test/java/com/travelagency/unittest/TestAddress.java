@@ -2,7 +2,6 @@ package com.travelagency.unittest;
 
 import com.travelagency.model.Address;
 import com.travelagency.model.City;
-import com.travelagency.model.Country;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
