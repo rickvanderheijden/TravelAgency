@@ -1,9 +1,8 @@
 FROM mysql
-ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=travel-agency
 ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=user
-RUN mysql
+RUN mysql -h localhost -P 3306 --protocol=tcp -u root
 
 FROM maven:3.6.0-jdk-8
 COPY . /home/travelagency
