@@ -12,11 +12,11 @@ public class City {
     private Long id;
 
     @Column(name = "name")
-    private final String name;
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "country_id")
-    private final Country country;
+    private Country country;
 
     public City(String name, Country country){
         this.name = name;
