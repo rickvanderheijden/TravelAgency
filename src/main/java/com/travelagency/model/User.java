@@ -1,6 +1,6 @@
 package com.travelagency.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +36,7 @@ public class User {
     @Column(name = "password", length = 100)
     @NotNull
     @Size(min = 4, max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "firstname", length = 50)
@@ -85,7 +86,6 @@ public class User {
         this.username = username;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }

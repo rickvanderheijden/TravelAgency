@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 
 public class TestCity {
 
-    private static String CityName = "CityName";
+    private static final String CityName = "CityName";
     private City city;
 
     @Before

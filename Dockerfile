@@ -1,7 +1,8 @@
 FROM mariadb
-#EXPOSE 3306
+EXPOSE 3306
 ENV MYSQL_DATABASE=travel-agency
-#ENV MYSQL_ROOT_PASSWORD=password
+ENV MYSQL_ALLOW_EMPTY_PASSWORD=yes
+#ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=user
 #RUN mariadb -h localhost --protocol=tcp -uroot

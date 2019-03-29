@@ -15,8 +15,8 @@ import static org.mockito.Mockito.when;
 
 public class TestCountry {
 
-    private static String CityName = "CityName";
-    private static String CountryName = "CountryName";
+    private static final String CityName = "CityName";
+    private static final String CountryName = "CountryName";
     private Country country;
 
     @Before
