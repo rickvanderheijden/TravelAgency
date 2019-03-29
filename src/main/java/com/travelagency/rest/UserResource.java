@@ -1,6 +1,9 @@
 package com.travelagency.rest;
 
+import com.travelagency.model.Authority;
 import com.travelagency.model.User;
+import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
 import com.travelagency.repository.UserRepository;
@@ -15,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,9 @@ public class UserResource {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -42,11 +49,20 @@ public class UserResource {
         return this.userRepository.findAll();
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> persist(@RequestBody final User user) {
-        this.userRepository.save(user);
-        return this.userRepository.findAll();
+    public Long create(@RequestBody final UserDTO userDTO) {
+
+        User user = userDTO.getUser();
+
+        List<Authority> authorities = new ArrayList<>();
+        for (Authority authority : userDTO.getAuthorities()) {
+            authorities.add(authorityRepository.findByName(authority.getName()));
+        }
+
+        user.setAuthorities(authorities);
+        User createdUser = userRepository.save(user);
+        return createdUser.getId();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
@@ -57,19 +73,19 @@ public class UserResource {
         return new ResponseEntity<>((JwtUser) userDetailsService.loadUserByUsername(username), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getById(@PathVariable final Long id) {
         return this.userRepository.findById(id);
     }
 
-    @RequestMapping(value = "/byUsername/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/username/{username}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getByUsername(@PathVariable final String username) {
         return Optional.ofNullable(this.userRepository.findByUsername(username));
     }
 
-    @RequestMapping(value = "/byEmail/{emailAddress}", method = RequestMethod.GET)
+    @RequestMapping(value = "/email/{emailAddress}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getByEmailAddress(@PathVariable final String emailAddress) {
         return Optional.ofNullable(this.userRepository.findByEmailAddress(emailAddress));

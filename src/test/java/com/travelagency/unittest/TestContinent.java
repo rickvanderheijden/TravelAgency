@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class TestContinent {
 
-    private static String CountryName = "CountryName";
-    private static String ContinentName = "ContinentName";
+    private static final String CountryName = "CountryName";
+    private static final String ContinentName = "ContinentName";
     private Continent continent;
 
     @Before
