@@ -14,7 +14,7 @@ public class Continent {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private final String name;
 
     @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Country> countries = new HashSet<>();
