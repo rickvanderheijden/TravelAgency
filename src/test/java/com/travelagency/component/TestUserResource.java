@@ -37,7 +37,7 @@ public class TestUserResource {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = 9000;
 
-        expectedAuthorities.put("authority", AuthorityName.ROLE_USER.toString());
+        expectedAuthorities.put("name", AuthorityName.ROLE_USER.toString());
     }
 
     @Test
@@ -46,6 +46,7 @@ public class TestUserResource {
         RestAssured.given().contentType("application/json").header(header).get("/users/user").then().statusCode(StatusCodeUnauthorized);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetUserFromTokenWhenLoggedIn() {
         login(UserLogin, UserPassword);
@@ -55,7 +56,7 @@ public class TestUserResource {
         Assert.assertEquals(expectedLastname, responseBody.jsonPath().get("lastname"));
         Assert.assertEquals(expectedEmailAddress, responseBody.jsonPath().get("emailAddress"));
         Assert.assertEquals(expectedEnabled, responseBody.jsonPath().get("enabled"));
-        Assert.assertEquals(expectedAuthorities, responseBody.jsonPath().getList("authorities").get(0));
+        Assert.assertEquals(expectedAuthorities.get("name"), ((HashMap<String, String>)responseBody.jsonPath().getList("authorities").get(0)).get("name"));
     }
 
     @Test

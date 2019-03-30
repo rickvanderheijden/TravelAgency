@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api
 @RestController
 @RequestMapping(value = "/auth")
-public class Authentication {
+public class AuthenticationResource {
 
     @Value("${jwt.header}")
     private String tokenHeader;
