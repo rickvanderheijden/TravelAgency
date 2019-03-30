@@ -1,6 +1,7 @@
 package com.travelagency.component;
 
 import com.travelagency.model.UserCredentials;
+import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import org.junit.*;
@@ -54,6 +55,12 @@ public class TestAuthentication {
         String refreshedToken = RestAssured.given().contentType("application/json").header(header).get("/auth/refresh").then().statusCode(200).extract().path("token");
 
         System.out.println(refreshedToken);
+    }
+
+    @Test
+    public void testRegisterUser() {
+        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", true, null);
+        RestAssured.given().contentType("application/json").body(user).when().post("/auth/register").then().statusCode(200);
     }
 
     //TODO: Move to a more suitable place (too generic)

@@ -8,6 +8,7 @@ import com.travelagency.model.AuthorityName;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
 import com.travelagency.repository.UserRepository;
+import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtAuthenticationRequest;
 import com.travelagency.security.JwtTokenUtil;
 import com.travelagency.security.JwtUser;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api
 @RestController
 @RequestMapping(value = "/auth")
-public class Authentication {
+public class AuthenticationResource {
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -55,6 +56,19 @@ public class Authentication {
     @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
+
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public Long create(@RequestBody final UserDTO userDTO) {
+
+        User user = userDTO.getUser();
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authorityRepository.findByName(AuthorityName.ROLE_USER));
+
+        user.setAuthorities(authorities);
+        User createdUser = userRepository.save(user);
+        return createdUser.getId();
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
@@ -89,6 +103,8 @@ public class Authentication {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 
+
+    //TODO: Move to something else?
     public void createUser(
             String username,
             String password,
