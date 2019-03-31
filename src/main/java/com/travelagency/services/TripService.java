@@ -40,5 +40,17 @@ public class TripService {
     }
 
     //TODO: Search trips methode ->Ismail
+    public Iterable<Trip> searchTrips(String searchInput) {
+        if(searchInput == null || searchInput.isEmpty()){
+            return null;
+        }
+
+        String[] searchKeywords = searchInput.split(" ");
+        Set<Trip> result = new HashSet<>();
+        for (String searchKeyword: searchKeywords) {
+            result.addAll(this.tripRepository.findByNameContains(searchTerm));
+        }
+        return result;
+    }
 
 }
