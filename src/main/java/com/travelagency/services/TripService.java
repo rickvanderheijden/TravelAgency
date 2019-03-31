@@ -20,4 +20,25 @@ public class TripService {
         return this.tripRepository.save(trip);
     }
 
+    public Trip getById(long id) { return this.tripRepository.getOne(id); }
+
+    public Trip updateTrip(Trip updatedTrip) {
+        Trip existingTrip = this.tripRepository.getOne(updatedTrip.getId());
+        if(existingTrip == null){
+            return null;
+        }
+        return this.tripRepository.save(updatedTrip);
+    }
+
+    public boolean deleteTrip(long id) {
+        boolean doesExist = this.tripRepository.existsById(id);
+        if(!doesExist){
+            return false;
+        }
+        this.tripRepository.deleteById(id);
+        return true;
+    }
+
+    //TODO: Search trips methode ->Ismail
+
 }
