@@ -35,6 +35,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         this.tokenHeader = tokenHeader;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         logger.debug("processing authentication for '{}'", request.getRequestURL());
