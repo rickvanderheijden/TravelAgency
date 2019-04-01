@@ -15,9 +15,9 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
-    private AuthorityRepository authorityRepository;
-    private UserRepository userRepository;
-    private JwtTokenUtil jwtTokenUtil;
+    private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
         this.authorityRepository = authorityRepository;
@@ -45,16 +45,27 @@ public class UserController {
     }
 
     public Optional<User> updateUser(String token, UserDTO userDTO) {
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        User userInDB = userRepository.findByUsername(userDTO.getUsername());
+        if ((token == null) || (userDTO == null)) return Optional.empty();
 
-        if (username.equals(userDTO.getUsername())) {
-            userInDB.setEmailAddress(userDTO.getEmailAddress());
-            userInDB.setFirstname(userDTO.getFirstname());
-            userInDB.setLastname(userDTO.getLastname());
+        Optional<User> result = Optional.empty();
+
+        if ((userDTO.getUsername() != null) && (userDTO.getEmailAddress() != null) &&
+                (userDTO.getFirstname() != null) && (userDTO.getLastname() != null)) {
+
+            String username = jwtTokenUtil.getUsernameFromToken(token);
+            User userInDB = userRepository.findByUsername(userDTO.getUsername());
+
+            if ((username != null) && (userInDB != null) &&
+                    (username.equals(userDTO.getUsername()))) {
+                userInDB.setEmailAddress(userDTO.getEmailAddress());
+                userInDB.setFirstname(userDTO.getFirstname());
+                userInDB.setLastname(userDTO.getLastname());
+
+                result = Optional.of(userRepository.save(userInDB));
+            }
         }
 
-        return Optional.of(userRepository.save(userInDB));
+        return result;
     }
 
     public Optional<User> getUserById(Long id) {

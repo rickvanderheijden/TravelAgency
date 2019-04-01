@@ -29,7 +29,6 @@ public class TestUserResource {
     private static final String AdminLogin = "admin";
     private static final String AdminPassword = "admin";
 
-    private String token;
     private Header header;
 
     @BeforeClass
@@ -88,7 +87,7 @@ public class TestUserResource {
 
     private void login(String username, String password) {
         UserCredentials userCredentials = new UserCredentials(username, password);
-        token = RestAssured.given().contentType("application/json").body(userCredentials).when().post("/auth/login").then().statusCode(StatusCodeOK).extract().path("token");
+        String token = RestAssured.given().contentType("application/json").body(userCredentials).when().post("/auth/login").then().statusCode(StatusCodeOK).extract().path("token");
         header = new Header("Authorization", "Bearer " + token);
     }
 }

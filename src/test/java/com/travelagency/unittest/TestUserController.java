@@ -25,21 +25,33 @@ import static org.mockito.Mockito.when;
 
 public class TestUserController {
 
-    final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
-    final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
+    private static final String UserName = "username";
+    private static final String Password = "password";
+    private static final String FirstName = "firstname";
+    private static final String LastName = "lastname";
+    private static final String EmailAddress = "emailAddress";
+    private static final String Token = "usertoken";
+    private static final Long Id = 131L;
+
+    private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
+    private final UserRepository userRepository = Mockito.mock(UserRepository.class);
+    private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
 
     private UserController userController;
 
     @Before
     public void setUp() {
         userController = new UserController(authorityRepository, userRepository, jwtTokenUtil);
-        when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority(AuthorityName.ROLE_USER));
-        when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority(AuthorityName.ROLE_USER));
+        when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority());
+        when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority());
 
         User user = getUser();
         when(userRepository.save(any(User.class))).thenReturn(user);
-        when(userRepository.findByUsername("username")).thenReturn(user);
+        when(userRepository.findByUsername(UserName)).thenReturn(user);
+        when(userRepository.findByEmailAddress(EmailAddress)).thenReturn(user);
+        when(userRepository.findById(Id)).thenReturn(Optional.of(user));
+        when(jwtTokenUtil.getUsernameFromToken(Token)).thenReturn(UserName);
+
     }
 
     @After
@@ -49,9 +61,9 @@ public class TestUserController {
 
     @Test
     public void testGetUserByUserNameWithExistingUserName() {
-        Optional<User> user = userController.getUserByUsername("username");
-        Assert.assertTrue("username", user.isPresent());
-        Assert.assertEquals("username", user.get().getUsername());
+        Optional<User> user = userController.getUserByUsername(UserName);
+        Assert.assertTrue(UserName, user.isPresent());
+        Assert.assertEquals(UserName, user.get().getUsername());
     }
 
     @Test
@@ -68,9 +80,7 @@ public class TestUserController {
 
     @Test
     public void testCreateUserThatDoesNotExist() {
-        List<Authority> authorities = new ArrayList<>();
-        authorities.add(getAuthority(AuthorityName.ROLE_USER));
-        UserDTO userDTO = new UserDTO("username", "password", "firstname", "lastname", "emailAddress", true, authorities);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
 
         Optional<Long> userId = userController.createUser(userDTO);
         Assert.assertTrue(userId.isPresent());
@@ -83,8 +93,120 @@ public class TestUserController {
         Assert.assertFalse(userId.isPresent());
     }
 
-    private Authority getAuthority(AuthorityName authorityName) {
-        return new Authority(authorityName);
+    @Test
+    public void testUpdateUserWithTokenNull() {
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
+        Assert.assertFalse(testUpdateUser(null, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithUserNull() {
+        Assert.assertFalse(testUpdateUser(Token, null));
+    }
+
+    @Test
+    public void testUpdateUserWithValidUser() {
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
+        Assert.assertTrue(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithUserNameNull() {
+        UserDTO userDTO = createUserDTO(null, Password, FirstName, LastName, EmailAddress);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithPasswordNull() {
+        UserDTO userDTO = createUserDTO(UserName, null, FirstName, LastName, EmailAddress);
+        Assert.assertTrue(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithFirstNameNull() {
+        UserDTO userDTO = createUserDTO(UserName, Password, null, LastName, EmailAddress);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithLastNameNull() {
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, null, EmailAddress);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testUpdateUserWithEmailAddressNull() {
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, null);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
+    }
+
+    @Test
+    public void testGetUserFromEmailAddress() {
+        Optional<User> user = userController.getUserByEmailAddress(EmailAddress);
+        Assert.assertTrue(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserFromEmailAddressInvalidEmailAddress() {
+        Optional<User> user = userController.getUserByEmailAddress("invalidEmailAddress");
+        Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserFromEmailAddressNull() {
+        Optional<User> user = userController.getUserByEmailAddress(null);
+        Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserFromToken() {
+        Optional<User> user = userController.getUserFromToken(Token);
+        Assert.assertTrue(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserFromTokenInvalidToken() {
+        Optional<User> user = userController.getUserFromToken("invalidToken");
+        Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserFromTokenNull() {
+        Optional<User> user = userController.getUserFromToken(null);
+        Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserById() {
+        Optional<User> user = userController.getUserById(Id);
+        Assert.assertTrue(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserByIdInvalidId() {
+        Optional<User> user = userController.getUserById(-1L);
+        Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testGetUserByIdNull() {
+        Optional<User> user = userController.getUserById(null);
+        Assert.assertFalse(user.isPresent());
+    }
+
+    private boolean testUpdateUser(String token, UserDTO userDTO) {
+        Optional<User> user = userController.updateUser(token, userDTO);
+        return user.isPresent();
+    }
+
+    private Authority getAuthority() {
+        return new Authority(AuthorityName.ROLE_USER);
+    }
+
+    private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress) {
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(getAuthority());
+        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities);
     }
 
     private User getUser() {
@@ -95,12 +217,12 @@ public class TestUserController {
 
         User user = new User();
         user.setId(1L);
-        user.setUsername("username");
-        user.setPassword(bCryptPasswordEncoder.encode("password"));
+        user.setUsername(UserName);
+        user.setPassword(bCryptPasswordEncoder.encode(Password));
         user.setAuthorities(authorities);
-        user.setFirstname("firstName");
-        user.setLastname("lastName");
-        user.setEmailAddress("emailAddress");
+        user.setFirstname(FirstName);
+        user.setLastname(LastName);
+        user.setEmailAddress(EmailAddress);
         user.setEnabled(Boolean.TRUE);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
 
