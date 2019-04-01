@@ -4,7 +4,6 @@ import com.travelagency.controllers.UserController;
 import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +17,14 @@ import java.util.Optional;
 @RequestMapping(value = "/users")
 public class UserResource {
 
-    @Autowired
-    private UserController userController;
+    private final UserController userController;
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    public UserResource(UserController userController) {
+        this.userController = userController;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
