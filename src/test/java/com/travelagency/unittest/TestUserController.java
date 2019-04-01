@@ -96,48 +96,48 @@ public class TestUserController {
     @Test
     public void testUpdateUserWithTokenNull() {
         UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
-        testUpdateUser(null, userDTO, false);
+        Assert.assertFalse(testUpdateUser(null, userDTO));
     }
 
     @Test
     public void testUpdateUserWithUserNull() {
-        testUpdateUser(Token, null, false);
+        Assert.assertFalse(testUpdateUser(Token, null));
     }
 
     @Test
     public void testUpdateUserWithValidUser() {
         UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
-        testUpdateUser(Token, userDTO, true);
+        Assert.assertTrue(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithUserNameNull() {
         UserDTO userDTO = createUserDTO(null, Password, FirstName, LastName, EmailAddress);
-        testUpdateUser(Token, userDTO, false);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithPasswordNull() {
         UserDTO userDTO = createUserDTO(UserName, null, FirstName, LastName, EmailAddress);
-        testUpdateUser(Token, userDTO, true);
+        Assert.assertTrue(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithFirstNameNull() {
         UserDTO userDTO = createUserDTO(UserName, Password, null, LastName, EmailAddress);
-        testUpdateUser(Token, userDTO, false);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithLastNameNull() {
         UserDTO userDTO = createUserDTO(UserName, Password, FirstName, null, EmailAddress);
-        testUpdateUser(Token, userDTO, false);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithEmailAddressNull() {
         UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, null);
-        testUpdateUser(Token, userDTO, false);
+        Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
@@ -194,9 +194,9 @@ public class TestUserController {
         Assert.assertFalse(user.isPresent());
     }
 
-    private void testUpdateUser(String token, UserDTO userDTO, boolean expectedResult) {
+    private boolean testUpdateUser(String token, UserDTO userDTO) {
         Optional<User> user = userController.updateUser(token, userDTO);
-        Assert.assertEquals(expectedResult, user.isPresent());
+        return user.isPresent();
     }
 
     private Authority getAuthority() {
