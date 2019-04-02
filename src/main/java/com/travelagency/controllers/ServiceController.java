@@ -1,14 +1,14 @@
-package com.travelagency.services;
+package com.travelagency.controllers;
 
 import com.travelagency.repository.IServiceRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceService{
+public class ServiceController {
 
     private IServiceRepository serviceRepository;
 
-    public ServiceService(IServiceRepository serviceRepository) { this.serviceRepository = serviceRepository; }
+    public ServiceController(IServiceRepository serviceRepository) { this.serviceRepository = serviceRepository; }
 
     public com.travelagency.model.Service createService(com.travelagency.model.Service service) {
         if(service.getId() != 0){
