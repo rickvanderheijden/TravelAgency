@@ -2,6 +2,7 @@ package com.travelagency.rest.DataTranfersObjects;
 import com.travelagency.model.Authority;
 import com.travelagency.model.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,26 @@ public class UserDTO {
         this.emailAddress = emailAddress;
         this.enabled = enabled;
         this.authorities = authorities;
+    }
+
+    public UserDTO(String username, String password, String firstname, String lastname, String emailAddress) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.emailAddress = emailAddress;
+        this.enabled = true;
+        this.authorities = new ArrayList<Authority>();
+    }
+
+    public UserDTO() {
+        this.username = "";
+        this.password = "";
+        this.firstname = "";
+        this.lastname = "";
+        this.emailAddress = "";
+        this.enabled = true;
+        this.authorities = new ArrayList<Authority>();
     }
 
     public String getUsername() {

@@ -61,11 +61,14 @@ public class Authentication {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Long create(@RequestBody final UserDTO userDTO) {
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         User user = userDTO.getUser();
+
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authorityRepository.findByName(AuthorityName.ROLE_USER));
 
         user.setAuthorities(authorities);
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         User createdUser = userRepository.save(user);
         return createdUser.getId();
     }

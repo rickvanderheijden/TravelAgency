@@ -66,11 +66,11 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<JwtUser> getAuthenticatedUser(HttpServletRequest request) {
+    public Optional<User> getAuthenticatedUser(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
 
-        return new ResponseEntity<>((JwtUser) userDetailsService.loadUserByUsername(username), HttpStatus.OK);
+        return Optional.ofNullable(this.userRepository.findByUsername(username));
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
