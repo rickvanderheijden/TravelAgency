@@ -1,52 +1,56 @@
-package com.travelagency.controller;
+package com.travelagency.controllers;
 
-import com.travelagency.services.TripService;
+import com.travelagency.repository.ITripRepository;
 import com.travelagency.model.Trip;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+import org.springframework.stereotype.Service;
+import java.util.*;
 
-@RestController
-@RequestMapping("/trips")
+@Service
 public class TripController {
 
-    private final TripService tripService;
+    private ITripRepository tripRepository;
 
-    @Autowired
-    public TripController(TripService tripService) {
-        this.tripService = tripService;
+    public TripController(ITripRepository tripRepository){
+        this.tripRepository = tripRepository;
     }
 
-    @RequestMapping(value = "/createTrip", method = RequestMethod.POST)
-    public Trip createTrip(@Valid @RequestBody Trip trip) {
-        return this.tripService.createTrip(trip);
-    }
-
-    @RequestMapping(value = "/updateTrip", method = RequestMethod.PUT)
-    public ResponseEntity<Trip> updateTrip(@Valid @RequestBody Trip trip) {
-        Trip updatedTrip = this.tripService.updateTrip(trip);
-        if(updatedTrip == null){
-            return ResponseEntity.notFound().build();
+    public Optional<Trip> createTrip(Trip trip) {
+        if(trip.getId() != 0){
+            return null;
         }
-        return ResponseEntity.ok(updatedTrip);
+        return Optional.ofNullable(tripRepository.save(trip));
     }
 
-    @RequestMapping(value = "/deleteTrip/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Trip> deleteTrip(@PathVariable long id) {
-        boolean isDeleted = this.tripService.deleteTrip(id);
-        if(!isDeleted){
-            return ResponseEntity.notFound().build();
+    public Trip getById(long id) { return this.tripRepository.getOne(id); }
+
+    public Trip updateTrip(Trip updatedTrip) {
+        if(!this.tripRepository.existsById(updatedTrip.getId())){
+            return null;
         }
-        return ResponseEntity.ok().build();
+        return this.tripRepository.save(updatedTrip);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Trip> getById(@PathVariable long id) {
-        Trip foundedTrip = this.tripService.getById(id);
-        if(foundedTrip == null){
-            return ResponseEntity.notFound().build();
+    public boolean deleteTrip(long id) {
+        boolean doesExist = this.tripRepository.existsById(id);
+        if(!doesExist){
+            return false;
         }
-        return ResponseEntity.ok(foundedTrip);
+        this.tripRepository.deleteById(id);
+        return true;
     }
+
+    //TODO: Search trips methode ->Ismail
+    public Iterable<Trip> searchTrips(String searchInput) {
+        if(searchInput == null || searchInput.isEmpty()){
+            return null;
+        }
+
+        String[] searchKeywords = searchInput.split(" ");
+        Set<Trip> result = new HashSet<>();
+        for (String searchKeyword: searchKeywords) {
+            result.addAll(this.tripRepository.findByNameContains(searchKeyword));
+        }
+        return result;
+    }
+
 }
