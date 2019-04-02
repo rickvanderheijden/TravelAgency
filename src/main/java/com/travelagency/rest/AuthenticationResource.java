@@ -15,7 +15,6 @@ import com.travelagency.security.JwtUser;
 import com.travelagency.security.controller.AuthenticationException;
 import com.travelagency.security.service.JwtAuthenticationResponse;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -36,27 +35,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Api
 @RestController
 @RequestMapping(value = "/auth")
-public class Authentication {
+public class AuthenticationResource {
 
     @Value("${jwt.header}")
     private String tokenHeader;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    private final UserDetailsService userDetailsService;
+    private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    @Qualifier("jwtUserDetailsService")
-    private UserDetailsService userDetailsService;
-
+    public AuthenticationResource(AuthorityRepository authorityRepository, UserRepository userRepository,
+                                  AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
+                                  @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
+        this.authorityRepository = authorityRepository;
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Long create(@RequestBody final UserDTO userDTO) {

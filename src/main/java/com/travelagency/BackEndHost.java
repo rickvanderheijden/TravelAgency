@@ -1,7 +1,7 @@
 package com.travelagency;
 
 import com.travelagency.model.AuthorityName;
-import com.travelagency.rest.Authentication;
+import com.travelagency.rest.AuthenticationResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,8 +24,8 @@ public class BackEndHost implements WebMvcConfigurer {
     }
 
     private static void createTestUsers(ConfigurableApplicationContext context) {
-        context.getBean(Authentication.class).createAuthorities();
-        context.getBean(Authentication.class).createUser(
+        context.getBean(AuthenticationResource.class).createAuthorities();
+        context.getBean(AuthenticationResource.class).createUser(
                 "user",
                 "user",
                 "userFirstName",
@@ -33,7 +33,7 @@ public class BackEndHost implements WebMvcConfigurer {
                 "user@travelagency.com",
                 AuthorityName.ROLE_USER);
 
-        context.getBean(Authentication.class).createUser(
+        context.getBean(AuthenticationResource.class).createUser(
                 "admin",
                 "admin",
                 "adminFirstName",

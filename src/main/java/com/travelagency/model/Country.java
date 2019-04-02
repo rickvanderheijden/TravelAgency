@@ -40,6 +40,10 @@ public class Country {
         return cities.add(city);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Set<City> getCities() {
         return cities;
     }

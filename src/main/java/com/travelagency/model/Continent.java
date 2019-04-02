@@ -35,6 +35,10 @@ public class Continent {
         return countries.add(country);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
