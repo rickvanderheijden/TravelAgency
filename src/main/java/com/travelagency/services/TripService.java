@@ -3,6 +3,7 @@ package com.travelagency.services;
 import com.travelagency.repository.ITripRepository;
 import com.travelagency.model.Trip;
 import org.springframework.stereotype.Service;
+import java.util.*;
 
 @Service
 public class TripService {
@@ -23,8 +24,7 @@ public class TripService {
     public Trip getById(long id) { return this.tripRepository.getOne(id); }
 
     public Trip updateTrip(Trip updatedTrip) {
-        Trip existingTrip = this.tripRepository.getOne(updatedTrip.getId());
-        if(existingTrip == null){
+        if(!this.tripRepository.existsById(updatedTrip.getId())){
             return null;
         }
         return this.tripRepository.save(updatedTrip);
@@ -48,7 +48,7 @@ public class TripService {
         String[] searchKeywords = searchInput.split(" ");
         Set<Trip> result = new HashSet<>();
         for (String searchKeyword: searchKeywords) {
-            result.addAll(this.tripRepository.findByNameContains(searchTerm));
+            result.addAll(this.tripRepository.findByNameContains(searchKeyword));
         }
         return result;
     }
