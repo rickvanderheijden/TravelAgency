@@ -4,4 +4,6 @@ WORKDIR /home/travelagency
 RUN cp ./src/main/resources/application-docker.properties ./src/main/resources/application.properties
 RUN mvn -Dmaven.test.skip=true package
 RUN cp ./target/BackEnd-0.0.1-SNAPSHOT.jar travelagency.jar
+
+EXPOSE 9000
 ENTRYPOINT ["java","-jar","travelagency.jar"]
