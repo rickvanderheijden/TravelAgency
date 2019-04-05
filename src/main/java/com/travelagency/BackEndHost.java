@@ -19,8 +19,13 @@ public class BackEndHost implements WebMvcConfigurer {
 
         //TODO: Remove when done testing
         createTestUsers(context);
+        createTestTrips();
 
         System.out.println("TravelAgency BackEnd is running");
+    }
+
+    private static void createTestTrips() {
+
     }
 
     private static void createTestUsers(ConfigurableApplicationContext context) {

@@ -1,6 +1,6 @@
 package com.travelagency.controllers;
 
-import com.travelagency.repository.ITripRepository;
+import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -8,9 +8,9 @@ import java.util.*;
 @Service
 public class TripController {
 
-    private ITripRepository tripRepository;
+    private TripRepository tripRepository;
 
-    public TripController(ITripRepository tripRepository){
+    public TripController(TripRepository tripRepository){
         this.tripRepository = tripRepository;
     }
 
