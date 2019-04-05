@@ -1,5 +1,5 @@
 FROM maven:3.6.0-jdk-8
-MAINTAINER koen sengers
+LABEL maintainer="koen sengers"
 
 COPY . /home/travelagency
 WORKDIR /home/travelagency
