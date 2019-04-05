@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-     - "5000:5000"
+     - "9000:9000"
     links:
       - "mysql:mysql"
     depends_on:
