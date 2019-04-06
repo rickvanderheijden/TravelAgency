@@ -16,11 +16,11 @@ public class TripController {
 
     public Optional<Trip> createTrip(Trip trip) {
         if(trip == null) return Optional.empty();
-        return Optional.ofNullable(tripRepository.save(trip));
+        return Optional.of(tripRepository.save(trip));
     }
 
     public Optional<Trip> getById(Long id) {
-        return Optional.ofNullable(tripRepository.getOne(id));
+        return Optional.of(tripRepository.getOne(id));
     }
 
     public Trip updateTrip(Trip updatedTrip) {

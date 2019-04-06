@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class TestTrip {
     private static String Name = "Name";
@@ -15,6 +14,7 @@ public class TestTrip {
     private static int TotalPrice = 0;
     private static int TotalPrice2 = 2;
     private static int Discount = 230;
+    private static int Discount2 = 130;
     private Trip trip;
 
     @Before
@@ -43,11 +43,11 @@ public class TestTrip {
         Assert.assertEquals(TotalPrice2, trip.getTotalPrice()); }
 
     @Test
-    public void testGetDiscount() { Assert.assertNotNull(trip.getDiscount()); }
+    public void testGetDiscount() { Assert.assertEquals(Discount, trip.getDiscount()); }
 
     @Test
     public void testSetDiscount() {
-        trip.setDiscount(Discount);
-        Assert.assertEquals(Discount, trip.getDiscount());
+        trip.setDiscount(Discount2);
+        Assert.assertEquals(Discount2, trip.getDiscount());
     }
 }
