@@ -6,7 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import org.junit.*;
 
-public class TestAuthentication {
+public class TestAuthenticationResource {
 
     @BeforeClass
     public static void init() {

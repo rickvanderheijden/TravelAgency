@@ -33,7 +33,7 @@ public class UserDTO {
         this.lastname = lastname;
         this.emailAddress = emailAddress;
         this.enabled = true;
-        this.authorities = new ArrayList<Authority>();
+        this.authorities = new ArrayList<>();
     }
 
     public UserDTO() {
@@ -43,7 +43,7 @@ public class UserDTO {
         this.lastname = "";
         this.emailAddress = "";
         this.enabled = true;
-        this.authorities = new ArrayList<Authority>();
+        this.authorities = new ArrayList<>();
     }
 
     public String getUsername() {

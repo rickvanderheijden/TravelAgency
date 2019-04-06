@@ -1,6 +1,6 @@
 package com.travelagency.controllers;
 
-import com.travelagency.repository.ITripRepository;
+import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -8,34 +8,34 @@ import java.util.*;
 @Service
 public class TripController {
 
-    private ITripRepository tripRepository;
+    private final TripRepository tripRepository;
 
-    public TripController(ITripRepository tripRepository){
+    public TripController(TripRepository tripRepository){
         this.tripRepository = tripRepository;
     }
 
     public Optional<Trip> createTrip(Trip trip) {
-        if(trip.getId() != 0){
-            return null;
-        }
-        return Optional.ofNullable(tripRepository.save(trip));
+        if(trip == null) return Optional.empty();
+        return Optional.of(tripRepository.save(trip));
     }
 
-    public Trip getById(long id) { return this.tripRepository.getOne(id); }
+    public Optional<Trip> getById(Long id) {
+        return Optional.of(tripRepository.getOne(id));
+    }
 
     public Trip updateTrip(Trip updatedTrip) {
-        if(!this.tripRepository.existsById(updatedTrip.getId())){
+        if(!tripRepository.existsById(updatedTrip.getId())){
             return null;
         }
-        return this.tripRepository.save(updatedTrip);
+        return tripRepository.save(updatedTrip);
     }
 
-    public boolean deleteTrip(long id) {
-        boolean doesExist = this.tripRepository.existsById(id);
+    public boolean deleteTrip(Long id) {
+        boolean doesExist = tripRepository.existsById(id);
         if(!doesExist){
             return false;
         }
-        this.tripRepository.deleteById(id);
+        tripRepository.deleteById(id);
         return true;
     }
 
@@ -48,7 +48,7 @@ public class TripController {
         String[] searchKeywords = searchInput.split(" ");
         Set<Trip> result = new HashSet<>();
         for (String searchKeyword: searchKeywords) {
-            result.addAll(this.tripRepository.findByNameContains(searchKeyword));
+            result.addAll(tripRepository.findByNameContains(searchKeyword));
         }
         return result;
     }
