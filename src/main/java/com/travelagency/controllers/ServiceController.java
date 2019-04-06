@@ -17,7 +17,7 @@ public class ServiceController {
         return this.serviceRepository.save(service);
     }
 
-    public com.travelagency.model.Service getById(long id) { return this.serviceRepository.getOne(id); }
+    public com.travelagency.model.Service getById(Long id) { return this.serviceRepository.getOne(id); }
 
     public com.travelagency.model.Service updateService(com.travelagency.model.Service updatedService) {
         if(!this.serviceRepository.existsById(updatedService.getId())){
@@ -26,7 +26,7 @@ public class ServiceController {
         return this.serviceRepository.save(updatedService);
     }
 
-    public boolean deleteService(long id) {
+    public boolean deleteService(Long id) {
         boolean doesExist = this.serviceRepository.existsById(id);
         if(!doesExist){
             return false;

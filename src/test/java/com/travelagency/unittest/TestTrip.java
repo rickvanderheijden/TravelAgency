@@ -1,6 +1,5 @@
 package com.travelagency.unittest;
 
-import com.travelagency.model.Discount;
 import com.travelagency.model.Trip;
 import org.junit.After;
 import org.junit.Assert;
@@ -11,14 +10,16 @@ import org.mockito.Mockito;
 public class TestTrip {
     private static String Name = "Name";
     private static String Name2 = "Name2";
+    private static String Description = "Description";
+    private static String ImageUrl= "ImageURL";
     private static int TotalPrice = 0;
     private static int TotalPrice2 = 2;
+    private static int Discount = 230;
     private Trip trip;
 
     @Before
     public void setUp() {
-        Discount discount = Mockito.mock(Discount.class);
-        trip = new Trip(Name, TotalPrice, discount);
+        trip = new Trip(Name, Description, ImageUrl, TotalPrice, Discount);
     }
 
     @After
@@ -46,8 +47,7 @@ public class TestTrip {
 
     @Test
     public void testSetDiscount() {
-        Discount d = Mockito.mock(Discount.class);
-        trip.setDiscount(d);
-        Assert.assertEquals(d, trip.getDiscount());
+        trip.setDiscount(Discount);
+        Assert.assertEquals(Discount, trip.getDiscount());
     }
 }

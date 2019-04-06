@@ -15,27 +15,27 @@ public class TripController {
     }
 
     public Optional<Trip> createTrip(Trip trip) {
-        if(trip.getId() != 0){
-            return null;
-        }
+        if(trip == null) return Optional.empty();
         return Optional.ofNullable(tripRepository.save(trip));
     }
 
-    public Trip getById(long id) { return this.tripRepository.getOne(id); }
-
-    public Trip updateTrip(Trip updatedTrip) {
-        if(!this.tripRepository.existsById(updatedTrip.getId())){
-            return null;
-        }
-        return this.tripRepository.save(updatedTrip);
+    public Optional<Trip> getById(Long id) {
+        return Optional.ofNullable(tripRepository.getOne(id));
     }
 
-    public boolean deleteTrip(long id) {
-        boolean doesExist = this.tripRepository.existsById(id);
+    public Trip updateTrip(Trip updatedTrip) {
+        if(!tripRepository.existsById(updatedTrip.getId())){
+            return null;
+        }
+        return tripRepository.save(updatedTrip);
+    }
+
+    public boolean deleteTrip(Long id) {
+        boolean doesExist = tripRepository.existsById(id);
         if(!doesExist){
             return false;
         }
-        this.tripRepository.deleteById(id);
+        tripRepository.deleteById(id);
         return true;
     }
 
@@ -48,7 +48,7 @@ public class TripController {
         String[] searchKeywords = searchInput.split(" ");
         Set<Trip> result = new HashSet<>();
         for (String searchKeyword: searchKeywords) {
-            result.addAll(this.tripRepository.findByNameContains(searchKeyword));
+            result.addAll(tripRepository.findByNameContains(searchKeyword));
         }
         return result;
     }
