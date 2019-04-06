@@ -53,4 +53,7 @@ public class TripController {
         return result;
     }
 
+    public List<Trip> getAllTrips() {
+        return tripRepository.findAll();
+    }
 }

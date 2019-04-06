@@ -2,9 +2,12 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.TripController;
 import com.travelagency.model.Trip;
+import com.travelagency.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -43,5 +46,10 @@ public class TripResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Optional<Trip> getById(@PathVariable final Long id) {
         return tripController.getById(id);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<Trip> getAll() {
+        return tripController.getAllTrips();
     }
 }
