@@ -12,14 +12,14 @@ package com.travelagency.unittest;
         import java.util.Date;
 
 public class TestService {
-    private static String Name = "Name";
-    private static String Name2 = "Name2";
+    private static final String Name = "Name";
+    private static final String Name2 = "Name2";
     private static ServiceType serviceType;
     private static ServiceType serviceType2;
-    private static int Price = 0;
-    private static int Price2 = 2;
-    private static Date Date = new Date();
-    private static Date Date2 = new Date();
+    private static final int Price = 0;
+    private static final int Price2 = 2;
+    private static final Date Date = new Date();
+    private static final Date Date2 = new Date();
     private Service service;
 
     @Before

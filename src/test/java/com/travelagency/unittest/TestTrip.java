@@ -7,14 +7,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestTrip {
-    private static String Name = "Name";
-    private static String Name2 = "Name2";
-    private static String Description = "Description";
-    private static String ImageUrl= "ImageURL";
-    private static int TotalPrice = 0;
-    private static int TotalPrice2 = 2;
-    private static int Discount = 230;
-    private static int Discount2 = 130;
+    private static final String Name = "Name";
+    private static final String Name2 = "Name2";
+    private static final String Description = "Description";
+    private static final String ImageUrl= "ImageURL";
+    private static final int TotalPrice = 0;
+    private static final int TotalPrice2 = 2;
+    private static final int Discount = 230;
+    private static final int Discount2 = 130;
     private Trip trip;
 
     @Before

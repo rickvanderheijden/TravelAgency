@@ -20,49 +20,17 @@ public class Trip {
     @NotNull
     private String name;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
-
-    public int getTotal_price() {
-        return total_price;
-    }
-
-    public void setTotal_price(int total_price) {
-        this.total_price = total_price;
-    }
-
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
     @Column(name = "description", length = 500)
     @NotNull
     private String description;
 
     @Column(name = "image_url")
     @NotNull
-    private String image_url;
+    private String imageUrl;
 
     @Column(name = "total_price", length = 10)
     @NotNull
-    private int total_price;
+    private int totalPrice;
 
     @Column(name = "discount", length = 10)
     private int discount;
@@ -76,11 +44,11 @@ public class Trip {
     public Trip() {
     }
 
-    public Trip(@NotNull String name, @NotNull String description, String image_url, @NotNull int total_price, int discount) {
+    public Trip(@NotNull String name, @NotNull String description, String imageUrl, @NotNull int totalPrice, int discount) {
         this.name = name;
         this.description = description;
-        this.image_url = image_url;
-        this.total_price = total_price;
+        this.imageUrl = imageUrl;
+        this.totalPrice = totalPrice;
         this.discount = discount;
         this.services = new ArrayList<>();
     }
@@ -101,12 +69,37 @@ public class Trip {
         this.name = name;
     }
 
-    public int getTotalPrice() {
-        return total_price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTotalPrice(int total_price) {
-        this.total_price = total_price;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
     public int getDiscount() {

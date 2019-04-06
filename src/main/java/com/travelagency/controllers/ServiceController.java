@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceController {
 
-    private ServiceRepository serviceRepository;
+    private final ServiceRepository serviceRepository;
 
     public ServiceController(ServiceRepository serviceRepository) { this.serviceRepository = serviceRepository; }
 
