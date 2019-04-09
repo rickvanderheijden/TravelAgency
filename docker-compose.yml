@@ -22,6 +22,8 @@ services:
       - "8080:80"
     links:
       - "mysql:mysql"
+    depends_on:
+      - mysql
     environment:
       PMA_HOST: mysql
       MYSQL_USER: user
