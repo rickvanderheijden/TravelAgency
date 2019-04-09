@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class TestAddress {
-    private static String Address = "Address";
-    private static String Address2 = "Address2";
-    private static String ZipCode = "ZipCode";
-    private static String ZipCode2 = "ZipCode2";
+    private static final String Address = "Address";
+    private static final String Address2 = "Address2";
+    private static final String ZipCode = "ZipCode";
+    private static final String ZipCode2 = "ZipCode2";
     private Address address;
 
     @Before
