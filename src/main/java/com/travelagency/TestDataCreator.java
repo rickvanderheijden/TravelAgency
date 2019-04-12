@@ -1,5 +1,7 @@
 package com.travelagency;
 
+import com.travelagency.controllers.GeographyController;
+import com.travelagency.controllers.TripServiceController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
 import com.travelagency.rest.TripServiceResource;
@@ -22,29 +24,198 @@ public class TestDataCreator {
 
     public void createTestData() {
         createTestUsers();
+        createTestContinents();
+        createTestCountries();
+        createTestCities();
         createTestServices();
         createTestTrips();
     }
 
-    private static void createTestServices() {
+    private void createTestUsers() {
         if (context != null) {
-            TripService tripService = new TripService(
-                    ServiceType.OUTING,
-                    "Turtle Canyon snorkelcruise per catamaran",
-                    "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.\n" +
-                            "\n" +
-                            "Meer lezen over Oahu Turtle Canyon catamaran snorkelcruise met groene zeeschildpadden 2019 - https://www.viator.com/nl-NL/tours/Oahu/Turtle-Canyon-Snorkel-Cruise-by-Catamaran/d672-2774TURTLES?mcid=56757",
-                    new Address("Ergenseen straat 2", new City("Stadje", new Country("Landofzo", new Continent("Continentooknog"))), "90210"),
-                    140,
-                    new Date());
+            context.getBean(AuthenticationResource.class).createAuthorities();
+            context.getBean(AuthenticationResource.class).createUser(
+                    "user",
+                    "user",
+                    "userFirstName",
+                    "userLastName",
+                    "user@travelagency.com",
+                    AuthorityName.ROLE_USER);
 
-            context.getBean(TripServiceResource.class).createService(tripService);
+            context.getBean(AuthenticationResource.class).createUser(
+                    "admin",
+                    "admin",
+                    "adminFirstName",
+                    "adminLastName",
+                    "admin@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
         }
     }
 
-    private static void createTestTrips() {
+    private void createTestContinents() {
         if (context != null) {
-            Optional<TripService> tripService = context.getBean(TripServiceResource.class).getFirst();
+            String[] names = {"Afrika", "Antarctica", "Azïë", "Europa", "Noord-Amerika", "Oceanië", "Zuid-Amerika"};
+
+            GeographyController geographyController = context.getBean(GeographyController.class);
+
+            for (String name : names) {
+                geographyController.createContinent(name);
+            }
+        }
+    }
+
+    private void createTestCountries() {
+        createTestCountriesEurope();
+        createTestCountriesNorthAmerica();
+    }
+
+    private void createTestCities() {
+        createTestCitiesEurope();
+        createTestCitiesNorthAmerica();
+    }
+
+    private void createTestCitiesEurope() {
+        if (context != null) {
+
+            String[][] cities = {
+                    {"Amsterdam", "Nederland"},
+                    {"Rotterdam", "Nederland"},
+
+                    {"Berlijn", "Duitsland"},
+                    {"Frankfurt", "Duitsland"},
+                    {"Munchen", "Duitsland"},
+
+                    {"Bordeaux", "Frankrijk"},
+                    {"Lyon", "Frankrijk"},
+                    {"Parijs", "Frankrijk"},
+                    {"Perpignan", "Frankrijk"},
+
+                    {"Bergen", "Noorwegen"},
+                    {"Oslo", "Noorwegen"},
+                    {"Stavanger", "Noorwegen"},
+                    {"Tromsø", "Noorwegen"},
+                    {"Trondheim", "Noorwegen"},
+
+                    {"Porto", "Portugal"},
+                    {"Lissabon", "Portugal"},
+
+                    {"Barcelona", "Spanje"},
+                    {"Malaga", "Spanje"},
+                    {"Madrid", "Spanje"},
+                    {"Valencia", "Spanje"},
+            };
+
+            GeographyController geographyController = context.getBean(GeographyController.class);
+
+            for (String[] city : cities) {
+                Country country = geographyController.getCountry(city[1]).get();
+                geographyController.createCity(city[0], country);
+            }
+        }
+    }
+
+    private void createTestCitiesNorthAmerica()
+    {
+        if (context != null) {
+
+            String[][] cities = {
+                    {"Calgairy", "Canada"},
+                    {"Vancouver", "Canada"},
+                    {"Toronto", "Canada"},
+                    {"Quebec", "Canada"},
+                    {"Winnipeg", "Canada"},
+
+                    {"New York", "Verenigde Staten"},
+                    {"Boston", "Verenigde Staten"},
+                    {"Las Vegas", "Verenigde Staten"},
+                    {"Los Angeles", "Verenigde Staten"},
+                    {"San Fransisco", "Verenigde Staten"},
+                    {"Miami", "Verenigde Staten"},
+                    {"Orlando", "Verenigde Staten"},
+                    {"Seattle", "Verenigde Staten"},
+                    {"Salt Lake City", "Verenigde Staten"},
+                    {"Honolulu", "Verenigde Staten"},
+                    {"Hilo", "Verenigde Staten"},
+                    {"Haleiwa", "Verenigde Staten"},
+                    {"Kailua", "Verenigde Staten"},
+                    {"Kona", "Verenigde Staten"},
+                    {"Lahaina", "Verenigde Staten"},
+            };
+
+            GeographyController geographyController = context.getBean(GeographyController.class);
+
+            for (String[] city : cities) {
+                Country country = geographyController.getCountry(city[1]).get();
+                geographyController.createCity(city[0], country);
+            }
+        }
+    }
+
+    private void createTestCountriesEurope() {
+        if (context != null) {
+            String[] countries = {
+                    "Alandseilanden", "Albanië", "Andorra", "Azerbeidzjan", "Belarus (Wit-Rusland)", "België",
+                    "Bosnië en Herzegovina", "Bulgarije", "Cyprus", "Denemarken", "Duitsland", "Engeland (Verenigd Koningrijk)",
+                    "Estland", "Farao Eilanden", "Finland", "Frankrijk", "Georgië", "Gibraltar", "Griekenland", "Guernsey",
+                    "Hongarije", "Ierland", "IJsland", "Italië", "Jan Mayen", "Jersey", "Kazachstan", "Kosovo", "Kroatië",
+                    "Letland", "Liechtenstein", "Litouwen", "Luxemburg", "Macedonië", "Malta", "Man", "Moldavië", "Monaco",
+                    "Montenegro", "Nederland", "Noorwegen", "Oekraïne", "Oostenrijk", "Polen", "Portugal", "Roemenië",
+                    "Rusland", "Schotland (Verenigd Koninkrijk)", "San Marino", "Servië", "Slovenië", "Slowakije",
+                    "Spanje", "Spitsbergen", "Tsjechië", "Turkije", "Vaticaanstad", "Zweden", "Zwitserland"};
+
+            GeographyController geographyController = context.getBean(GeographyController.class);
+            Optional<Continent> continent = geographyController.getContinent("Europa");
+
+            if (continent.isPresent()) {
+                for (String country : countries) {
+                    geographyController.createCountry(country, continent.get());
+                }
+            }
+        }
+    }
+
+    private void createTestCountriesNorthAmerica() {
+        if (context != null) {
+            String[] countries = {"Antigua en Barbuda", "Bahama's", "Barbados", "Belize", "Canada", "Costa Rica",
+                    "Cuba", "Dominica", "Dominicaanse Republiek", "El Salvador", "Grenada", "Guatemala", "Haïti",
+                    "Honduras", "Jamaica", "Mexico", "Nicaragua", "Panama", "Saint Kitts en Nevis", "Saint Lucia",
+                    "Saint Vincent en de Grenadines", "Trinidad en Tobago", "Verenigde Staten"};
+
+            GeographyController geographyController = context.getBean(GeographyController.class);
+            Optional<Continent> continent = geographyController.getContinent("Noord-Amerika");
+
+            if (continent.isPresent()) {
+                for (String country : countries) {
+                    geographyController.createCountry(country, continent.get());
+                }
+            }
+        }
+    }
+
+    private void createTestServices() {
+        if (context != null) {
+
+            Optional<City> city = context.getBean(GeographyController.class).getCity("Honolulu");
+
+            if (city.isPresent()) {
+                TripService tripService = new TripService(
+                        ServiceType.OUTING,
+                        "Turtle Canyon snorkelcruise per catamaran",
+                        "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.\n" +
+                                "\n" +
+                                "Meer lezen over Oahu Turtle Canyon catamaran snorkelcruise met groene zeeschildpadden 2019 - https://www.viator.com/nl-NL/tours/Oahu/Turtle-Canyon-Snorkel-Cruise-by-Catamaran/d672-2774TURTLES?mcid=56757",
+                        "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/77/93/9b.jpg",
+                        new Address("Ergenseen straat 2", city.get(), "90210"),
+                        140,
+                        new Date());
+
+                context.getBean(TripServiceResource.class).createService(tripService);
+            }
+        }
+    }
+
+    private void createTestTrips() {
+        if (context != null) {
 
             Trip trip = new Trip(
                     "14-DAAGSE RONDREIS HAWAIIAN SPLENDORS",
@@ -62,12 +233,12 @@ public class TestDataCreator {
                     1599,
                     0);
 
+            Optional<TripService> tripService = context.getBean(TripServiceController.class).getByCityName("Honolulu");
+
             if (tripService.isPresent()) {
                 trip.addService(tripService.get());
+                context.getBean(TripResource.class).createTrip(trip);
             }
-
-            context.getBean(TripResource.class).createTrip(trip);
-
             trip = new Trip(
                     "IN DE BAN VAN HET NOORDERLICHT",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
@@ -89,27 +260,6 @@ public class TestDataCreator {
             }
 
             context.getBean(TripResource.class).createTrip(trip);
-        }
-    }
-
-    private static void createTestUsers() {
-        if (context != null) {
-            context.getBean(AuthenticationResource.class).createAuthorities();
-            context.getBean(AuthenticationResource.class).createUser(
-                    "user",
-                    "user",
-                    "userFirstName",
-                    "userLastName",
-                    "user@travelagency.com",
-                    AuthorityName.ROLE_USER);
-
-            context.getBean(AuthenticationResource.class).createUser(
-                    "admin",
-                    "admin",
-                    "adminFirstName",
-                    "adminLastName",
-                    "admin@travelagency.com",
-                    AuthorityName.ROLE_ADMIN);
         }
     }
 }

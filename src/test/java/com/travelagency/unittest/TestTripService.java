@@ -15,6 +15,7 @@ public class TestTripService {
     private static final String Name = "Name";
     private static final String Name2 = "Name2";
     private static final String Description = "Description";
+    private static final String ImageUrl = "ImageUrl";
     private static ServiceType serviceType;
     private static ServiceType serviceType2;
     private static final int Price = 0;
@@ -26,7 +27,7 @@ public class TestTripService {
     @Before
     public void setUp() {
         Address address = Mockito.mock(Address.class);
-        tripService = new TripService(serviceType, Name, Description, address, Price, Date);
+        tripService = new TripService(serviceType, Name, Description, ImageUrl, address, Price, Date);
     }
 
     @After

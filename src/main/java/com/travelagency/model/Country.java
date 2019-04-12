@@ -18,7 +18,7 @@ public class Country {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "continent_id")
     @JsonIgnore
     private Continent continent;
