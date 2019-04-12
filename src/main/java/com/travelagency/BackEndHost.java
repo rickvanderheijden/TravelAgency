@@ -16,7 +16,8 @@ public class BackEndHost implements WebMvcConfigurer {
         ConfigurableApplicationContext context = SpringApplication.run(BackEndHost.class, args);
 
         //TODO: Remove when done testing
-        TestDataCreator testDataCreator = new TestDataCreator(context);
+        TestDataCreator testDataCreator = new TestDataCreator();
+        testDataCreator.setContext(context);
         testDataCreator.createTestData();
 
         System.out.println("TravelAgency BackEnd is running");
