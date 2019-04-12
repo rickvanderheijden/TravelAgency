@@ -2,6 +2,7 @@ package com.travelagency.controllers;
 
 import com.travelagency.repository.ServiceRepository;
 import org.springframework.stereotype.Service;
+import java.util.*;
 
 @Service
 public class ServiceController {
@@ -33,5 +34,9 @@ public class ServiceController {
         }
         this.serviceRepository.deleteById(id);
         return true;
+    }
+
+    public List<com.travelagency.model.Service> getAllServices() {
+        return serviceRepository.findAll();
     }
 }

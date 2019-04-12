@@ -42,6 +42,8 @@ public class Service {
     @NotNull
     private Date date;
 
+    public Service(){ }
+
     public Service(@NotNull ServiceType serviceType, @NotNull String name, Address address, @NotNull int price, @NotNull Date date) {
         this.serviceType = serviceType;
         this.name = name;
