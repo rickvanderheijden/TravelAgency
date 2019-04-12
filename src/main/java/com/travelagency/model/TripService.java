@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "service")
-public class Service {
+@Table(name = "tripservice")
+public class TripService {
 
     @Id
     @Column(name = "id")
@@ -25,7 +25,11 @@ public class Service {
     @NotNull
     private String name;
 
-    @ManyToOne()
+    @Column(name = "description", length = 2000)
+    @NotNull
+    private String description;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -33,7 +37,7 @@ public class Service {
     @NotNull
     private int price;
 
-    @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tripServices", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Trip> trips;
 
@@ -42,9 +46,12 @@ public class Service {
     @NotNull
     private Date date;
 
-    public Service(@NotNull ServiceType serviceType, @NotNull String name, Address address, @NotNull int price, @NotNull Date date) {
+    public TripService() {}
+
+    public TripService(@NotNull ServiceType serviceType, @NotNull String name, @NotNull String description, Address address, @NotNull int price, @NotNull Date date) {
         this.serviceType = serviceType;
         this.name = name;
+        this.description = description;
         this.address = address;
         this.price = price;
         this.date = date;
@@ -72,6 +79,14 @@ public class Service {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Address getAddress() {
