@@ -7,13 +7,14 @@ import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Date;
+import java.util.Optional;
 
 public class TestDataCreator {
 
-    static ConfigurableApplicationContext context;
+    private static ConfigurableApplicationContext context;
 
     TestDataCreator(ConfigurableApplicationContext context) {
-        this.context = context;
+        TestDataCreator.context = context;
     }
 
     public void createTestData() {
@@ -37,7 +38,7 @@ public class TestDataCreator {
     }
 
     private static void createTestTrips() {
-        TripService tripService = context.getBean(TripServiceResource.class).getFirst().get();
+        Optional<TripService> tripService = context.getBean(TripServiceResource.class).getFirst();
 
         Trip trip = new Trip(
                 "14-DAAGSE RONDREIS HAWAIIAN SPLENDORS",
@@ -55,7 +56,10 @@ public class TestDataCreator {
                 1599,
                 0);
 
-        trip.addService(tripService);
+        if (tripService.isPresent()) {
+            trip.addService(tripService.get());
+        }
+
         context.getBean(TripResource.class).createTrip(trip);
 
         trip = new Trip(
@@ -74,7 +78,9 @@ public class TestDataCreator {
                 1645,
                 0);
 
-        trip.addService(tripService);
+        if (tripService.isPresent()) {
+            trip.addService(tripService.get());
+        }
 
         context.getBean(TripResource.class).createTrip(trip);
     }
