@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.Date;
 import java.util.Optional;
 
-public class TestDataCreator {
+class TestDataCreator {
 
     private static ConfigurableApplicationContext context;
 
@@ -201,9 +201,7 @@ public class TestDataCreator {
                 TripService tripService = new TripService(
                         ServiceType.OUTING,
                         "Turtle Canyon snorkelcruise per catamaran",
-                        "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.\n" +
-                                "\n" +
-                                "Meer lezen over Oahu Turtle Canyon catamaran snorkelcruise met groene zeeschildpadden 2019 - https://www.viator.com/nl-NL/tours/Oahu/Turtle-Canyon-Snorkel-Cruise-by-Catamaran/d672-2774TURTLES?mcid=56757",
+                        "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.",
                         "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/77/93/9b.jpg",
                         new Address("Ergenseen straat 2", city.get(), "90210"),
                         140,
@@ -211,6 +209,23 @@ public class TestDataCreator {
 
                 context.getBean(TripServiceResource.class).createService(tripService);
             }
+
+            city = context.getBean(GeographyController.class).getCity("Haleiwa");
+
+            if (city.isPresent()) {
+                TripService tripService = new TripService(
+                        ServiceType.OUTING,
+                        "Hang Gliding Hawaii",
+                        "Geweldige manier om te zien Oahu vanuit de hemel. Dit is zeker één van de coolste dingen die je gaat doen op deze reis. Vlieg gedurende de tijd van de zonsopkomst door de lucht boven Oahu.",
+                        "https://media-cdn.tripadvisor.com/media/photo-o/0a/54/dc/01/lightning-bolt-optical.jpg",
+                        new Address("Weet ik veel 4", city.get(), "90212"),
+                        140,
+                        new Date());
+
+                context.getBean(TripServiceResource.class).createService(tripService);
+            }
+
+
         }
     }
 
@@ -237,8 +252,16 @@ public class TestDataCreator {
 
             if (tripService.isPresent()) {
                 trip.addService(tripService.get());
-                context.getBean(TripResource.class).createTrip(trip);
             }
+
+            tripService = context.getBean(TripServiceController.class).getByCityName("Haleiwa");
+
+            if (tripService.isPresent()) {
+                trip.addService(tripService.get());
+            }
+
+            context.getBean(TripResource.class).createTrip(trip);
+
             trip = new Trip(
                     "IN DE BAN VAN HET NOORDERLICHT",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
