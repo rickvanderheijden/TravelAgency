@@ -1,7 +1,11 @@
 package com.travelagency.controllers;
 
+import com.travelagency.model.TripService;
+import com.travelagency.repository.TripServiceRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -9,13 +13,23 @@ import java.util.*;
 public class TripController {
 
     private final TripRepository tripRepository;
+    private final TripServiceRepository tripServiceRepository;
 
-    public TripController(TripRepository tripRepository){
+    public TripController(TripRepository tripRepository, TripServiceRepository tripServiceRepository){
         this.tripRepository = tripRepository;
+        this.tripServiceRepository = tripServiceRepository;
     }
 
     public Optional<Trip> createTrip(Trip trip) {
         if(trip == null) return Optional.empty();
+
+        List<TripService> tripServices = new ArrayList<>();
+        for (TripService tripService : trip.getTripServices()) {
+            tripServices.add(tripServiceRepository.findById(tripService.getId()).get());
+        }
+
+        trip.setTripServices(tripServices);
+
         return Optional.of(tripRepository.save(trip));
     }
 
@@ -53,7 +67,12 @@ public class TripController {
         return result;
     }
 
-    public List<Trip> getAllTrips() {
-        return tripRepository.findAll();
+    public Optional<List<Trip>> getAllTrips() {
+        return Optional.of(tripRepository.findAll());
+    }
+
+    public Optional<List<Trip>> getAllTrips(int maximumNumber) {
+        Pageable limit = PageRequest.of(0,maximumNumber);
+        return Optional.of(tripRepository.findAll(limit).getContent());
     }
 }

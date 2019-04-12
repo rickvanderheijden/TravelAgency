@@ -1,5 +1,7 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +16,12 @@ public class City {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
+    @JsonIgnore
     private Country country;
+
+    public City() {}
 
     public City(String name, Country country){
         this.name = name;

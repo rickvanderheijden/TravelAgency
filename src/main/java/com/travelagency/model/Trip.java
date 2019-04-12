@@ -20,7 +20,11 @@ public class Trip {
     @NotNull
     private String name;
 
-    @Column(name = "description", length = 500)
+    @Column(name = "summary", length = 500)
+    @NotNull
+    private String summary;
+
+    @Column(name = "description", length = 5000)
     @NotNull
     private String description;
 
@@ -35,22 +39,28 @@ public class Trip {
     @Column(name = "discount", length = 10)
     private int discount;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "trip_service",
+    @ManyToMany(cascade = { CascadeType.MERGE })
+    @JoinTable(name = "trip_tripservice",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-    private List<Service> services;
+            inverseJoinColumns = @JoinColumn(name = "tripservice_id", referencedColumnName = "id"))
+    private List<TripService> tripServices;
 
-    public Trip() {
-    }
+    public Trip() {}
 
-    public Trip(@NotNull String name, @NotNull String description, String imageUrl, @NotNull int totalPrice, int discount) {
+    public Trip(
+            @NotNull String name,
+            @NotNull String description,
+            @NotNull String summary,
+            String imageUrl,
+            @NotNull int totalPrice,
+            int discount) {
         this.name = name;
         this.description = description;
+        this.summary = summary;
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.services = new ArrayList<>();
+        this.tripServices = new ArrayList<>();
     }
 
     public Long getId() {
@@ -77,6 +87,13 @@ public class Trip {
         this.description = description;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
     public int getTotalPrice() {
         return totalPrice;
@@ -94,12 +111,12 @@ public class Trip {
         this.imageUrl = imageUrl;
     }
 
-    public List<Service> getServices() {
-        return services;
+    public List<TripService> getTripServices() {
+        return tripServices;
     }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
+    public void setTripServices(List<TripService> tripServices) {
+        this.tripServices = tripServices;
     }
 
     public int getDiscount() {
@@ -110,18 +127,18 @@ public class Trip {
         this.discount = discount;
     }
 
-    public boolean addService(Service service){
+    public boolean addService(TripService tripService){
 
-        if(services.contains(service))
+        if(tripServices.contains(tripService))
             return false;
 
-        return services.add(service);
+        return tripServices.add(tripService);
     }
 
-    public boolean removeService(Service service){
-        if(!services.contains(service))
+    public boolean removeService(TripService tripService){
+        if(!tripServices.contains(tripService))
             return false;
 
-        return services.remove(service);
+        return tripServices.remove(tripService);
     }
 }

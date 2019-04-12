@@ -16,7 +16,7 @@ public class TestTripResource {
 
     @Test
     public void testGetTripById() {
-        Integer expectedId = 3;
+        Integer expectedId = 8;
         String expectedName = "14-DAAGSE RONDREIS HAWAIIAN SPLENDORS";
         String expectedUrl = "https://media.tuicontent.nl/2E3/2E3BCC2E2A88DA5D714748D39B92E24A.jpg";
         Integer expectedPrice = 1599;

@@ -1,5 +1,7 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +18,15 @@ public class Country {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "continent_id")
+    @JsonIgnore
     private Continent continent;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<City> cities = new HashSet<>();
+
+    public Country() {}
 
     public Country(String name, Continent continent) {
         this.name = name;
