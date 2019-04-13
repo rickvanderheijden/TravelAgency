@@ -19,6 +19,10 @@ public class Continent {
     @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Country> countries = new HashSet<>();
 
+    public Continent() {
+        this.name = "";
+    }
+
     public Continent(String name) {
         this.name = name;
     }

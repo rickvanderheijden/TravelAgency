@@ -1,6 +1,6 @@
 package com.travelagency.rest.DataTranfersObjects;
 
-import com.travelagency.model.Service;
+import com.travelagency.model.TripService;
 import com.travelagency.model.Trip;
 
 import java.util.ArrayList;
@@ -14,16 +14,16 @@ public class TripDTO {
     private final String imageUrl;
     private final int totalPrice;
     private final int discount;
-    private final List<Service> services;
+    private final List<TripService> tripServices;
 
-    public TripDTO(Long id, String name, String description, String imageUrl, int totalPrice, int discount, List<Service> services) {
+    public TripDTO(Long id, String name, String description, String imageUrl, int totalPrice, int discount, List<TripService> tripServices) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.services = services;
+        this.tripServices = tripServices;
     }
 
     public TripDTO(Long id, String name, String description, String imageUrl, int totalPrice, int discount) {
@@ -33,7 +33,7 @@ public class TripDTO {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.services = new ArrayList<>();
+        this.tripServices = new ArrayList<>();
     }
 
     private Long getId() {
@@ -60,8 +60,8 @@ public class TripDTO {
         return discount;
     }
 
-    public List<Service> getServices() {
-        return services;
+    public List<TripService> getServices() {
+        return tripServices;
     }
 
     public Trip getTrip (){
@@ -71,7 +71,7 @@ public class TripDTO {
         trip.setId(this.getId());
         trip.setImageUrl(this.imageUrl);
         trip.setName(this.name);
-        trip.setServices(this.services);
+        trip.setTripServices(this.tripServices);
         trip.setTotalPrice(this.totalPrice);
         return trip;
     }

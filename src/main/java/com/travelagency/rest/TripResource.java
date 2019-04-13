@@ -47,7 +47,12 @@ public class TripResource {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Trip> getAll() {
+    public Optional<List<Trip>> getAll() {
         return tripController.getAllTrips();
+    }
+
+    @RequestMapping(value = "/all/{limit}", method = RequestMethod.GET)
+    public Optional<List<Trip>> getAll(@PathVariable int limit) {
+        return tripController.getAllTrips(limit);
     }
 }

@@ -1,7 +1,7 @@
 package com.travelagency.rest.DataTranfersObjects;
 
 import com.travelagency.model.Address;
-import com.travelagency.model.Service;
+import com.travelagency.model.TripService;
 import com.travelagency.model.ServiceType;
 import com.travelagency.model.Trip;
 
@@ -67,8 +67,8 @@ public class ServiceDTO {
         return date;
     }
 
-    public Service getService(){
-        Service service = new Service();
+    public TripService getService(){
+        TripService service = new TripService();
 
         service.setAddress(this.address);
         service.setDate(this.date);

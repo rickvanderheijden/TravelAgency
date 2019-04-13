@@ -10,6 +10,7 @@ public class TestTrip {
     private static final String Name = "Name";
     private static final String Name2 = "Name2";
     private static final String Description = "Description";
+    private static final String Summary = "Summary";
     private static final String ImageUrl= "ImageURL";
     private static final int TotalPrice = 0;
     private static final int TotalPrice2 = 2;
@@ -19,7 +20,7 @@ public class TestTrip {
 
     @Before
     public void setUp() {
-        trip = new Trip(Name, Description, ImageUrl, TotalPrice, Discount);
+        trip = new Trip(Name, Description, Summary, ImageUrl, TotalPrice, Discount);
     }
 
     @After

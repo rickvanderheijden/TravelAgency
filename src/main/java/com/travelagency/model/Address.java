@@ -16,13 +16,15 @@ public class Address {
     @NotNull
     private String address;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
     @Column(name = "zip_code")
     @NotNull
     private String zipCode;
+
+    public Address() {}
 
     public Address(String address, City city, String zipCode) {
         this.address = address;
