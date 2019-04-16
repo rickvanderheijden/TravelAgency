@@ -29,6 +29,10 @@ public class TripService {
     @NotNull
     private String description;
 
+    @Column(name = "image_url")
+    @NotNull
+    private String imageUrl;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -48,10 +52,11 @@ public class TripService {
 
     public TripService() {}
 
-    public TripService(@NotNull ServiceType serviceType, @NotNull String name, @NotNull String description, Address address, @NotNull int price, @NotNull Date date) {
+    public TripService(@NotNull ServiceType serviceType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, @NotNull Address address, @NotNull int price, @NotNull Date date) {
         this.serviceType = serviceType;
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.address = address;
         this.price = price;
         this.date = date;
@@ -87,6 +92,14 @@ public class TripService {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Address getAddress() {

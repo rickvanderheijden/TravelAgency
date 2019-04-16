@@ -16,7 +16,7 @@ public class City {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     @JsonIgnore
     private Country country;

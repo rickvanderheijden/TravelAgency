@@ -16,7 +16,7 @@ public class Address {
     @NotNull
     private String address;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 

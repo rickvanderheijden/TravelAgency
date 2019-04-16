@@ -41,4 +41,8 @@ public class TripServiceController {
         this.tripServiceRepository.deleteById(id);
         return true;
     }
+
+    public Optional<TripService> getByCityName(String cityName) {
+        return Optional.of(tripServiceRepository.getByAddressCityName(cityName));
+    }
 }
