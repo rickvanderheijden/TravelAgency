@@ -1,6 +1,7 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.UserController;
+import com.travelagency.model.Authority;
 import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;
@@ -50,6 +51,12 @@ public class UserResource {
         return userController.getUserFromToken(token);
     }
 
+    @RequestMapping(value = "/is-admin", method = RequestMethod.GET)
+    public boolean isUserAdmin(HttpServletRequest request) {
+        String token = request.getHeader(tokenHeader).substring(7);
+        return userController.getIsUserAdmin(token);
+    }
+
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getById(@PathVariable final Long id) {
@@ -67,4 +74,11 @@ public class UserResource {
     public Optional<User> getByEmailAddress(@PathVariable final String emailAddress) {
         return userController.getUserByEmailAddress(emailAddress);
     }
+
+    @RequestMapping(value = "/getAllAuthorities", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Authority> getAllAuthorities() {
+        return userController.getAllAuthorities();
+    }
+
 }
