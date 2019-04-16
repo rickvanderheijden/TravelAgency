@@ -1,9 +1,12 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "trip")
 public class Trip {
@@ -17,25 +20,47 @@ public class Trip {
     @NotNull
     private String name;
 
+    @Column(name = "summary", length = 500)
+    @NotNull
+    private String summary;
+
+    @Column(name = "description", length = 5000)
+    @NotNull
+    private String description;
+
+    @Column(name = "image_url")
+    @NotNull
+    private String imageUrl;
+
     @Column(name = "total_price", length = 10)
     @NotNull
-    private int total_price;
+    private int totalPrice;
 
-    @ManyToOne()
-    @JoinColumn(name = "discount_id")
-    private Discount discount;
+    @Column(name = "discount", length = 10)
+    private int discount;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "trip_service",
+    @ManyToMany(cascade = { CascadeType.MERGE })
+    @JoinTable(name = "trip_tripservice",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-    private List<Service> services;
+            inverseJoinColumns = @JoinColumn(name = "tripservice_id", referencedColumnName = "id"))
+    private List<TripService> tripServices;
 
-    public Trip(@NotNull String name, @NotNull int total_price, Discount discount) {
+    public Trip() {}
+
+    public Trip(
+            @NotNull String name,
+            @NotNull String description,
+            @NotNull String summary,
+            String imageUrl,
+            @NotNull int totalPrice,
+            int discount) {
         this.name = name;
-        this.total_price = total_price;
+        this.description = description;
+        this.summary = summary;
+        this.imageUrl = imageUrl;
+        this.totalPrice = totalPrice;
         this.discount = discount;
-        services = new ArrayList<>();
+        this.tripServices = new ArrayList<>();
     }
 
     public Long getId() {
@@ -54,34 +79,66 @@ public class Trip {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
     public int getTotalPrice() {
-        return total_price;
+        return totalPrice;
     }
 
-    public void setTotalPrice(int total_price) {
-        this.total_price = total_price;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public Discount getDiscount() {
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<TripService> getTripServices() {
+        return tripServices;
+    }
+
+    public void setTripServices(List<TripService> tripServices) {
+        this.tripServices = tripServices;
+    }
+
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Discount discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
-    public boolean addService(Service service){
+    public boolean addService(TripService tripService){
 
-        if(services.contains(service))
+        if(tripServices.contains(tripService))
             return false;
 
-        return services.add(service);
+        return tripServices.add(tripService);
     }
 
-    public boolean removeService(Service service){
-        if(!services.contains(service))
+    public boolean removeService(TripService tripService){
+        if(!tripServices.contains(tripService))
             return false;
 
-        return services.remove(service);
+        return tripServices.remove(tripService);
     }
 }

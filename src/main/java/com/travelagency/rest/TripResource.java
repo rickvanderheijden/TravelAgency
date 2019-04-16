@@ -2,10 +2,10 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.TripController;
 import com.travelagency.model.Trip;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,7 +14,6 @@ public class TripResource {
 
     private final TripController tripController;
 
-    @Autowired
     public TripResource(TripController tripController) {
         this.tripController = tripController;
     }
@@ -34,7 +33,7 @@ public class TripResource {
     }
 
     @RequestMapping(value = "/deleteTrip/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Trip> deleteTrip(@PathVariable long id) {
+    public ResponseEntity<Trip> deleteTrip(@PathVariable Long id) {
         boolean isDeleted = this.tripController.deleteTrip(id);
         if(!isDeleted){
             return ResponseEntity.notFound().build();
@@ -43,11 +42,17 @@ public class TripResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Trip> getById(@PathVariable long id) {
-        Trip foundedTrip = this.tripController.getById(id);
-        if(foundedTrip == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(foundedTrip);
+    public Optional<Trip> getById(@PathVariable final Long id) {
+        return tripController.getById(id);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Optional<List<Trip>> getAll() {
+        return tripController.getAllTrips();
+    }
+
+    @RequestMapping(value = "/all/{limit}", method = RequestMethod.GET)
+    public Optional<List<Trip>> getAll(@PathVariable int limit) {
+        return tripController.getAllTrips(limit);
     }
 }

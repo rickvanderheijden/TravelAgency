@@ -1,41 +1,55 @@
 package com.travelagency.controllers;
 
-import com.travelagency.repository.ITripRepository;
+import com.travelagency.model.TripService;
+import com.travelagency.repository.TripServiceRepository;
+import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
 public class TripController {
 
-    private ITripRepository tripRepository;
+    private final TripRepository tripRepository;
+    private final TripServiceRepository tripServiceRepository;
 
-    public TripController(ITripRepository tripRepository){
+    public TripController(TripRepository tripRepository, TripServiceRepository tripServiceRepository){
         this.tripRepository = tripRepository;
+        this.tripServiceRepository = tripServiceRepository;
     }
 
     public Optional<Trip> createTrip(Trip trip) {
-        if(trip.getId() != 0){
-            return null;
+        if(trip == null) return Optional.empty();
+
+        List<TripService> tripServices = new ArrayList<>();
+        for (TripService tripService : trip.getTripServices()) {
+            tripServices.add(tripServiceRepository.findById(tripService.getId()).get());
         }
-        return Optional.ofNullable(tripRepository.save(trip));
+
+        trip.setTripServices(tripServices);
+
+        return Optional.of(tripRepository.save(trip));
     }
 
-    public Trip getById(long id) { return this.tripRepository.getOne(id); }
+    public Optional<Trip> getById(Long id) {
+        return Optional.of(tripRepository.getOne(id));
+    }
 
     public Trip updateTrip(Trip updatedTrip) {
-        if(!this.tripRepository.existsById(updatedTrip.getId())){
+        if(!tripRepository.existsById(updatedTrip.getId())){
             return null;
         }
-        return this.tripRepository.save(updatedTrip);
+        return tripRepository.save(updatedTrip);
     }
 
-    public boolean deleteTrip(long id) {
-        boolean doesExist = this.tripRepository.existsById(id);
+    public boolean deleteTrip(Long id) {
+        boolean doesExist = tripRepository.existsById(id);
         if(!doesExist){
             return false;
         }
-        this.tripRepository.deleteById(id);
+        tripRepository.deleteById(id);
         return true;
     }
 
@@ -48,9 +62,17 @@ public class TripController {
         String[] searchKeywords = searchInput.split(" ");
         Set<Trip> result = new HashSet<>();
         for (String searchKeyword: searchKeywords) {
-            result.addAll(this.tripRepository.findByNameContains(searchKeyword));
+            result.addAll(tripRepository.findByNameContains(searchKeyword));
         }
         return result;
     }
 
+    public Optional<List<Trip>> getAllTrips() {
+        return Optional.of(tripRepository.findAll());
+    }
+
+    public Optional<List<Trip>> getAllTrips(int maximumNumber) {
+        Pageable limit = PageRequest.of(0,maximumNumber);
+        return Optional.of(tripRepository.findAll(limit).getContent());
+    }
 }

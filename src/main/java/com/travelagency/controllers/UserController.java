@@ -36,6 +36,7 @@ public class UserController {
         }
 
         user.setAuthorities(authorities);
+
         User createdUser = userRepository.save(user);
         return Optional.ofNullable(createdUser.getId());
     }

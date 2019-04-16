@@ -1,7 +1,5 @@
 package com.travelagency;
 
-import com.travelagency.model.AuthorityName;
-import com.travelagency.rest.AuthenticationResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,28 +16,11 @@ public class BackEndHost implements WebMvcConfigurer {
         ConfigurableApplicationContext context = SpringApplication.run(BackEndHost.class, args);
 
         //TODO: Remove when done testing
-        createTestUsers(context);
+        TestDataCreator testDataCreator = new TestDataCreator();
+        testDataCreator.setContext(context);
+        testDataCreator.createTestData();
 
         System.out.println("TravelAgency BackEnd is running");
-    }
-
-    private static void createTestUsers(ConfigurableApplicationContext context) {
-        context.getBean(AuthenticationResource.class).createAuthorities();
-        context.getBean(AuthenticationResource.class).createUser(
-                "user",
-                "user",
-                "userFirstName",
-                "userLastName",
-                "user@travelagency.com",
-                AuthorityName.ROLE_USER);
-
-        context.getBean(AuthenticationResource.class).createUser(
-                "admin",
-                "admin",
-                "adminFirstName",
-                "adminLastName",
-                "admin@travelagency.com",
-                AuthorityName.ROLE_ADMIN);
     }
 
     @Override

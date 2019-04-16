@@ -1,24 +1,26 @@
 package com.travelagency.unittest;
 
-import com.travelagency.model.Discount;
 import com.travelagency.model.Trip;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class TestTrip {
-    private static String Name = "Name";
-    private static String Name2 = "Name2";
-    private static int TotalPrice = 0;
-    private static int TotalPrice2 = 2;
+    private static final String Name = "Name";
+    private static final String Name2 = "Name2";
+    private static final String Description = "Description";
+    private static final String Summary = "Summary";
+    private static final String ImageUrl= "ImageURL";
+    private static final int TotalPrice = 0;
+    private static final int TotalPrice2 = 2;
+    private static final int Discount = 230;
+    private static final int Discount2 = 130;
     private Trip trip;
 
     @Before
     public void setUp() {
-        Discount discount = Mockito.mock(Discount.class);
-        trip = new Trip(Name, TotalPrice, discount);
+        trip = new Trip(Name, Description, Summary, ImageUrl, TotalPrice, Discount);
     }
 
     @After
@@ -42,12 +44,11 @@ public class TestTrip {
         Assert.assertEquals(TotalPrice2, trip.getTotalPrice()); }
 
     @Test
-    public void testGetDiscount() { Assert.assertNotNull(trip.getDiscount()); }
+    public void testGetDiscount() { Assert.assertEquals(Discount, trip.getDiscount()); }
 
     @Test
     public void testSetDiscount() {
-        Discount d = Mockito.mock(Discount.class);
-        trip.setDiscount(d);
-        Assert.assertEquals(d, trip.getDiscount());
+        trip.setDiscount(Discount2);
+        Assert.assertEquals(Discount2, trip.getDiscount());
     }
 }
