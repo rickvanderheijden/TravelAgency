@@ -1,6 +1,8 @@
 package com.travelagency.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.travelagency.model.Authority;
+import com.travelagency.model.AuthorityName;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
 import com.travelagency.repository.UserRepository;
@@ -57,7 +59,7 @@ public class UserController {
             User userInDB = userRepository.findByUsername(userDTO.getUsername());
 
             if ((username != null) && (userInDB != null) &&
-                    (username.equals(userDTO.getUsername()))) {
+                    (username.equals(userDTO.getUsername()) || this.getIsUserAdmin(token))) {
                 userInDB.setEmailAddress(userDTO.getEmailAddress());
                 userInDB.setFirstname(userDTO.getFirstname());
                 userInDB.setLastname(userDTO.getLastname());
@@ -84,5 +86,22 @@ public class UserController {
     public Optional<User> getUserFromToken(String token) {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         return getUserByUsername(username);
+    }
+
+    public boolean getIsUserAdmin(String token) {
+        boolean isAdmin = false;
+        Optional<User> user = getUserFromToken(token);
+        if(user.isPresent()) {
+            for( Authority authority : user.get().getAuthorities()) {
+                if(authority.getName() == AuthorityName.ROLE_ADMIN) {
+                    isAdmin = true;
+                }
+            }
+        }
+        return isAdmin;
+    }
+
+    public List<Authority> getAllAuthorities() {
+        return this.authorityRepository.findAll();
     }
 }
