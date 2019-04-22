@@ -5,6 +5,7 @@ import com.travelagency.model.TripService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,5 +31,10 @@ public class TripServiceResource {
     @RequestMapping(value = "/first", method = RequestMethod.GET)
     public Optional<TripService> getFirst() {
         return tripServiceController.getFirst();
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Optional<List<TripService>> getAll() {
+        return tripServiceController.getAllTripServices();
     }
 }

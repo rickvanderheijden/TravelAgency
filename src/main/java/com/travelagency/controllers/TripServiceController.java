@@ -2,8 +2,11 @@ package com.travelagency.controllers;
 
 import com.travelagency.model.TripService;
 import com.travelagency.repository.TripServiceRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +47,14 @@ public class TripServiceController {
 
     public Optional<TripService> getByCityName(String cityName) {
         return Optional.of(tripServiceRepository.getByAddressCityName(cityName));
+    }
+
+    public Optional<List<TripService>> getAllTripServices() {
+        return Optional.of(tripServiceRepository.findAll());
+    }
+
+    public Optional<List<TripService>> getAllTripServies(int maximumNumber) {
+        Pageable limit = PageRequest.of(0,maximumNumber);
+        return Optional.of(tripServiceRepository.findAll(limit).getContent());
     }
 }
