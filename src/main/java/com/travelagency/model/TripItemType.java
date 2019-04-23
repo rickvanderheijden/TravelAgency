@@ -1,5 +1,5 @@
 package com.travelagency.model;
 
-public enum ServiceType {
+public enum TripItemType {
     HOTEL, OUTING, PRODUCT
 }
