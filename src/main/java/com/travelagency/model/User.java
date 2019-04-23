@@ -70,6 +70,13 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private List<Authority> authorities;
 
+    @ManyToMany()
+    @JoinTable(
+            name = "user_group",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "travel_group_id", referencedColumnName = "id")})
+    private List<TravelGroup> travelGroups;
+
     public Long getId() {
         return id;
     }

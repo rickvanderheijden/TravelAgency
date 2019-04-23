@@ -2,6 +2,7 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.Authority;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;

@@ -1,10 +1,11 @@
 package com.travelagency.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
@@ -91,9 +92,9 @@ public class UserController {
     public boolean getIsUserAdmin(String token) {
         boolean isAdmin = false;
         Optional<User> user = getUserFromToken(token);
-        if(user.isPresent()) {
-            for( Authority authority : user.get().getAuthorities()) {
-                if(authority.getName() == AuthorityName.ROLE_ADMIN) {
+        if (user.isPresent()) {
+            for (Authority authority : user.get().getAuthorities()) {
+                if (authority.getName() == AuthorityName.ROLE_ADMIN) {
                     isAdmin = true;
                 }
             }
