@@ -1,6 +1,5 @@
 package com.travelagency.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
 import com.travelagency.model.User;

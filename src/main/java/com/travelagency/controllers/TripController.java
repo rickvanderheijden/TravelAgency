@@ -1,7 +1,7 @@
 package com.travelagency.controllers;
 
-import com.travelagency.model.TripService;
-import com.travelagency.repository.TripServiceRepository;
+import com.travelagency.model.TripItem;
+import com.travelagency.repository.TripItemRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import org.springframework.data.domain.PageRequest;
@@ -13,22 +13,22 @@ import java.util.*;
 public class TripController {
 
     private final TripRepository tripRepository;
-    private final TripServiceRepository tripServiceRepository;
+    private final TripItemRepository tripItemRepository;
 
-    public TripController(TripRepository tripRepository, TripServiceRepository tripServiceRepository){
+    public TripController(TripRepository tripRepository, TripItemRepository tripItemRepository){
         this.tripRepository = tripRepository;
-        this.tripServiceRepository = tripServiceRepository;
+        this.tripItemRepository = tripItemRepository;
     }
 
     public Optional<Trip> createTrip(Trip trip) {
         if(trip == null) return Optional.empty();
 
-        List<TripService> tripServices = new ArrayList<>();
-        for (TripService tripService : trip.getTripServices()) {
-            tripServices.add(tripServiceRepository.findById(tripService.getId()).get());
+        List<TripItem> tripItems = new ArrayList<>();
+        for (TripItem tripItem : trip.getTripItems()) {
+            tripItems.add(tripItemRepository.findById(tripItem.getId()).get());
         }
 
-        trip.setTripServices(tripServices);
+        trip.setTripItems(tripItems);
 
         return Optional.of(tripRepository.save(trip));
     }
