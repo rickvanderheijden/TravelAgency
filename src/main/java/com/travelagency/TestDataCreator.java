@@ -1,10 +1,10 @@
 package com.travelagency;
 
 import com.travelagency.controllers.GeographyController;
-import com.travelagency.controllers.TripServiceController;
+import com.travelagency.controllers.TripItemController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
-import com.travelagency.rest.TripServiceResource;
+import com.travelagency.rest.TripItemResource;
 import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -27,7 +27,7 @@ class TestDataCreator {
         createTestContinents();
         createTestCountries();
         createTestCities();
-        createTestServices();
+        createTestTripItems();
         createTestTrips();
     }
 
@@ -192,14 +192,14 @@ class TestDataCreator {
         }
     }
 
-    private void createTestServices() {
+    private void createTestTripItems() {
         if (context != null) {
 
             Optional<City> city = context.getBean(GeographyController.class).getCity("Honolulu");
 
             if (city.isPresent()) {
-                TripService tripService = new TripService(
-                        ServiceType.OUTING,
+                TripItem tripItem = new TripItem(
+                        TripItemType.OUTING,
                         "Turtle Canyon snorkelcruise per catamaran",
                         "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.",
                         "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/77/93/9b.jpg",
@@ -207,14 +207,14 @@ class TestDataCreator {
                         140,
                         new Date());
 
-                context.getBean(TripServiceResource.class).createService(tripService);
+                context.getBean(TripItemResource.class).createTripItem(tripItem);
             }
 
             city = context.getBean(GeographyController.class).getCity("Haleiwa");
 
             if (city.isPresent()) {
-                TripService tripService = new TripService(
-                        ServiceType.OUTING,
+                TripItem tripItem = new TripItem(
+                        TripItemType.OUTING,
                         "Hang Gliding Hawaii",
                         "Geweldige manier om te zien Oahu vanuit de hemel. Dit is zeker één van de coolste dingen die je gaat doen op deze reis. Vlieg gedurende de tijd van de zonsopkomst door de lucht boven Oahu.",
                         "https://media-cdn.tripadvisor.com/media/photo-o/0a/54/dc/01/lightning-bolt-optical.jpg",
@@ -222,7 +222,7 @@ class TestDataCreator {
                         140,
                         new Date());
 
-                context.getBean(TripServiceResource.class).createService(tripService);
+                context.getBean(TripItemResource.class).createTripItem(tripItem);
             }
 
 
@@ -248,16 +248,16 @@ class TestDataCreator {
                     1599,
                     0);
 
-            Optional<TripService> tripService = context.getBean(TripServiceController.class).getByCityName("Honolulu");
+            Optional<TripItem> tripItem = context.getBean(TripItemController.class).getByCityName("Honolulu");
 
-            if (tripService.isPresent()) {
-                trip.addService(tripService.get());
+            if (tripItem.isPresent()) {
+                trip.addTripItem(tripItem.get());
             }
 
-            tripService = context.getBean(TripServiceController.class).getByCityName("Haleiwa");
+            tripItem = context.getBean(TripItemController.class).getByCityName("Haleiwa");
 
-            if (tripService.isPresent()) {
-                trip.addService(tripService.get());
+            if (tripItem.isPresent()) {
+                trip.addTripItem(tripItem.get());
             }
 
             context.getBean(TripResource.class).createTrip(trip);
@@ -278,8 +278,8 @@ class TestDataCreator {
                     1645,
                     0);
 
-            if (tripService.isPresent()) {
-                trip.addService(tripService.get());
+            if (tripItem.isPresent()) {
+                trip.addTripItem(tripItem.get());
             }
 
             context.getBean(TripResource.class).createTrip(trip);
