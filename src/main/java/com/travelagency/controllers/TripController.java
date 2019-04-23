@@ -24,8 +24,11 @@ public class TripController {
         if(trip == null) return Optional.empty();
 
         List<TripItem> tripItems = new ArrayList<>();
-        for (TripItem tripItem : trip.getTripItems()) {
-            tripItems.add(tripItemRepository.findById(tripItem.getId()).get());
+
+        if (trip.getTripItems() != null) {
+            for (TripItem tripItem : trip.getTripItems()) {
+                tripItems.add(tripItemRepository.findById(tripItem.getId()).get());
+            }
         }
 
         trip.setTripItems(tripItems);
