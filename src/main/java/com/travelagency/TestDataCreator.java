@@ -1,13 +1,18 @@
 package com.travelagency;
 
 import com.travelagency.controllers.GeographyController;
+import com.travelagency.controllers.TravelGroupController;
 import com.travelagency.controllers.TripServiceController;
+import com.travelagency.controllers.UserController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
+import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.rest.TripServiceResource;
 import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -29,6 +34,7 @@ class TestDataCreator {
         createTestCities();
         createTestServices();
         createTestTrips();
+        createTestTravelGroups();
     }
 
     private void createTestUsers() {
@@ -283,6 +289,32 @@ class TestDataCreator {
             }
 
             context.getBean(TripResource.class).createTrip(trip);
+        }
+    }
+
+    private void createTestTravelGroups() {
+        if(context!=null){
+            String[] names = {"50+ Reisgroep", "De Daarduivels", "Benidorm Bastards",
+                    "De vriendloze", "De 5-vijvers"};
+
+            ArrayList<TravelGroup> travelGroups = new ArrayList<>();
+
+
+            UserController userController = context.getBean(UserController.class);
+            TravelGroupController travelGroupController = context.getBean(TravelGroupController.class);
+
+            String username = "user";
+            Optional<User> oUser =  userController.getUserByUsername(username);
+
+            if (oUser!=null){
+                User user = oUser.get();
+                user.setTravelGroups(travelGroups);
+            for (String name : names) {
+               user.addTravelGroup(travelGroupController.createTravelGroup(name).get());
+            }
+            }
+
+
         }
     }
 }

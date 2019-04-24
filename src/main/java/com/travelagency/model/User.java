@@ -148,4 +148,28 @@ public class User {
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+
+    public List<TravelGroup> getTravelGroups() {
+        return travelGroups;
+    }
+
+    public void setTravelGroups(List<TravelGroup> travelGroups) {
+        this.travelGroups = travelGroups;
+    }
+
+    public boolean addTravelGroup(TravelGroup travelGroup) {
+
+        if(travelGroups.contains(travelGroup))
+            return  false;
+
+        return travelGroups.add(travelGroup);
+    }
+
+    public boolean removeTravelGroup(TravelGroup travelGroup) {
+
+        if(!travelGroups.contains(travelGroup))
+            return  false;
+
+        return travelGroups.remove(travelGroup);
+    }
 }

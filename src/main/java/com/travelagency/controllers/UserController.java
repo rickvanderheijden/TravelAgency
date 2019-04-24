@@ -105,4 +105,6 @@ public class UserController {
     public List<Authority> getAllAuthorities() {
         return this.authorityRepository.findAll();
     }
+
+    public boolean addTravelGroup(TravelGroup travelGroup)
 }

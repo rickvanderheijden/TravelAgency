@@ -19,6 +19,13 @@ public class TravelGroupController {
         return Optional.of(travelGroupRepository.save(travelGroup));
     }
 
+    public Optional<TravelGroup> createTravelGroup(String travelGroupName){
+        if(travelGroupName == null) return Optional.empty();
+
+        TravelGroup travelGroup = new TravelGroup(travelGroupName);
+        return Optional.of(travelGroupRepository.save(travelGroup));
+    }
+
     public TravelGroup getById(Long id) { return  this.travelGroupRepository.getOne(id); }
 
     public TravelGroup updateTravelGroup(TravelGroup updatedTravelGroup) {
