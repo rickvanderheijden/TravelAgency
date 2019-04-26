@@ -1,9 +1,11 @@
 package com.travelagency.controllers;
 
+import com.travelagency.model.Trip;
 import com.travelagency.model.TripItem;
 import com.travelagency.repository.TripItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +46,9 @@ public class TripItemController {
 
     public Optional<TripItem> getByCityName(String cityName) {
         return Optional.of(tripItemRepository.getByAddressCityName(cityName));
+    }
+
+    public Optional<List<TripItem>> getAllTripItems() {
+        return Optional.of(tripItemRepository.findAll());
     }
 }

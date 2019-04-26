@@ -1,10 +1,12 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.TripItemController;
+import com.travelagency.model.Trip;
 import com.travelagency.model.TripItem;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,5 +32,10 @@ public class TripItemResource {
     @RequestMapping(value = "/first", method = RequestMethod.GET)
     public Optional<TripItem> getFirst() {
         return tripItemController.getFirst();
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Optional<List<TripItem>> getAll() {
+        return tripItemController.getAllTripItems();
     }
 }
