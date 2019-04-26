@@ -41,7 +41,7 @@ public class TripItem {
     @NotNull
     private int price;
 
-    @ManyToMany(mappedBy = "tripItems", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tripItems", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Trip> trips;
 

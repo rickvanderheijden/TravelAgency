@@ -25,15 +25,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtAuthorizationTokenFilter authenticationTokenFilter;
 
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
-
-    // Custom JWT based security filter
-    @Autowired
-    JwtAuthorizationTokenFilter authenticationTokenFilter;
+    public WebSecurityConfig(
+            JwtAuthenticationEntryPoint unauthorizedHandler,
+            JwtUserDetailsService jwtUserDetailsService,
+            JwtAuthorizationTokenFilter authenticationTokenFilter ) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.authenticationTokenFilter = authenticationTokenFilter;
+    }
 
     @Value("${jwt.header}")
     private String tokenHeader;
