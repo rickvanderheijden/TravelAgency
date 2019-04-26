@@ -1,14 +1,15 @@
 package com.travelagency;
 
 import com.travelagency.controllers.GeographyController;
+import com.travelagency.controllers.TravelController;
+import com.travelagency.controllers.TripController;
 import com.travelagency.controllers.TripItemController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
-import com.travelagency.rest.TripItemResource;
-import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 class TestDataCreator {
@@ -29,6 +30,7 @@ class TestDataCreator {
         createTestCities();
         createTestTripItems();
         createTestTrips();
+        createTestTravels();
     }
 
     private void createTestUsers() {
@@ -207,7 +209,7 @@ class TestDataCreator {
                         140,
                         new Date());
 
-                context.getBean(TripItemResource.class).createTripItem(tripItem);
+                context.getBean(TripItemController.class).createTripItem(tripItem);
             }
 
             city = context.getBean(GeographyController.class).getCity("Haleiwa");
@@ -222,7 +224,7 @@ class TestDataCreator {
                         140,
                         new Date());
 
-                context.getBean(TripItemResource.class).createTripItem(tripItem);
+                context.getBean(TripItemController.class).createTripItem(tripItem);
             }
 
 
@@ -260,7 +262,7 @@ class TestDataCreator {
                 trip.addTripItem(tripItem.get());
             }
 
-            context.getBean(TripResource.class).createTrip(trip);
+            context.getBean(TripController.class).createTrip(trip);
 
             trip = new Trip(
                     "IN DE BAN VAN HET NOORDERLICHT",
@@ -282,7 +284,19 @@ class TestDataCreator {
                 trip.addTripItem(tripItem.get());
             }
 
-            context.getBean(TripResource.class).createTrip(trip);
+            context.getBean(TripController.class).createTrip(trip);
+        }
+    }
+
+    private void createTestTravels() {
+        if (context != null) {
+            Trip trip = context.getBean(TripController.class).getAllTrips(1).get().get(0);
+            Travel travel = new Travel(trip);
+
+            List<TripItem> tripItems = trip.getTripItems();
+            travel.setTripItems(tripItems);
+
+            context.getBean(TravelController.class).createTravel(travel);
         }
     }
 }
