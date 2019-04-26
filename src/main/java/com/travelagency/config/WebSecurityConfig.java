@@ -29,6 +29,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtAuthorizationTokenFilter authenticationTokenFilter;
 
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
+    @Value("/auth")
+    private String authenticationPath;
+    
     public WebSecurityConfig(
             JwtAuthenticationEntryPoint unauthorizedHandler,
             JwtUserDetailsService jwtUserDetailsService,
@@ -37,12 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.authenticationTokenFilter = authenticationTokenFilter;
     }
-
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
-    @Value("/auth")
-    private String authenticationPath;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
