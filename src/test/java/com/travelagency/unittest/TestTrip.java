@@ -1,10 +1,12 @@
 package com.travelagency.unittest;
 
 import com.travelagency.model.Trip;
+import com.travelagency.model.TripItem;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class TestTrip {
     private static final String Name = "Name";
@@ -50,5 +52,35 @@ public class TestTrip {
     public void testSetDiscount() {
         trip.setDiscount(Discount2);
         Assert.assertEquals(Discount2, trip.getDiscount());
+    }
+
+    @Test
+    public void testGetTripItemsNotNullWhenNotSet() {
+        Assert.assertNotNull(trip.getTripItems());
+    }
+
+    @Test
+    public void testGetTripItemsNotNullWhenSetToNull() {
+        trip.setTripItems(null);
+        Assert.assertNotNull(trip.getTripItems());
+    }
+
+    @Test
+    public void testGetTripItemsAfterAddingIdenticalTripItems() {
+        TripItem tripItem = Mockito.mock(TripItem.class);
+        trip.addTripItem(tripItem);
+        trip.addTripItem(tripItem);
+
+        Assert.assertEquals(1, trip.getTripItems().size());
+    }
+
+    @Test
+    public void testGetTripItemsAfterAddingUnidenticalTripItems() {
+        TripItem tripItem  = Mockito.mock(TripItem.class);
+        TripItem tripItem2 = Mockito.mock(TripItem.class);
+        trip.addTripItem(tripItem);
+        trip.addTripItem(tripItem2);
+
+        Assert.assertEquals(2, trip.getTripItems().size());
     }
 }
