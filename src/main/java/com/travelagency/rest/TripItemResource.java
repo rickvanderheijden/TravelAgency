@@ -1,7 +1,6 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.TripItemController;
-import com.travelagency.model.Trip;
 import com.travelagency.model.TripItem;
 import org.springframework.web.bind.annotation.*;
 
