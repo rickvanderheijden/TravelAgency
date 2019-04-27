@@ -1,6 +1,5 @@
 package com.travelagency.controllers;
 
-import com.travelagency.model.Trip;
 import com.travelagency.model.TripItem;
 import com.travelagency.repository.TripItemRepository;
 import org.springframework.stereotype.Service;
