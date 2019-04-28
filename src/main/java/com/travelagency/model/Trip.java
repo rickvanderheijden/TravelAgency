@@ -39,7 +39,7 @@ public class Trip {
     @Column(name = "discount", length = 10)
     private int discount;
 
-    @ManyToMany(cascade = { CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "trip_tripitem",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
@@ -116,7 +116,11 @@ public class Trip {
     }
 
     public void setTripItems(List<TripItem> tripItems) {
-        this.tripItems = tripItems;
+        if (tripItems == null) {
+            this.tripItems = new ArrayList<>();
+        } else {
+            this.tripItems = tripItems;
+        }
     }
 
     public int getDiscount() {
