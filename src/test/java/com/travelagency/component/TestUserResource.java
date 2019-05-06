@@ -2,6 +2,7 @@ package com.travelagency.component;
 
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.UserCredentials;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.restassured.RestAssured;
@@ -81,7 +82,8 @@ public class TestUserResource {
     public void testCreateUserWithAdminAccount() {
         login(AdminLogin, AdminPassword);
         List<Authority> authorities = Collections.singletonList(new Authority(AuthorityName.ROLE_USER));
-        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", true, authorities);
+        List<TravelGroup> travelGroups = new ArrayList<>();
+        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", true, authorities, travelGroups);
         RestAssured.given().contentType("application/json").header(header).body(user).when().post("/users/create").then().statusCode(StatusCodeOK);
     }
 

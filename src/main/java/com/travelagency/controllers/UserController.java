@@ -106,5 +106,12 @@ public class UserController {
         return this.authorityRepository.findAll();
     }
 
-    public boolean addTravelGroup(TravelGroup travelGroup)
+    public boolean addTravelGroup(TravelGroup travelGroup, Long id) {
+        Optional<User> user = getUserById(id);
+        if (user.isPresent()) {
+            user.get().addTravelGroup(travelGroup);
+            userRepository.save(user.get());
+        }
+        return true;
+    }
 }

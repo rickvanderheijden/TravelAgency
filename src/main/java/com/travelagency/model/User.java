@@ -70,9 +70,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private List<Authority> authorities;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_group",
+            name = "user_travelgroup",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "travel_group_id", referencedColumnName = "id")})
     private List<TravelGroup> travelGroups;

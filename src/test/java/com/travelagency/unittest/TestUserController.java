@@ -3,6 +3,7 @@ package com.travelagency.unittest;
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
 import com.travelagency.repository.UserRepository;
@@ -205,8 +206,9 @@ public class TestUserController {
 
     private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress) {
         List<Authority> authorities = new ArrayList<>();
+        List<TravelGroup> travelGroups = new ArrayList<>();
         authorities.add(getAuthority());
-        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities);
+        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities, travelGroups);
     }
 
     private User getUser() {

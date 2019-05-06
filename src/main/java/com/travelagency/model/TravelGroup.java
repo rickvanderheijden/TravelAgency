@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "travel_group")
+@Table(name = "travelgroup")
 public class TravelGroup {
 
     @Id
@@ -21,7 +21,7 @@ public class TravelGroup {
     @NotNull
     private String name;
 
-    @ManyToMany(mappedBy = "travelGroups", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "travelGroups", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<User> users;
 

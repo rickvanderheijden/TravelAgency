@@ -120,8 +120,7 @@ class TestDataCreator {
         }
     }
 
-    private void createTestCitiesNorthAmerica()
-    {
+    private void createTestCitiesNorthAmerica() {
         if (context != null) {
 
             String[][] cities = {
@@ -293,7 +292,7 @@ class TestDataCreator {
     }
 
     private void createTestTravelGroups() {
-        if(context!=null){
+        if (context != null) {
             String[] names = {"50+ Reisgroep", "De Daarduivels", "Benidorm Bastards",
                     "De vriendloze", "De 5-vijvers"};
 
@@ -303,18 +302,12 @@ class TestDataCreator {
             UserController userController = context.getBean(UserController.class);
             TravelGroupController travelGroupController = context.getBean(TravelGroupController.class);
 
-            String username = "user";
-            Optional<User> oUser =  userController.getUserByUsername(username);
+            long id = 1;
 
-            if (oUser!=null){
-                User user = oUser.get();
-                user.setTravelGroups(travelGroups);
             for (String name : names) {
-               user.addTravelGroup(travelGroupController.createTravelGroup(name).get());
+                userController.addTravelGroup(travelGroupController.createTravelGroup(name).get(), id);
             }
-            }
-
-
         }
     }
 }
+
