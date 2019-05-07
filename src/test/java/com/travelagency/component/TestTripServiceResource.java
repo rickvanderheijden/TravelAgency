@@ -30,8 +30,8 @@ public class TestTripServiceResource {
         Country country = new Country("Nederland", continent);
         City city = new City("IJmuiden",country);
         Address address = new Address("Address",city,"1900AA");
-        TripService tripService = new TripService(ServiceType.HOTEL, "Service", "Description", "/image.png", address,10,new Date());
-        RestAssured.given().contentType("application/json").header(header).body(tripService).when().post("/services/createService").then().statusCode(StatusCodeOK);
+        TripItem tripItem = new TripItem(TripItemType.HOTEL, "Service", "Description", "/image.png", address,10,new Date());
+        RestAssured.given().contentType("application/json").header(header).body(tripItem).when().post("/services/createService").then().statusCode(StatusCodeOK);
     }
 
     @Test
