@@ -296,16 +296,17 @@ class TestDataCreator {
             String[] names = {"50+ Reisgroep", "De Daarduivels", "Benidorm Bastards",
                     "De vriendloze", "De 5-vijvers"};
 
-            ArrayList<TravelGroup> travelGroups = new ArrayList<>();
-
-
             UserController userController = context.getBean(UserController.class);
             TravelGroupController travelGroupController = context.getBean(TravelGroupController.class);
 
-            long id = 1;
+            String username = "user";
 
             for (String name : names) {
-                userController.addTravelGroup(travelGroupController.createTravelGroup(name).get(), id);
+                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name);
+
+                if (travelGroup.isPresent()) {
+                    userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username));
+                }
             }
         }
     }

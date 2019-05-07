@@ -1,6 +1,8 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Date;
 import java.util.List;
@@ -64,6 +66,7 @@ public class User {
     private Date lastPasswordResetDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -71,6 +74,7 @@ public class User {
     private List<Authority> authorities;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "user_travelgroup",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
