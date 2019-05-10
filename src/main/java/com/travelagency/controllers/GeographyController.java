@@ -8,6 +8,7 @@ import com.travelagency.repository.ContinentRepository;
 import com.travelagency.repository.CountryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,4 +67,10 @@ public class GeographyController {
         if(name == null) return Optional.empty();
         return Optional.of(cityRepository.findByName(name));
     }
+
+    public List<City> getAllCities() {
+        return cityRepository.findAll();
+    }
+    public List<Country> getAllCountries() { return countryRepository.findAll(); }
+    public List<Continent> getAllContinents() { return continentRepository.findAll(); }
 }
