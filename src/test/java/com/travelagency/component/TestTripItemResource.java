@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import java.util.Date;
 
+@SuppressWarnings("SameParameterValue")
 public class TestTripItemResource {
 
     private static final int StatusCodeOK = 200;
-    private static final int StatusCodeUnauthorized = 401;
     private static final int StatusCodeNotFound = 404;
     private Header header;
 
