@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("/auth")
     private String authenticationPath;
-    
+
     public WebSecurityConfig(
             JwtAuthenticationEntryPoint unauthorizedHandler,
             JwtUserDetailsService jwtUserDetailsService,
@@ -78,6 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/trips/**").permitAll()
+                .antMatchers("/tripItems/**").permitAll()
                 .antMatchers("/geo/**").permitAll()
                 .anyRequest().authenticated();
 

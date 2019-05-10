@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class TestTravel {
     private Travel travel;
     private Trip trip;

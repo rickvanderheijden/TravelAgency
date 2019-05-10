@@ -2,6 +2,8 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.TripItemController;
 import com.travelagency.model.TripItem;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,13 +21,16 @@ public class TripItemResource {
     }
 
     @RequestMapping(value = "/createTripItem", method = RequestMethod.POST)
-    public Optional<TripItem> createTripItem(@Valid @RequestBody TripItem tripItem) {
-        return tripItemController.createTripItem(tripItem);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TripItem> createTripItem(@Valid @RequestBody TripItem tripItem) {
+
+        Optional<TripItem> createdTripItem = tripItemController.createTripItem(tripItem);
+        return createdTripItem.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Optional<TripItem> getById(@PathVariable final Long id) {
-        return Optional.of(tripItemController.getById(id));
+        return Optional.ofNullable(tripItemController.getById(id));
     }
 
     @RequestMapping(value = "/first", method = RequestMethod.GET)
