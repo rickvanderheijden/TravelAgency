@@ -1,8 +1,10 @@
 package com.travelagency.controllers;
 
+import com.travelagency.model.Address;
 import com.travelagency.model.City;
 import com.travelagency.model.Continent;
 import com.travelagency.model.Country;
+import com.travelagency.repository.AddressRepository;
 import com.travelagency.repository.CityRepository;
 import com.travelagency.repository.ContinentRepository;
 import com.travelagency.repository.CountryRepository;
@@ -14,10 +16,13 @@ import java.util.Optional;
 public class GeographyController {
 
     private final CityRepository cityRepository;
+    private final AddressRepository addressRepository;
     private final ContinentRepository continentRepository;
     private final CountryRepository countryRepository;
 
-    public GeographyController(CityRepository cityRepository, ContinentRepository continentRepository, CountryRepository countryRepository) {
+    public GeographyController(AddressRepository addressRepository, CityRepository cityRepository,
+                               ContinentRepository continentRepository, CountryRepository countryRepository) {
+        this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
         this.continentRepository = continentRepository;
         this.countryRepository = countryRepository;
@@ -33,7 +38,7 @@ public class GeographyController {
     public Optional<Continent> getContinent(String name) {
         if(name == null) return Optional.empty();
 
-        return Optional.of(continentRepository.findByName(name));
+        return Optional.ofNullable(continentRepository.findByName(name));
     }
 
     public Optional<Country> createCountry(String name, Continent continent) {
@@ -47,7 +52,7 @@ public class GeographyController {
     public Optional<Country> getCountry(String name) {
         if(name == null) return Optional.empty();
 
-        return Optional.of(countryRepository.findByName(name));
+        return Optional.ofNullable(countryRepository.findByName(name));
     }
 
     public Optional<City> createCity(String name, Country country) {
@@ -64,6 +69,23 @@ public class GeographyController {
 
     public Optional<City> getCity(String name) {
         if(name == null) return Optional.empty();
-        return Optional.of(cityRepository.findByName(name));
+        return Optional.ofNullable(cityRepository.findByName(name));
+    }
+
+    public Optional<Address> createAddress(String street, String zipCode, City city) {
+        if(street == null) return Optional.empty();
+        if(zipCode == null) return Optional.empty();
+        if(city == null) return Optional.empty();
+
+        Address address = new Address(street, zipCode, city);
+        return Optional.of(addressRepository.save(address));
+    }
+
+    public Optional<Address> getAddress(Address address) {
+        if (address == null) return Optional.empty();
+
+        Address result = addressRepository.findByAddressLineAndCityName(address.getAddressLine(), address.getCity().getName());
+
+        return Optional.ofNullable(result);
     }
 }
