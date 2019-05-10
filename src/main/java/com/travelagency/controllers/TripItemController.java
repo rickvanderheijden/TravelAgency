@@ -1,5 +1,6 @@
 package com.travelagency.controllers;
 
+import com.travelagency.model.Address;
 import com.travelagency.model.TripItem;
 import com.travelagency.repository.TripItemRepository;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,25 @@ import java.util.Optional;
 @Service
 public class TripItemController {
 
+    private final GeographyController geographyController;
     private final TripItemRepository tripItemRepository;
 
-    public TripItemController(TripItemRepository tripItemRepository) {
-        this.tripItemRepository = tripItemRepository; }
+    public TripItemController(TripItemRepository tripItemRepository, GeographyController geographyController) {
+        this.tripItemRepository = tripItemRepository;
+        this.geographyController = geographyController;
+    }
 
     public Optional<TripItem> createTripItem(TripItem tripItem) {
+        if (tripItem == null) return Optional.empty();
+
+        Address address = tripItem.getAddress();
+        if (address == null) return Optional.empty();
+
+        Optional<Address> addressInDatabase = geographyController.getAddress(address);
+        if (!addressInDatabase.isPresent()) return Optional.empty();
+
+        tripItem.setAddress(addressInDatabase.get());
+
         return Optional.of(tripItemRepository.save(tripItem));
     }
 
@@ -44,7 +58,7 @@ public class TripItemController {
     }
 
     public Optional<TripItem> getByCityName(String cityName) {
-        return Optional.of(tripItemRepository.getByAddressCityName(cityName));
+        return Optional.ofNullable(tripItemRepository.getByAddressCityName(cityName));
     }
 
     public Optional<List<TripItem>> getAllTripItems() {

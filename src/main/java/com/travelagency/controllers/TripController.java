@@ -27,7 +27,10 @@ public class TripController {
 
         if (trip.getTripItems() != null) {
             for (TripItem tripItem : trip.getTripItems()) {
-                tripItems.add(tripItemRepository.findById(tripItem.getId()).get());
+                Optional<TripItem> item = tripItemRepository.findById(tripItem.getId());
+                if (item.isPresent()) {
+                    tripItems.add(item.get());
+                }
             }
         }
 

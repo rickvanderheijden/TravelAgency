@@ -8,6 +8,7 @@ import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ class TestDataCreator {
         createTestContinents();
         createTestCountries();
         createTestCities();
+        createTestAddresses();
         createTestTripItems();
         createTestTrips();
         createTestTravels();
@@ -76,6 +78,21 @@ class TestDataCreator {
         createTestCitiesNorthAmerica();
     }
 
+    private void createTestAddresses() {
+        createTestAddressesEurope();
+    }
+
+    private void createTestAddressesEurope() {
+        if (context != null) {
+            GeographyController geographyController = context.getBean(GeographyController.class);
+
+            Optional<City> city = geographyController.getCity("Rotterdam");
+            if (city.isPresent()) {
+                geographyController.createAddress("Address", "1900AA", city.get());
+            }
+        }
+    }
+
     private void createTestCitiesEurope() {
         if (context != null) {
 
@@ -110,8 +127,10 @@ class TestDataCreator {
             GeographyController geographyController = context.getBean(GeographyController.class);
 
             for (String[] city : cities) {
-                Country country = geographyController.getCountry(city[1]).get();
-                geographyController.createCity(city[0], country);
+                Optional<Country> country = geographyController.getCountry(city[1]);
+                if (country.isPresent()) {
+                    geographyController.createCity(city[0], country.get());
+                }
             }
         }
     }
@@ -147,8 +166,8 @@ class TestDataCreator {
             GeographyController geographyController = context.getBean(GeographyController.class);
 
             for (String[] city : cities) {
-                Country country = geographyController.getCountry(city[1]).get();
-                geographyController.createCity(city[0], country);
+                Optional<Country> country = geographyController.getCountry(city[1]);
+                geographyController.createCity(city[0], country.get());
             }
         }
     }
@@ -205,7 +224,7 @@ class TestDataCreator {
                         "Turtle Canyon snorkelcruise per catamaran",
                         "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.",
                         "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/77/93/9b.jpg",
-                        new Address("Ergenseen straat 2", city.get(), "90210"),
+                        new Address("Ergenseen straat 2", "90210", city.get()),
                         140,
                         new Date());
 
@@ -220,14 +239,12 @@ class TestDataCreator {
                         "Hang Gliding Hawaii",
                         "Geweldige manier om te zien Oahu vanuit de hemel. Dit is zeker één van de coolste dingen die je gaat doen op deze reis. Vlieg gedurende de tijd van de zonsopkomst door de lucht boven Oahu.",
                         "https://media-cdn.tripadvisor.com/media/photo-o/0a/54/dc/01/lightning-bolt-optical.jpg",
-                        new Address("Weet ik veel 4", city.get(), "90212"),
+                        new Address("Weet ik veel 4", "90212", city.get()),
                         140,
                         new Date());
 
                 context.getBean(TripItemController.class).createTripItem(tripItem);
             }
-
-
         }
     }
 
@@ -290,13 +307,15 @@ class TestDataCreator {
 
     private void createTestTravels() {
         if (context != null) {
-            Trip trip = context.getBean(TripController.class).getAllTrips(1).get().get(0);
-            Travel travel = new Travel(trip);
+            Optional<List<Trip>> trips = context.getBean(TripController.class).getAllTrips(1);
+            if (trips.isPresent()) {
+                Travel travel = new Travel(trips.get().get(0));
 
-            List<TripItem> tripItems = trip.getTripItems();
-            travel.setTripItems(tripItems);
+                List<TripItem> tripItems = new ArrayList<>();// trip.getTripItems();
+                travel.setTripItems(tripItems);
 
-            context.getBean(TravelController.class).createTravel(travel);
+                context.getBean(TravelController.class).createTravel(travel);
+            }
         }
     }
 }

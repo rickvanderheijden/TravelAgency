@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class TestAddress {
-    private static final String Address = "Address";
-    private static final String Address2 = "Address2";
+    private static final String AddressLine = "AddressLine";
+    private static final String AddressLine2 = "AddressLine2";
     private static final String ZipCode = "ZipCode";
     private static final String ZipCode2 = "ZipCode2";
     private Address address;
@@ -18,7 +18,7 @@ public class TestAddress {
     @Before
     public void setUp() {
         City city = Mockito.mock(City.class);
-        address = new Address(Address, city, ZipCode);
+        address = new Address(AddressLine, ZipCode, city);
     }
 
     @After
@@ -28,13 +28,13 @@ public class TestAddress {
 
     @Test
     public void testGetAddress() {
-        Assert.assertEquals(Address, address.getAddress());
+        Assert.assertEquals(AddressLine, address.getAddressLine());
     }
 
     @Test
     public void testSetAddress() {
-        address.setAddress(Address2);
-        Assert.assertEquals(Address2, address.getAddress());
+        address.setAddressLine(AddressLine2);
+        Assert.assertEquals(AddressLine2, address.getAddressLine());
     }
 
     @Test
