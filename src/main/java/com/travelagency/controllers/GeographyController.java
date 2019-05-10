@@ -78,8 +78,14 @@ public class GeographyController {
         if(zipCode == null) return Optional.empty();
         if(city == null) return Optional.empty();
 
-        Address address = new Address(street, zipCode, city);
-        return Optional.of(addressRepository.save(address));
+        Optional<City> cityInDatabase = getCity(city.getName());
+
+        if (cityInDatabase.isPresent()) {
+            Address address = new Address(street, zipCode, cityInDatabase.get());
+            return Optional.of(addressRepository.save(address));
+        }
+
+        return Optional.empty();
     }
 
     public Optional<Address> getAddress(Address address) {
