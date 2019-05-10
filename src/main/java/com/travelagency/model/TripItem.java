@@ -8,18 +8,18 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tripservice")
-public class TripService {
+@Table(name = "tripitem")
+public class TripItem {
 
     @Id
     @Column(name = "id")
     @GeneratedValue
     private Long id;
 
-    @Column(name = "ServiceType", length = 50)
+    @Column(name = "tripitem_type", length = 50)
     @NotNull
     @Enumerated(EnumType.STRING)
-    private ServiceType serviceType;
+    private TripItemType tripItemType;
 
     @Column(name = "name")
     @NotNull
@@ -33,7 +33,7 @@ public class TripService {
     @NotNull
     private String imageUrl;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -41,7 +41,7 @@ public class TripService {
     @NotNull
     private int price;
 
-    @ManyToMany(mappedBy = "tripServices", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tripItems", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Trip> trips;
 
@@ -50,10 +50,10 @@ public class TripService {
     @NotNull
     private Date date;
 
-    public TripService() {}
+    public TripItem() {}
 
-    public TripService(@NotNull ServiceType serviceType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, @NotNull Address address, @NotNull int price, @NotNull Date date) {
-        this.serviceType = serviceType;
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+        this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -70,12 +70,12 @@ public class TripService {
         this.id = id;
     }
 
-    public ServiceType getServiceType() {
-        return serviceType;
+    public TripItemType getTripItemType() {
+        return tripItemType;
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public void setTripItemType(TripItemType tripItemType) {
+        this.tripItemType = tripItemType;
     }
 
     public String getName() {
