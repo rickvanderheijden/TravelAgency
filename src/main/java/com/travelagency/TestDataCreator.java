@@ -305,7 +305,7 @@ class TestDataCreator {
                 Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name);
 
                 if (travelGroup.isPresent()) {
-                    userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username));
+                    userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username).get().getId());
                 }
             }
         }

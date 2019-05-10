@@ -5,6 +5,7 @@ import com.travelagency.model.User;
 import com.travelagency.repository.TravelGroupRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +15,10 @@ public class TravelGroupController {
 
     public TravelGroupController(TravelGroupRepository travelGroupRepository) {
         this.travelGroupRepository = travelGroupRepository;
+    }
+
+    public Optional<List<TravelGroup>> getAllTravelGroups() {
+        return Optional.of(travelGroupRepository.findAll());
     }
 
     public Optional<TravelGroup> createTravelGroup(TravelGroup travelGroup){
