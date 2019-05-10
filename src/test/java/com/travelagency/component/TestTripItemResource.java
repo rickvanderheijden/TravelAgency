@@ -49,8 +49,8 @@ public class TestTripItemResource {
 
     @Test
     public void testGetAll() {
-        int numberOfTripServices = RestAssured.given().contentType("application/json").get("/tripItems/all").jsonPath().getList("").size();
-        Assert.assertTrue(numberOfTripServices > 0);
+        int numberOfTripItems = RestAssured.given().contentType("application/json").get("/tripItems/all").jsonPath().getList("").size();
+        Assert.assertTrue(numberOfTripItems > 0);
     }
 
     private void login(String username, String password) {

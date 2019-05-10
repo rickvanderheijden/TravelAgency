@@ -37,7 +37,7 @@ public class TestTravel {
     }
 
     @Test
-    public void testGetPriceReturnsTotalTripAndTripServicePriceWhenNotSet() {
+    public void testGetPriceReturnsTotalTripAndTripItemPriceWhenNotSet() {
         int result = travel.getTotalPrice();
         Assert.assertEquals(TripPrice, result);
     }
