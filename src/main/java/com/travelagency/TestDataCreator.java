@@ -84,11 +84,20 @@ class TestDataCreator {
 
     private void createTestAddressesEurope() {
         if (context != null) {
+
+            String[][] addresses = {
+                    {"Address",             "1900AA",   "Rotterdam" },
+                    {"Ergenseen straat 2",  "90210",    "Honolulu"  },
+                    {"Weet ik veel 4",      "90212",    "Haleiwa"   }
+            };
+
             GeographyController geographyController = context.getBean(GeographyController.class);
 
-            Optional<City> city = geographyController.getCity("Rotterdam");
-            if (city.isPresent()) {
-                geographyController.createAddress("Address", "1900AA", city.get());
+            for (String[] address : addresses) {
+                Optional<City> city = geographyController.getCity(address[2]);
+                if (city.isPresent()) {
+                    geographyController.createAddress(address[0], address[1], city.get());
+                }
             }
         }
     }
@@ -167,7 +176,9 @@ class TestDataCreator {
 
             for (String[] city : cities) {
                 Optional<Country> country = geographyController.getCountry(city[1]);
-                geographyController.createCity(city[0], country.get());
+                if (country.isPresent()) {
+                    geographyController.createCity(city[0], country.get());
+                }
             }
         }
     }
