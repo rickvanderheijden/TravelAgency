@@ -84,4 +84,10 @@ public class UserResource {
         return userController.getAllAuthorities();
     }
 
+    @RequestMapping(value = "/getAllTravelgroups", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<TravelGroup> getAllTravelgroups() {
+        return userController.getAllTravelgroups();
+    }
+
 }

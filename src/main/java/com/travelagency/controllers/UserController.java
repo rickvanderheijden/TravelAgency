@@ -114,4 +114,8 @@ public class UserController {
         }
         return true;
     }
+
+    public List<TravelGroup> getAllTravelgroups() {
+        return
+    }
 }
