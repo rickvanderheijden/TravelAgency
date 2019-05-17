@@ -49,8 +49,8 @@ public class TripItemController {
         return tripItemRepository.findAll().stream().findFirst();
     }
 
-    public TripItem updateTripItem(TripItem updatedTripItem) {
-        if(!this.tripItemRepository.existsById(updatedTripItem.getId())){
+    public TripItem updateTripItem(Long id, TripItem updatedTripItem) {
+        if(!this.tripItemRepository.existsById(id)){
             return null;
         }
         return this.tripItemRepository.save(updatedTripItem);

@@ -29,9 +29,6 @@ public class TripItem {
     @NotNull
     private String description;
 
-    @Column(name = "image_url")
-    @NotNull
-    private String imageUrl;
 
     @Column(name = "image_blob")
     @Lob
@@ -56,11 +53,10 @@ public class TripItem {
 
     public TripItem() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
         this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
@@ -99,13 +95,6 @@ public class TripItem {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public Address getAddress() {
         return address;

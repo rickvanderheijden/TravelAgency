@@ -33,6 +33,16 @@ public class TripItemResource {
         return Optional.ofNullable(tripItemController.getById(id));
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Optional<TripItem> update(@PathVariable final Long id, @RequestBody TripItem tripItem) {
+        return Optional.ofNullable(tripItemController.updateTripItem(id,tripItem));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Optional<Boolean> update(@PathVariable final Long id) {
+        return Optional.of(tripItemController.deleteTripItem(id));
+    }
+
     @RequestMapping(value = "/first", method = RequestMethod.GET)
     public Optional<TripItem> getFirst() {
         return tripItemController.getFirst();
