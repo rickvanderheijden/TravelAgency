@@ -1,6 +1,6 @@
 package com.travelagency.unittest;
 
-        import com.travelagency.model.Address;
+import com.travelagency.model.Address;
         import com.travelagency.model.TripItem;
         import com.travelagency.model.TripItemType;
         import org.junit.After;
@@ -27,7 +27,7 @@ public class TestTripItem {
     @Before
     public void setUp() {
         Address address = Mockito.mock(Address.class);
-        tripItem = new TripItem(tripItemType, Name, Description, ImageUrl, address, Price, Date);
+        tripItem = new TripItem(tripItemType, Name, Description, ImageUrl, null, address, Price, Date);
     }
 
     @After

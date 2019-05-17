@@ -33,6 +33,10 @@ public class TripItem {
     @NotNull
     private String imageUrl;
 
+    @Column(name = "image_blob")
+    @Lob
+    private String imageBlob;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -52,11 +56,12 @@ public class TripItem {
 
     public TripItem() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
         this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
         this.date = date;
@@ -129,4 +134,12 @@ public class TripItem {
     public List<Trip> getTrips() { return this.trips; }
 
     public void setTrips(List<Trip> trips) { this.trips = trips; }
+
+    public String getImageBlob() {
+        return imageBlob;
+    }
+
+    public void setImageBlob(String imageBlob) {
+        this.imageBlob = imageBlob;
+    }
 }

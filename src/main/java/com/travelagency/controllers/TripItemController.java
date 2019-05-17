@@ -1,6 +1,7 @@
 package com.travelagency.controllers;
 
 import com.travelagency.model.Address;
+import com.travelagency.model.City;
 import com.travelagency.model.TripItem;
 import com.travelagency.repository.TripItemRepository;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,16 @@ public class TripItemController {
         if (address == null) return Optional.empty();
 
         Optional<Address> addressInDatabase = geographyController.getAddress(address);
-        if (!addressInDatabase.isPresent()) return Optional.empty();
-
-        tripItem.setAddress(addressInDatabase.get());
+        if (!addressInDatabase.isPresent()){
+            Optional<City> optionalCity = geographyController.getCity(address.getCity().getName());
+            if(!optionalCity.isPresent()){
+                return Optional.empty();
+            }
+            Optional<Address> createdAddress = geographyController.createAddress(address.getAddressLine(), address.getZipCode(), optionalCity.get());
+            createdAddress.ifPresent(tripItem::setAddress);
+        } else {
+            tripItem.setAddress(addressInDatabase.get());
+        }
 
         return Optional.of(tripItemRepository.save(tripItem));
     }
