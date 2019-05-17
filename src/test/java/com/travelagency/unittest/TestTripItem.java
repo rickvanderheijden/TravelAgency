@@ -27,7 +27,7 @@ public class TestTripItem {
     @Before
     public void setUp() {
         Address address = Mockito.mock(Address.class);
-        tripItem = new TripItem(tripItemType, Name, Description, ImageUrl, null, address, Price, Date);
+        tripItem = new TripItem(tripItemType, Name, Description, null, address, Price, Date);
     }
 
     @After
