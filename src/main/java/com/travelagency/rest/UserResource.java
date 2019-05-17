@@ -7,12 +7,10 @@ import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,10 +82,17 @@ public class UserResource {
         return userController.getAllAuthorities();
     }
 
-    @RequestMapping(value = "/getAllTravelgroups", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<TravelGroup> getAllTravelgroups() {
-        return userController.getAllTravelgroups();
+    @RequestMapping(value = "/travelGroups", method = RequestMethod.GET)
+    public List<TravelGroup> getTravelGroups(HttpServletRequest request) {
+        String token = request.getHeader(tokenHeader).substring(7);
+        Optional<User> userOptional = userController.getUserFromToken(token);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            return  userController.getTravelGroups(user);
+        }
+        return null;
     }
+
+
 
 }

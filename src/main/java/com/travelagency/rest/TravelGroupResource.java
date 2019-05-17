@@ -18,8 +18,4 @@ public class TravelGroupResource {
     public TravelGroupResource(TravelGroupController travelGroupController) {
         this.travelGroupController = travelGroupController;
     }
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Optional<List<TravelGroup>> getAll() { return travelGroupController.getAllTravelGroups(); }
-
 }

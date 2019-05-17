@@ -21,11 +21,13 @@ public class UserController {
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
+    private final TravelGroupRepository travelGroupRepository;
 
-    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
+    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil, TravelGroupRepository travelGroupRepository) {
         this.authorityRepository = authorityRepository;
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.travelGroupRepository = travelGroupRepository;
     }
 
     public Optional<Long> createUser(UserDTO userDTO) {
@@ -106,6 +108,8 @@ public class UserController {
         return this.authorityRepository.findAll();
     }
 
+    public List<TravelGroup> getTravelGroups(User user) { return this. travelGroupRepository.findByUsers(user);}
+
     public boolean addTravelGroup(TravelGroup travelGroup, Long id) {
         Optional<User> user = getUserById(id);
         if (user.isPresent()) {
@@ -113,9 +117,5 @@ public class UserController {
             userRepository.save(user.get());
         }
         return true;
-    }
-
-    public List<TravelGroup> getAllTravelgroups() {
-        return
     }
 }

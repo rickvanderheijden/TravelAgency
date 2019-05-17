@@ -6,6 +6,7 @@ import com.travelagency.model.AuthorityName;
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
@@ -13,6 +14,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -37,12 +39,13 @@ public class TestUserController {
     private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
     private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
+    private final TravelGroupRepository travelGroupRepository = Mockito.mock(TravelGroupRepository.class);
 
     private UserController userController;
 
     @Before
     public void setUp() {
-        userController = new UserController(authorityRepository, userRepository, jwtTokenUtil);
+        userController = new UserController(authorityRepository, userRepository, jwtTokenUtil, travelGroupRepository);
         when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority());
         when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority());
 
