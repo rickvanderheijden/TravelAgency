@@ -3,6 +3,7 @@ package com.travelagency.controllers;
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.TravelGroupRepository;
+import com.travelagency.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class TravelGroupController {
 
     private final TravelGroupRepository travelGroupRepository;
+    private final UserRepository userRepository;
 
-    public TravelGroupController(TravelGroupRepository travelGroupRepository) {
+    public TravelGroupController(TravelGroupRepository travelGroupRepository, UserRepository userRepository) {
         this.travelGroupRepository = travelGroupRepository;
+        this.userRepository = userRepository;
     }
 
     public Optional<List<TravelGroup>> getAllTravelGroups() {
@@ -52,5 +55,9 @@ public class TravelGroupController {
 
     public Optional<TravelGroup> getTravelGroupByName(String name) {
         return Optional.ofNullable(travelGroupRepository.findByName(name));
+    }
+
+    public List<User> getUsersByTravelGroupId(TravelGroup travelGroup) {
+        return  this.userRepository.findByTravelGroups(travelGroup);
     }
 }
