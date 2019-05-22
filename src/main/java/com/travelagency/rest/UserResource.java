@@ -82,10 +82,9 @@ public class UserResource {
         return userController.getAllAuthorities();
     }
 
-    @RequestMapping(value = "/travelGroups", method = RequestMethod.GET)
-    public List<TravelGroup> getTravelGroups(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader).substring(7);
-        Optional<User> userOptional = userController.getUserFromToken(token);
+    @RequestMapping(value = "/travelGroups/{id}", method = RequestMethod.GET)
+    public List<TravelGroup> getTravelGroups(@PathVariable final Long id) {
+        Optional<User> userOptional = userController.getUserById(id);
         if (userOptional.isPresent()){
             User user = userOptional.get();
             return  userController.getTravelGroups(user);

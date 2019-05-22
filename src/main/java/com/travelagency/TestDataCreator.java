@@ -293,7 +293,7 @@ class TestDataCreator {
 
     private void createTestTravelGroups() {
         if (context != null) {
-            String[] names = {"50+ Reisgroep", "De Daarduivels", "Benidorm Bastards",
+            String[] names = {"50+ Reisgroep", "De Daarduivels", "Beni 'fucking bloody' dorm Bastards",
                     "De vriendloze", "De 5-vijvers"};
 
             UserController userController = context.getBean(UserController.class);
