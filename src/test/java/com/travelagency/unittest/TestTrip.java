@@ -1,7 +1,7 @@
 package com.travelagency.unittest;
 
+import com.travelagency.model.Destination;
 import com.travelagency.model.Trip;
-import com.travelagency.model.TripItem;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,32 +55,32 @@ public class TestTrip {
     }
 
     @Test
-    public void testGetTripItemsNotNullWhenNotSet() {
-        Assert.assertNotNull(trip.getTripItems());
+    public void testGetDestinationsNotNullWhenNotSet() {
+        Assert.assertNotNull(trip.getDestinations());
     }
 
     @Test
     public void testGetTripItemsNotNullWhenSetToNull() {
-        trip.setTripItems(null);
-        Assert.assertNotNull(trip.getTripItems());
+        trip.setDestinations(null);
+        Assert.assertNotNull(trip.getDestinations());
     }
 
     @Test
-    public void testGetTripItemsAfterAddingIdenticalTripItems() {
-        TripItem tripItem = Mockito.mock(TripItem.class);
-        trip.addTripItem(tripItem);
-        trip.addTripItem(tripItem);
+    public void testGetDestinationsAfterAddingIdenticalDestinations() {
+        Destination destination = Mockito.mock(Destination.class);
+        trip.addDestination(destination);
+        trip.addDestination(destination);
 
-        Assert.assertEquals(1, trip.getTripItems().size());
+        Assert.assertEquals(1, trip.getDestinations().size());
     }
 
     @Test
-    public void testGetTripItemsAfterAddingUnidenticalTripItems() {
-        TripItem tripItem  = Mockito.mock(TripItem.class);
-        TripItem tripItem2 = Mockito.mock(TripItem.class);
-        trip.addTripItem(tripItem);
-        trip.addTripItem(tripItem2);
+    public void testGetDestinationsAfterAddingUnidenticalDestinations() {
+        Destination destination  = Mockito.mock(Destination.class);
+        Destination destination2 = Mockito.mock(Destination.class);
+        trip.addDestination(destination);
+        trip.addDestination(destination2);
 
-        Assert.assertEquals(2, trip.getTripItems().size());
+        Assert.assertEquals(2, trip.getDestinations().size());
     }
 }

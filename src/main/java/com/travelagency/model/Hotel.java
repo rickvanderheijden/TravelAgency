@@ -1,25 +1,17 @@
 package com.travelagency.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "tripitem")
-public class TripItem {
+@Table(name = "hotel")
+public class Hotel {
 
     @Id
     @Column(name = "id")
     @GeneratedValue
     private Long id;
-
-    @Column(name = "tripitem_type", length = 50)
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private TripItemType tripItemType;
 
     @Column(name = "name")
     @NotNull
@@ -41,22 +33,16 @@ public class TripItem {
     @NotNull
     private int price;
 
-    @ManyToMany(mappedBy = "tripItems", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Destination> destinations;
-
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date date;
 
-    public TripItem() {}
+    public Hotel() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
-        this.tripItemType = tripItemType;
+    public Hotel(@NotNull String name, @NotNull String description, @NotNull Address address, @NotNull int price, @NotNull Date date) {
         this.name = name;
         this.description = description;
-        this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
         this.date = date;
@@ -68,14 +54,6 @@ public class TripItem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public TripItemType getTripItemType() {
-        return tripItemType;
-    }
-
-    public void setTripItemType(TripItemType tripItemType) {
-        this.tripItemType = tripItemType;
     }
 
     public String getName() {
@@ -117,10 +95,6 @@ public class TripItem {
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public List<Destination> getDestinations() { return this.destinations; }
-
-    public void setDestinations(List<Destination> destinations ) { this.destinations = destinations; }
 
     public String getImageBlob() {
         return imageBlob;

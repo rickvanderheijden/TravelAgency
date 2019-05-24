@@ -40,10 +40,10 @@ public class Trip {
     private int discount;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-    @JoinTable(name = "trip_tripitem",
+    @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
-    private List<TripItem> tripItems;
+            inverseJoinColumns = @JoinColumn(name = "destination_id", referencedColumnName = "id"))
+    private List<Destination> destinations;
 
     public Trip() {}
 
@@ -60,7 +60,7 @@ public class Trip {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.tripItems = new ArrayList<>();
+        this.destinations = new ArrayList<>();
     }
 
     public Long getId() {
@@ -111,15 +111,15 @@ public class Trip {
         this.imageUrl = imageUrl;
     }
 
-    public List<TripItem> getTripItems() {
-        return tripItems;
+    public List<Destination> getDestinations() {
+        return destinations;
     }
 
-    public void setTripItems(List<TripItem> tripItems) {
-        if (tripItems == null) {
-            this.tripItems = new ArrayList<>();
+    public void setDestinations(List<Destination> destinations) {
+        if (destinations == null) {
+            this.destinations = new ArrayList<>();
         } else {
-            this.tripItems = tripItems;
+            this.destinations = destinations;
         }
     }
 
@@ -131,18 +131,18 @@ public class Trip {
         this.discount = discount;
     }
 
-    public boolean addTripItem(TripItem tripItem){
+    public boolean addDestination(Destination destination){
 
-        if(tripItems.contains(tripItem))
+        if(destinations.contains(destination))
             return false;
 
-        return tripItems.add(tripItem);
+        return destinations.add(destination);
     }
 
-    public boolean removeTripItem(TripItem tripItem){
-        if(!tripItems.contains(tripItem))
+    public boolean removeDestination(Destination destination){
+        if(!destinations.contains(destination))
             return false;
 
-        return tripItems.remove(tripItem);
+        return destinations.remove(destination);
     }
 }
