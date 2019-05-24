@@ -234,8 +234,7 @@ class TestDataCreator {
                         TripItemType.OUTING,
                         "Turtle Canyon snorkelcruise per catamaran",
                         "Snorkel met groene zeeschildpadden in Oahu's Turtle Canyon tijdens deze 2 tot 3 uur durende tour die vertrekt vanaf Waikiki. Stap aan boord van een gemotoriseerde catamaran en vaar langs de kust van Oahu naar de beste plek op het eiland om de plaatselijke schildpadden te zien. Schildpadwaarnemingen gegarandeerd; als er geen schildpad wordt gezien, krijgt u een gratis tweede cruise. Geniet na het snorkelen van een lunch (indien deze optie is geselecteerd) en de twee inbegrepen drankjes terwijl u blijft uitkijken naar passerende zeedieren zoals dolfijnen en migrerende walvissen. Snorkeluitrusting en vervoer van en naar hotels in Waikiki zijn inbegrepen.",
-                        "https://media.tacdn.com/media/attractions-splice-spp-674x446/06/77/93/9b.jpg",
-                        new Address("Ergenseen straat 2", "90210", city.get()),
+                        "blob", new Address("Ergenseen straat 2", "90210", city.get()),
                         140,
                         new Date());
 
@@ -249,7 +248,7 @@ class TestDataCreator {
                         TripItemType.OUTING,
                         "Hang Gliding Hawaii",
                         "Geweldige manier om te zien Oahu vanuit de hemel. Dit is zeker één van de coolste dingen die je gaat doen op deze reis. Vlieg gedurende de tijd van de zonsopkomst door de lucht boven Oahu.",
-                        "https://media-cdn.tripadvisor.com/media/photo-o/0a/54/dc/01/lightning-bolt-optical.jpg",
+                        "blob",
                         new Address("Weet ik veel 4", "90212", city.get()),
                         140,
                         new Date());
