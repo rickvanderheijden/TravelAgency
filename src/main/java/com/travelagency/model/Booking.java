@@ -104,6 +104,30 @@ public class Booking {
         return tripItems.add(tripItem);
     }
 
+    public List<BookableHotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(List<BookableHotel> hotels) {
+        this.hotels = hotels;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     public boolean removeTripItem(TripItem tripItem){
         if(!tripItems.contains(tripItem))
             return false;
