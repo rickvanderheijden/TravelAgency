@@ -1,5 +1,6 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -75,6 +76,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinTable(
             name = "user_travelgroup",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
