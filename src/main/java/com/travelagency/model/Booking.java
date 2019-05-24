@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "travel")
-public class Travel {
+@Table(name = "booking")
+public class Booking {
 
     @Id
     @Column(name = "id")
@@ -23,24 +24,40 @@ public class Travel {
     private Trip trip;
 
     @ManyToMany(cascade = { CascadeType.MERGE })
-    @JoinTable(name = "travel_hotel",
-            joinColumns = @JoinColumn(name = "travel_id", referencedColumnName = "id"),
+    @JoinTable(name = "booking_hotel",
+            joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "hotel_id", referencedColumnName = "id"))
-    private List<Hotel> hotels = new ArrayList<>();
+    private List<BookableHotel> hotels = new ArrayList<>();
 
     @ManyToMany(cascade = { CascadeType.MERGE })
-    @JoinTable(name = "travel_tripitem",
-            joinColumns = @JoinColumn(name = "travel_id", referencedColumnName = "id"),
+    @JoinTable(name = "booking_tripitem",
+            joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
     private List<TripItem> tripItems = new ArrayList<>();
 
     @Column(name = "total_price", length = 10)
     private int totalPrice = -1;
 
-    public Travel() {
+    @Column(name = "startdate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date startDate;
+
+    @Column(name = "enddate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date endDate;
+
+    @Column(name = "booked")
+    private boolean booked;
+
+    @Column(name = "paid")
+    private boolean paid;
+
+    public Booking() {
     }
 
-    public Travel(@NotNull Trip trip) {
+    public Booking(@NotNull Trip trip) {
         this.trip = trip;
     }
 
@@ -87,6 +104,30 @@ public class Travel {
         return tripItems.add(tripItem);
     }
 
+    public List<BookableHotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(List<BookableHotel> hotels) {
+        this.hotels = hotels;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     public boolean removeTripItem(TripItem tripItem){
         if(!tripItems.contains(tripItem))
             return false;
@@ -94,11 +135,19 @@ public class Travel {
         return tripItems.remove(tripItem);
     }
 
-    public List<Hotel> getHotels() {
-        return hotels;
+    public boolean isPaid() {
+        return paid;
     }
 
-    public void setHotels(List<Hotel> hotels) {
-        this.hotels = hotels;
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
+    public boolean isBooked() {
+        return booked;
+    }
+
+    public void setBooked(boolean booked) {
+        this.booked = booked;
     }
 }
