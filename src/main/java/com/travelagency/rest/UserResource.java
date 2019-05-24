@@ -92,6 +92,8 @@ public class UserResource {
         return null;
     }
 
-
-
+    @RequestMapping(value = "/usernames/{username}", method = RequestMethod.GET)
+    public Optional<List<User>> getByUsernameContains(@PathVariable final String username) {
+        return userController.getUserByUsernameContains(username);
+    }
 }

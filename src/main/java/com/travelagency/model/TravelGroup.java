@@ -23,6 +23,10 @@ public class TravelGroup {
     @NotNull
     private String name;
 
+    @Column(name = "masterId")
+    @NotNull
+    private Long masterId;
+
     @ManyToMany(mappedBy = "travelGroups")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
@@ -32,13 +36,15 @@ public class TravelGroup {
         this.users = new ArrayList<>();
     }
 
-    public TravelGroup(@NotNull String name, List<User> users) {
+    public TravelGroup(@NotNull String name, @NotNull Long masterId, List<User> users) {
         this.name = name;
+        this.masterId = masterId;
         this.users = users;
     }
 
-    public TravelGroup(@NotNull String name) {
+    public TravelGroup(@NotNull String name, @NotNull Long masterId) {
         this.name = name;
+        this.masterId = masterId;
         this.users = new ArrayList<>();
     }
 
@@ -56,5 +62,21 @@ public class TravelGroup {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(Long masterId) {
+        this.masterId = masterId;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

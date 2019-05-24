@@ -3,11 +3,9 @@ package com.travelagency.rest;
 import com.travelagency.controllers.TravelGroupController;
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.List;
 
@@ -25,5 +23,10 @@ public class TravelGroupResource {
     public List<User> getUsers(@PathVariable final Long id){
         TravelGroup travelGroup = travelGroupController.getById(id);
         return travelGroupController.getUsersByTravelGroupId(travelGroup);
+    }
+
+    @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
+    public Optional<TravelGroup> createTrip(@Valid @RequestBody TravelGroup travelGroup) {
+        return travelGroupController.createTravelGroup(travelGroup);
     }
 }

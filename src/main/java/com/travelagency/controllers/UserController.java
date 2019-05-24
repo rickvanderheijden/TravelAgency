@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Controller
 public class UserController {
@@ -117,5 +118,9 @@ public class UserController {
             userRepository.save(user.get());
         }
         return true;
+    }
+
+    public Optional<List<User>> getUserByUsernameContains(String username) {
+        return Optional.ofNullable(userRepository.findByUsernameContains(username));
     }
 }

@@ -28,10 +28,10 @@ public class TravelGroupController {
         return Optional.of(travelGroupRepository.save(travelGroup));
     }
 
-    public Optional<TravelGroup> createTravelGroup(String travelGroupName){
+    public Optional<TravelGroup> createTravelGroup(String travelGroupName, Long masterId){
         if(travelGroupName == null) return Optional.empty();
 
-        TravelGroup travelGroup = new TravelGroup(travelGroupName);
+        TravelGroup travelGroup = new TravelGroup(travelGroupName, masterId);
         return Optional.of(travelGroupRepository.save(travelGroup));
     }
 

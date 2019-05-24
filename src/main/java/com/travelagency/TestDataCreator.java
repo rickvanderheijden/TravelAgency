@@ -302,7 +302,7 @@ class TestDataCreator {
             String username = "user";
 
             for (String name : names) {
-                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name);
+                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name,userController.getUserByUsername(username).get().getId() );
 
                 if (travelGroup.isPresent()) {
                     userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username).get().getId());
