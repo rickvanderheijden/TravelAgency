@@ -2,12 +2,10 @@ package com.travelagency;
 
 import com.travelagency.controllers.GeographyController;
 import com.travelagency.controllers.TravelGroupController;
-import com.travelagency.controllers.TripServiceController;
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
-import com.travelagency.rest.TripServiceResource;
 import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
