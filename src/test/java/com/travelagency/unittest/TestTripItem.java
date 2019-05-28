@@ -20,6 +20,10 @@ public class TestTripItem {
     private static TripItemType tripItemType2;
     private static final int Price = 0;
     private static final int Price2 = 2;
+    private static final int MinPersons = 1;
+    private static final int MinPersons2 = 2;
+    private static final int MaxPersons = 1;
+    private static final int MaxPersons2 = 4;
     private static final Date Date = new Date();
     private static final Date Date2 = new Date();
     private TripItem tripItem;
@@ -78,4 +82,19 @@ public class TestTripItem {
         Assert.assertEquals(a, tripItem.getAddress());
     }
 
+    @Test
+    public void testGetMinPersons() { Assert.assertEquals(MinPersons, tripItem.getMinPersons()); }
+
+    @Test
+    public void testSetMinPersons() {
+        tripItem.setMinPersons(MinPersons2);
+        Assert.assertEquals(MinPersons2, tripItem.getMinPersons()); }
+
+    @Test
+    public void testGetMaxPersons() { Assert.assertEquals(MaxPersons, tripItem.getMaxPersons()); }
+
+    @Test
+    public void testSetMaxPersons() {
+        tripItem.setMaxPersons(MaxPersons2);
+        Assert.assertEquals(MaxPersons2, tripItem.getMaxPersons()); }
 }
