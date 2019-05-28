@@ -65,7 +65,7 @@ public class TripItemController {
         return true;
     }
 
-    public Optional<TripItem> getByCityName(String cityName) {
+    public Optional<List<TripItem>> getByCityName(String cityName) {
         return Optional.ofNullable(tripItemRepository.getByAddressCityName(cityName));
     }
 
