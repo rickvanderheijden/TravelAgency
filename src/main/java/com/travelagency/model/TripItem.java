@@ -50,6 +50,12 @@ public class TripItem {
     @NotNull
     private Date date;
 
+    @Column(name = "max_persons", length = 10)
+    private int maxPersons;
+
+    @Column(name = "min_persons", length = 10)
+    private int minPersons;
+
     public TripItem() {}
 
     public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
@@ -60,6 +66,8 @@ public class TripItem {
         this.address = address;
         this.price = price;
         this.date = date;
+        this.minPersons = 1;
+        this.maxPersons = 1;
     }
 
     public Long getId() {
@@ -117,6 +125,14 @@ public class TripItem {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public int getMaxPersons() { return maxPersons; }
+
+    public void setMaxPersons(int maxPersons) { this.maxPersons = maxPersons; }
+
+    public int getMinPersons() { return minPersons; }
+
+    public void setMinPersons(int minPersons) { this.minPersons = minPersons; }
 
     public List<Destination> getDestinations() { return this.destinations; }
 
