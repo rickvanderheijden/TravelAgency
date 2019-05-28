@@ -4,6 +4,7 @@ import com.travelagency.model.Destination;
 import com.travelagency.repository.DestinationRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
+import com.travelagency.rest.DataTranfersObjects.TripSearchDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -80,5 +81,25 @@ public class TripController {
     public Optional<List<Trip>> getAllTrips(int maximumNumber) {
         Pageable limit = PageRequest.of(0,maximumNumber);
         return Optional.of(tripRepository.findAll(limit).getContent());
+    }
+
+    public Optional<List<Trip>> searchTripsFilter(TripSearchDTO search) {
+        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null && search.getTo() != null) {
+            return Optional.empty();
+        }
+
+        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null) {
+            return Optional.empty();
+        }
+
+        if(search.getContinent() != null && search.getCountry() != null) {
+            return Optional.of(this.tripRepository.findByDestinations_City_Country_NameContains(search.getCountry()));
+        }
+
+        if(search.getContinent() != null) {
+            return Optional.of(this.tripRepository.findByDestinations_City_Country_Continent_NameContains(search.getContinent()));
+        }
+
+        return Optional.empty();
     }
 }
