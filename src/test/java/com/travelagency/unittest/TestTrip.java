@@ -1,10 +1,12 @@
 package com.travelagency.unittest;
 
+import com.travelagency.model.Destination;
 import com.travelagency.model.Trip;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class TestTrip {
     private static final String Name = "Name";
@@ -50,5 +52,35 @@ public class TestTrip {
     public void testSetDiscount() {
         trip.setDiscount(Discount2);
         Assert.assertEquals(Discount2, trip.getDiscount());
+    }
+
+    @Test
+    public void testGetDestinationsNotNullWhenNotSet() {
+        Assert.assertNotNull(trip.getDestinations());
+    }
+
+    @Test
+    public void testGetTripItemsNotNullWhenSetToNull() {
+        trip.setDestinations(null);
+        Assert.assertNotNull(trip.getDestinations());
+    }
+
+    @Test
+    public void testGetDestinationsAfterAddingIdenticalDestinations() {
+        Destination destination = Mockito.mock(Destination.class);
+        trip.addDestination(destination);
+        trip.addDestination(destination);
+
+        Assert.assertEquals(1, trip.getDestinations().size());
+    }
+
+    @Test
+    public void testGetDestinationsAfterAddingUnidenticalDestinations() {
+        Destination destination  = Mockito.mock(Destination.class);
+        Destination destination2 = Mockito.mock(Destination.class);
+        trip.addDestination(destination);
+        trip.addDestination(destination2);
+
+        Assert.assertEquals(2, trip.getDestinations().size());
     }
 }

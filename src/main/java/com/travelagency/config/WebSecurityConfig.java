@@ -25,21 +25,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
-
-    // Custom JWT based security filter
-    @Autowired
-    JwtAuthorizationTokenFilter authenticationTokenFilter;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtAuthorizationTokenFilter authenticationTokenFilter;
 
     @Value("${jwt.header}")
     private String tokenHeader;
 
     @Value("/auth")
     private String authenticationPath;
+
+    public WebSecurityConfig(
+            JwtAuthenticationEntryPoint unauthorizedHandler,
+            JwtUserDetailsService jwtUserDetailsService,
+            JwtAuthorizationTokenFilter authenticationTokenFilter ) {
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.authenticationTokenFilter = authenticationTokenFilter;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -76,6 +79,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/trips/**").permitAll()
                 .antMatchers("/travelgroups/**").permitAll()
+
+                .antMatchers("/tripItems/**").permitAll()
+                .antMatchers("/geo/**").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity

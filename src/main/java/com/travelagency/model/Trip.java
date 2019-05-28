@@ -39,11 +39,11 @@ public class Trip {
     @Column(name = "discount", length = 10)
     private int discount;
 
-    @ManyToMany(cascade = { CascadeType.MERGE })
-    @JoinTable(name = "trip_tripservice",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
+    @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tripservice_id", referencedColumnName = "id"))
-    private List<TripService> tripServices;
+            inverseJoinColumns = @JoinColumn(name = "destination_id", referencedColumnName = "id"))
+    private List<Destination> destinations;
 
     public Trip() {}
 
@@ -60,7 +60,7 @@ public class Trip {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.tripServices = new ArrayList<>();
+        this.destinations = new ArrayList<>();
     }
 
     public Long getId() {
@@ -111,12 +111,16 @@ public class Trip {
         this.imageUrl = imageUrl;
     }
 
-    public List<TripService> getTripServices() {
-        return tripServices;
+    public List<Destination> getDestinations() {
+        return destinations;
     }
 
-    public void setTripServices(List<TripService> tripServices) {
-        this.tripServices = tripServices;
+    public void setDestinations(List<Destination> destinations) {
+        if (destinations == null) {
+            this.destinations = new ArrayList<>();
+        } else {
+            this.destinations = destinations;
+        }
     }
 
     public int getDiscount() {
@@ -127,18 +131,18 @@ public class Trip {
         this.discount = discount;
     }
 
-    public boolean addService(TripService tripService){
+    public boolean addDestination(Destination destination){
 
-        if(tripServices.contains(tripService))
+        if(destinations.contains(destination))
             return false;
 
-        return tripServices.add(tripService);
+        return destinations.add(destination);
     }
 
-    public boolean removeService(TripService tripService){
-        if(!tripServices.contains(tripService))
+    public boolean removeDestination(Destination destination){
+        if(!destinations.contains(destination))
             return false;
 
-        return tripServices.remove(tripService);
+        return destinations.remove(destination);
     }
 }

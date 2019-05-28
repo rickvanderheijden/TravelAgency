@@ -12,9 +12,9 @@ public class Address {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "address_line")
     @NotNull
-    private String address;
+    private String addressLine;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
@@ -26,10 +26,10 @@ public class Address {
 
     public Address() {}
 
-    public Address(String address, City city, String zipCode) {
-        this.address = address;
-        this.city = city;
+    public Address(String addressLine, String zipCode, City city) {
+        this.addressLine = addressLine;
         this.zipCode = zipCode;
+        this.city = city;
     }
 
     public Long getId() {
@@ -40,12 +40,12 @@ public class Address {
         this.id = id;
     }
 
-    public String getAddress() {
-        return this.address;
+    public String getAddressLine() {
+        return this.addressLine;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressLine(String addressLine) {
+        this.addressLine = addressLine;
     }
 
     public City getCity() {

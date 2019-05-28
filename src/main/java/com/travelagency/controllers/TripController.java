@@ -1,7 +1,7 @@
 package com.travelagency.controllers;
 
-import com.travelagency.model.TripService;
-import com.travelagency.repository.TripServiceRepository;
+import com.travelagency.model.Destination;
+import com.travelagency.repository.DestinationRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,34 @@ import java.util.*;
 public class TripController {
 
     private final TripRepository tripRepository;
-    private final TripServiceRepository tripServiceRepository;
+    private final DestinationRepository destinationRepository;
 
-    public TripController(TripRepository tripRepository, TripServiceRepository tripServiceRepository){
+    public TripController(TripRepository tripRepository, DestinationRepository destinationRepository){
         this.tripRepository = tripRepository;
-        this.tripServiceRepository = tripServiceRepository;
+        this.destinationRepository = destinationRepository;
     }
 
     public Optional<Trip> createTrip(Trip trip) {
         if(trip == null) return Optional.empty();
 
-        List<TripService> tripServices = new ArrayList<>();
-        for (TripService tripService : trip.getTripServices()) {
-            tripServices.add(tripServiceRepository.findById(tripService.getId()).get());
+        List<Destination> destinations = new ArrayList<>();
+
+        if (trip.getDestinations() != null) {
+            for (Destination destination : trip.getDestinations()) {
+                Optional<Destination> dest = destinationRepository.findById(destination.getId());
+                if (dest.isPresent()) {
+                    destinations.add(dest.get());
+                }
+            }
         }
 
-        trip.setTripServices(tripServices);
+        trip.setDestinations(destinations);
 
         return Optional.of(tripRepository.save(trip));
     }
 
     public Optional<Trip> getById(Long id) {
-        return Optional.of(tripRepository.getOne(id));
+        return tripRepository.findById(id);
     }
 
     public Trip updateTrip(Trip updatedTrip) {
