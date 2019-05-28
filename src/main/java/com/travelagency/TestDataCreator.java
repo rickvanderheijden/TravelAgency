@@ -84,7 +84,7 @@ class TestDataCreator {
     }
 
     private void createTestHotels() {
-        createTestHotelsEurope();
+        createTestHotelsNorthAmerica();
     }
 
     public void createTestDestinations() {
@@ -112,7 +112,7 @@ class TestDataCreator {
         }
     }
 
-    private void createTestHotelsEurope() {
+    private void createTestHotelsNorthAmerica() {
         if (context != null) {
 
             GeographyController geographyController = context.getBean(GeographyController.class);
