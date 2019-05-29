@@ -46,4 +46,20 @@ public class DestinationController {
     public Optional<List<Destination>> getAllDestinations() {
         return Optional.of(destinationRepository.findAll());
     }
+
+    public boolean deleteDestination(long id) {
+        boolean doesExist = this.destinationRepository.existsById(id);
+        if(!doesExist){
+            return false;
+        }
+        this.destinationRepository.deleteById(id);
+        return true;
+    }
+
+    public Destination updateDestination(Long id, Destination destination) {
+        if(!this.destinationRepository.existsById(id)){
+            return null;
+        }
+        return this.destinationRepository.save(destination);
+    }
 }

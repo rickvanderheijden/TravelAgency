@@ -101,4 +101,9 @@ public class GeographyController {
     }
     public List<Country> getAllCountries() { return countryRepository.findAll(); }
     public List<Continent> getAllContinents() { return continentRepository.findAll(); }
+
+    public Optional<List<City>> getCitiesByCountryName(String countryName) {
+        if(countryName == null) return Optional.empty();
+        return Optional.ofNullable(cityRepository.findByCountry_Name(countryName));
+    }
 }
