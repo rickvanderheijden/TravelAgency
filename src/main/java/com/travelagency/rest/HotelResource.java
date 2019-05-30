@@ -49,4 +49,9 @@ public class HotelResource {
         return HotelController.updateHotel(id,Hotel);
     }
 
+    @GetMapping(value = "/city/{name}")
+    public Optional<List<Hotel>> getHotelsByCityName(@PathVariable("name") String cityName) {
+        return HotelController.getByCityName(cityName);
+    }
+
 }

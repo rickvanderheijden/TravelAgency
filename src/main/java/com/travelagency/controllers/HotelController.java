@@ -75,11 +75,15 @@ public class HotelController {
         return true;
     }
 
-    public Optional<Hotel> getByCityName(String cityName) {
+    public Optional<List<Hotel>> getByCityName(String cityName) {
         return Optional.ofNullable(hotelRepository.getByAddressCityName(cityName));
     }
 
     public Optional<List<Hotel>> getAllHotels() {
         return Optional.of(hotelRepository.findAll());
+    }
+
+    public Optional<Hotel> getFirstByAddressCityName(String name) {
+        return Optional.ofNullable(hotelRepository.getFirstByAddressCityName(name));
     }
 }

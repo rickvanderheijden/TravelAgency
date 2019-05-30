@@ -52,4 +52,9 @@ public class TripItemResource {
     public Optional<List<TripItem>> getAll() {
         return tripItemController.getAllTripItems();
     }
+
+    @GetMapping(value = "/city/{name}")
+    public Optional<List<TripItem>> getHotelsByCityName(@PathVariable("name") String cityName) {
+        return tripItemController.getByCityName(cityName);
+    }
 }
