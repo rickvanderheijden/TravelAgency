@@ -1,6 +1,7 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.TravelGroupController;
+import com.travelagency.controllers.UserController;
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.List;
 public class TravelGroupResource {
 
     private final TravelGroupController travelGroupController;
+    private final UserController userController;
 
-    public TravelGroupResource(TravelGroupController travelGroupController) {
+    public TravelGroupResource(TravelGroupController travelGroupController, UserController userController) {
         this.travelGroupController = travelGroupController;
+        this.userController = userController;
     }
 
     @RequestMapping(value = "/users/{id}" , method = RequestMethod.GET)
@@ -28,5 +31,10 @@ public class TravelGroupResource {
     @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
     public Optional<TravelGroup> createTrip(@Valid @RequestBody TravelGroup travelGroup) {
         return travelGroupController.createTravelGroup(travelGroup);
+    }
+
+    @RequestMapping(value = "/addUser/{id}", method = RequestMethod.POST)
+    public boolean addUser(@Valid @RequestBody TravelGroup travelGroup, @PathVariable final Long id) {
+       return userController.addTravelGroup(travelGroup,id);
     }
 }

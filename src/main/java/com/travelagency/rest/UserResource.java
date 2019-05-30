@@ -29,7 +29,6 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAll() {
         return userController.getAllUsers();
     }
@@ -59,7 +58,6 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getById(@PathVariable final Long id) {
         return userController.getUserById(id);
     }
