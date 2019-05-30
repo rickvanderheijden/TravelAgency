@@ -46,7 +46,7 @@ public class HotelResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<Hotel> update(@PathVariable final Long id, @RequestBody Hotel Hotel) {
-        return Optional.ofNullable(HotelController.updateHotel(id,Hotel));
+        return HotelController.updateHotel(id,Hotel);
     }
 
 }

@@ -122,7 +122,11 @@ class TestDataCreator {
 
             if (city.isPresent()) {
                 Hotel hotel = new Hotel("Hotel Hawaii", "Nice hotel with ocean view rooms", new Address("Somewhere 2", "91233", city.get()), 119, new Date());
+                Hotel hotel1 = new Hotel("Hyatt Regency Waikiki Beach Resort&Spa",
+                        "Dit hotel ligt direct aan de overkant van de straat aan het beroemde zandstrand Waikiki Beach. Het ligt op slechts 1 huizenblok van haltes van het openbaar vervoer, op 4 km van het winkelcentrum Ala Moana en op 15 km van de internationale luchthaven van Honolulu.",
+                        new Address("2424 Kalakaua Ave", "HI 96815", city.get()), 211, new Date());
                 hotelController.createHotel(hotel);
+                hotelController.createHotel(hotel1);
             }
         }
     }

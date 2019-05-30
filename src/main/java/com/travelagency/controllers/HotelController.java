@@ -45,11 +45,26 @@ public class HotelController {
         return hotelRepository.getOne(id);
     }
 
-    public Hotel updateHotel(Long id, Hotel updatedHotel) {
+    public Optional<Hotel> updateHotel(Long id, Hotel updatedHotel) {
         if(!hotelRepository.existsById(id)){
             return null;
         }
-        return hotelRepository.save(updatedHotel);
+        Address address = updatedHotel.getAddress();
+        if (address == null) return Optional.empty();
+
+        Optional<Address> addressInDatabase = geographyController.getAddress(address);
+        if (!addressInDatabase.isPresent()){
+            Optional<City> optionalCity = geographyController.getCity(address.getCity().getName());
+            if(!optionalCity.isPresent()){
+                return Optional.empty();
+            }
+            Optional<Address> createdAddress = geographyController.createAddress(address.getAddressLine(), address.getZipCode(), optionalCity.get());
+            createdAddress.ifPresent(updatedHotel::setAddress);
+        } else {
+            updatedHotel.setAddress(addressInDatabase.get());
+        }
+
+        return Optional.of(hotelRepository.save(updatedHotel));
     }
 
     public boolean deleteHotel(Long id) {
