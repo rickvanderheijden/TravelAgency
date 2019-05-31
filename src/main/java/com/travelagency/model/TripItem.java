@@ -67,7 +67,7 @@ public class TripItem {
         this.price = price;
         this.date = date;
         this.minPersons = 1;
-        this.maxPersons = 1;
+        this.maxPersons = 8;
     }
 
     public Long getId() {
