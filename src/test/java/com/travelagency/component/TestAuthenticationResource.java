@@ -57,11 +57,11 @@ public class TestAuthenticationResource {
         System.out.println(refreshedToken);
     }
 
-    @Test
-    public void testRegisterUser() {
-        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", true, null);
-        RestAssured.given().contentType("application/json").body(user).when().post("/auth/register").then().statusCode(200);
-    }
+//    @Test
+//    public void testRegisterUser() {
+//        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", true, null);
+//        RestAssured.given().contentType("application/json").body(user).when().post("/auth/register").then().statusCode(200);
+//    }
 
     //TODO: Move to a more suitable place (too generic)
     @Test
