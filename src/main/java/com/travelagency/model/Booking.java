@@ -18,6 +18,9 @@ public class Booking {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "number_of_travelers")
+    private int numberOfTravelers = 2;
+
     @ManyToOne
     @JoinColumn(name = "trip_id")
     @NotNull
@@ -67,6 +70,21 @@ public class Booking {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getNumberOfTravelers() {
+        return numberOfTravelers;
+    }
+
+    public boolean setNumberOfTravelers(int numberOfTravelers) {
+        boolean result = false;
+
+        if (numberOfTravelers > 0) {
+            this.numberOfTravelers = numberOfTravelers;
+            result = true;
+        }
+
+        return result;
     }
 
     public void setTrip(Trip trip) {
