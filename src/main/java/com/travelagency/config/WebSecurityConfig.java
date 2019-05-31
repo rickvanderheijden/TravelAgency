@@ -80,6 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/trips/**").permitAll()
                 .antMatchers("/destinations/**").permitAll()
                 .antMatchers("/tripItems/**").permitAll()
+                .antMatchers("/countries/**").permitAll()
+                .antMatchers("/continents/**").permitAll()
                 .antMatchers("/geo/**").permitAll()
                 .anyRequest().authenticated();
 

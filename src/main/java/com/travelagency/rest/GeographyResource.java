@@ -34,6 +34,12 @@ public class GeographyResource {
         return geographyController.getAllContinents();
     }
 
+
+    @RequestMapping(value = "/getCountryByContinent/{continent}", method = RequestMethod.GET)
+    public List<Country> getByContinent(@PathVariable final String continent) {
+        return geographyController.getCountryByContinent(continent);
+    }
+
     @GetMapping(value = "/getCitiesByCountryName/{countryName}")
     public Optional<List<City>> getCitiesByCountryName(@PathVariable("countryName") String countryName) {
         return geographyController.getCitiesByCountryName(countryName);
