@@ -93,11 +93,11 @@ public class TripController {
         }
 
         if(search.getContinent() != null && search.getCountry() != null) {
-            return Optional.of(this.tripRepository.findByDestinations_City_Country_NameContains(search.getCountry()));
+            return Optional.of(this.tripRepository.findByDestinations_City_Country_Name(search.getCountry()));
         }
 
         if(search.getContinent() != null) {
-            return Optional.of(this.tripRepository.findByDestinations_City_Country_Continent_NameContains(search.getContinent()));
+            return Optional.of(this.tripRepository.findByDestinations_City_Country_Continent_Name(search.getContinent()));
         }
 
         return Optional.empty();
