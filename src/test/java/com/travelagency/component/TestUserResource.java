@@ -77,13 +77,13 @@ public class TestUserResource {
         RestAssured.given().contentType("application/json").when().post("/users/create").then().statusCode(StatusCodeUnauthorized);
     }
 
-//    @Test
-//    public void testCreateUserWithAdminAccount() {
-//        login(AdminLogin, AdminPassword);
-//        List<Authority> authorities = Collections.singletonList(new Authority(AuthorityName.ROLE_USER));
-//        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", true, authorities);
-//        RestAssured.given().contentType("application/json").header(header).body(user).when().post("/users/create").then().statusCode(StatusCodeOK);
-//    }
+    @Test
+    public void testCreateUserWithAdminAccount() {
+        login(AdminLogin, AdminPassword);
+        List<Authority> authorities = Collections.singletonList(new Authority(AuthorityName.ROLE_USER));
+        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", true, authorities);
+        RestAssured.given().contentType("application/json").header(header).body(user).when().post("/users/create").then().statusCode(StatusCodeOK);
+    }
 
     private void login(String username, String password) {
         UserCredentials userCredentials = new UserCredentials(username, password);

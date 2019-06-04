@@ -29,11 +29,11 @@ public class TestTripResource {
         RestAssured.given().contentType("application/json").header(header).body(trip).when().post("/trips/createTrip").then().statusCode(StatusCodeOK);
     }
 
-//    @Test
-//    public void testGetAll() {
-//        int numberOfTrips = RestAssured.given().contentType("application/json").get("/trips/all").jsonPath().getList("").size();
-//        Assert.assertEquals(6, numberOfTrips);
-//    }
+    @Test
+    public void testGetAll() {
+        int numberOfTrips = RestAssured.given().contentType("application/json").get("/trips/all").jsonPath().getList("").size();
+        Assert.assertEquals(5, numberOfTrips);
+    }
 
     private void login(String username, String password) {
         UserCredentials userCredentials = new UserCredentials(username, password);
