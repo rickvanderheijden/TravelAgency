@@ -27,8 +27,8 @@ public class TestUserController {
 
     private static final String UserName = "username";
     private static final String Password = "password";
-    private static final String FirstName = "firstname";
-    private static final String LastName = "lastname";
+    private static final String FirstName = "firstName";
+    private static final String LastName = "lastName";
     private static final String EmailAddress = "emailAddress";
     private static final String Token = "usertoken";
     private static final Long Id = 131L;
@@ -220,8 +220,8 @@ public class TestUserController {
         user.setUsername(UserName);
         user.setPassword(bCryptPasswordEncoder.encode(Password));
         user.setAuthorities(authorities);
-        user.setFirstname(FirstName);
-        user.setLastname(LastName);
+        user.setFirstName(FirstName);
+        user.setLastName(LastName);
         user.setEmailAddress(EmailAddress);
         user.setEnabled(Boolean.TRUE);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
