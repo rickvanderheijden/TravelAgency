@@ -51,9 +51,6 @@ public class Booking {
     @Column(name = "booking_date")
     private Date bookingDate;
 
-    public Booking() {
-    }
-
     public Long getId() {
         return id;
     }

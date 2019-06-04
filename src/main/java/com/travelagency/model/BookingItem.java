@@ -28,8 +28,6 @@ public class BookingItem {
     @NotNull
     private int price;
 
-    public BookingItem() {}
-
     public Long getId() {
         return id;
     }
