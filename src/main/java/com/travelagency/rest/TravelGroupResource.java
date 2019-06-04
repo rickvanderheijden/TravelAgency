@@ -4,6 +4,7 @@ import com.travelagency.controllers.TravelGroupController;
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
+import com.travelagency.rest.DataTranfersObjects.TravelGroupDTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +30,8 @@ public class TravelGroupResource {
     }
 
     @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
-    public Optional<TravelGroup> createTrip(@Valid @RequestBody TravelGroup travelGroup) {
+    public Optional<TravelGroup> createTrip(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
+        TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
         return travelGroupController.createTravelGroup(travelGroup);
     }
 

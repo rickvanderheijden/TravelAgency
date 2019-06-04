@@ -14,10 +14,12 @@ public class TravelGroupController {
 
     private final TravelGroupRepository travelGroupRepository;
     private final UserRepository userRepository;
+    private final UserController userController;
 
-    public TravelGroupController(TravelGroupRepository travelGroupRepository, UserRepository userRepository) {
+    public TravelGroupController(TravelGroupRepository travelGroupRepository, UserRepository userRepository, UserController userController) {
         this.travelGroupRepository = travelGroupRepository;
         this.userRepository = userRepository;
+        this.userController = userController;
     }
 
     public Optional<List<TravelGroup>> getAllTravelGroups() {
@@ -25,7 +27,12 @@ public class TravelGroupController {
     }
 
     public Optional<TravelGroup> createTravelGroup(TravelGroup travelGroup){
-        return Optional.of(travelGroupRepository.save(travelGroup));
+        Optional<TravelGroup> returnTravelGroup = Optional.of(travelGroupRepository.save(travelGroup));
+
+        for (User user: travelGroup.getUsers())
+            this.userController.addTravelGroup(travelGroup, user.getId());
+
+        return returnTravelGroup;
     }
 
     public Optional<TravelGroup> createTravelGroup(String travelGroupName, Long masterId){

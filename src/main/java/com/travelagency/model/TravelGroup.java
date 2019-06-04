@@ -3,6 +3,7 @@ package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,10 +31,9 @@ public class TravelGroup {
     @ManyToMany(mappedBy = "travelGroups")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public TravelGroup() {
-        this.users = new ArrayList<>();
     }
 
     public TravelGroup(@NotNull String name, @NotNull Long masterId, List<User> users) {

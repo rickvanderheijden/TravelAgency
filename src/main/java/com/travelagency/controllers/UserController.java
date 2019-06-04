@@ -114,7 +114,7 @@ public class UserController {
     public boolean addTravelGroup(TravelGroup travelGroup, Long id) {
         Optional<User> user = getUserById(id);
         if (user.isPresent()) {
-            user.get().addTravelGroup(travelGroup);
+            user.get().addTravelGroup(travelGroupRepository.findById(travelGroup.getId()).get());
             userRepository.save(user.get());
         }
         return true;

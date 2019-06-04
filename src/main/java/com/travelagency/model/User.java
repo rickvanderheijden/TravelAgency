@@ -2,6 +2,7 @@ package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -80,7 +81,7 @@ public class User {
     @JoinTable(
             name = "user_travelgroup",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "travel_group_id", referencedColumnName = "id")})
+            inverseJoinColumns = {@JoinColumn(name = "travelgroup_id", referencedColumnName = "id")})
     private List<TravelGroup> travelGroups;
 
     public Long getId() {
