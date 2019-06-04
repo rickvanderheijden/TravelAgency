@@ -1,7 +1,6 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.LuhnCheck;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
