@@ -48,6 +48,15 @@ public class Hotel {
         this.date = date;
     }
 
+    public Hotel(@NotNull String name, @NotNull String description, String imageBlob, Address address, @NotNull int price, @NotNull Date date) {
+        this.name = name;
+        this.description = description;
+        this.imageBlob = imageBlob;
+        this.address = address;
+        this.price = price;
+        this.date = date;
+    }
+
     public Long getId() {
         return id;
     }
