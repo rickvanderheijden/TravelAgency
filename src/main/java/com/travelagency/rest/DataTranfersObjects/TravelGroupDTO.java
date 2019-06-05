@@ -1,5 +1,4 @@
 package com.travelagency.rest.DataTranfersObjects;
-
 import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 

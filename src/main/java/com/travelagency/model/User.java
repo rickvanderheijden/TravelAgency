@@ -2,7 +2,6 @@ package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -46,12 +45,12 @@ public class User {
     @Column(name = "firstname", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
-    private String firstname;
+    private String firstName;
 
     @Column(name = "lastname", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
-    private String lastname;
+    private String lastName;
 
     @Column(name = "email_address", length = 50)
     @NotNull
@@ -108,20 +107,20 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmailAddress() {

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Controller
 public class UserController {
@@ -57,7 +56,7 @@ public class UserController {
         Optional<User> result = Optional.empty();
 
         if ((userDTO.getUsername() != null) && (userDTO.getEmailAddress() != null) &&
-                (userDTO.getFirstname() != null) && (userDTO.getLastname() != null)) {
+                (userDTO.getFirstName() != null) && (userDTO.getLastName() != null)) {
 
             String username = jwtTokenUtil.getUsernameFromToken(token);
             User userInDB = userRepository.findByUsername(userDTO.getUsername());
@@ -65,8 +64,8 @@ public class UserController {
             if ((username != null) && (userInDB != null) &&
                     (username.equals(userDTO.getUsername()) || this.getIsUserAdmin(token))) {
                 userInDB.setEmailAddress(userDTO.getEmailAddress());
-                userInDB.setFirstname(userDTO.getFirstname());
-                userInDB.setLastname(userDTO.getLastname());
+                userInDB.setFirstName(userDTO.getFirstName());
+                userInDB.setLastName(userDTO.getLastName());
 
                 result = Optional.of(userRepository.save(userInDB));
             }

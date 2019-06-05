@@ -2,6 +2,7 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.TripController;
 import com.travelagency.model.Trip;
+import com.travelagency.rest.DataTranfersObjects.TripSearchDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,4 +57,7 @@ public class TripResource {
     public Optional<List<Trip>> getAll(@PathVariable int limit) {
         return tripController.getAllTrips(limit);
     }
+
+    @RequestMapping(value = "/searchTrips", method = RequestMethod.POST)
+    public Optional<List<Trip>> search(@Valid @RequestBody TripSearchDTO search) { return tripController.searchTripsFilter(search); }
 }

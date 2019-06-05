@@ -123,8 +123,8 @@ public class AuthenticationResource {
         user.setUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setAuthorities(authorities);
-        user.setFirstname(firstName);
-        user.setLastname(lastName);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setEmailAddress(emailAddress);
         user.setEnabled(Boolean.TRUE);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
