@@ -5,8 +5,6 @@ import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

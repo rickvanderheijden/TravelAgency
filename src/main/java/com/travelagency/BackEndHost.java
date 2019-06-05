@@ -7,14 +7,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 @SpringBootApplication(scanBasePackages = "com.travelagency")
 @EnableJpaRepositories(basePackages = "com.travelagency.repository")
 public class BackEndHost implements WebMvcConfigurer {
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) {
 
         ConfigurableApplicationContext context = SpringApplication.run(BackEndHost.class, args);
 

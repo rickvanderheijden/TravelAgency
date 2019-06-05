@@ -20,9 +20,15 @@ public class BookingItem {
     @Column(name = "item_id")
     private Long itemId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "description", length = 2000)
     @NotNull
     private String description;
+
+    @Column(name = "number_of_attendees", length = 2000)
+    private int numberOfAttendees;
 
     @Column(name = "price", length = 10)
     @NotNull
@@ -52,12 +58,28 @@ public class BookingItem {
         this.itemId = itemId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getNumberOfAttendees() {
+        return numberOfAttendees;
+    }
+
+    public void setNumberOfAttendees(int numberOfAttendees) {
+        this.numberOfAttendees = numberOfAttendees;
     }
 
     public int getPrice() {
