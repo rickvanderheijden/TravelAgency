@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 @EnableJpaRepositories(basePackages = "com.travelagency.repository")
 public class BackEndHost implements WebMvcConfigurer {
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) {
 
         ConfigurableApplicationContext context = SpringApplication.run(BackEndHost.class, args);
 
