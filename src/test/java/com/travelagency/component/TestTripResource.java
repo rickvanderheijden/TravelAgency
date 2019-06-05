@@ -32,7 +32,7 @@ public class TestTripResource {
     @Test
     public void testGetAll() {
         int numberOfTrips = RestAssured.given().contentType("application/json").get("/trips/all").jsonPath().getList("").size();
-        Assert.assertEquals(3, numberOfTrips);
+        Assert.assertEquals(5, numberOfTrips);
     }
 
     private void login(String username, String password) {

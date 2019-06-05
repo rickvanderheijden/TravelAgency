@@ -69,7 +69,7 @@ public class TripController {
         String[] searchKeywords = searchInput.split(" ");
         Set<Trip> result = new HashSet<>();
         for (String searchKeyword: searchKeywords) {
-            result.addAll(tripRepository.findByNameContains(searchKeyword));
+            result.addAll(tripRepository.findDistinctByNameContains(searchKeyword));
         }
         return result;
     }
@@ -92,12 +92,12 @@ public class TripController {
             return Optional.empty();
         }
 
-        if(search.getContinent() != null && search.getCountry() != null) {
-            return Optional.of(this.tripRepository.findByDestinations_City_Country_NameContains(search.getCountry()));
+        if(search.getCountry() != null) {
+            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
         }
 
         if(search.getContinent() != null) {
-            return Optional.of(this.tripRepository.findByDestinations_City_Country_Continent_NameContains(search.getContinent()));
+            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
         }
 
         return Optional.empty();

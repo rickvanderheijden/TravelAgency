@@ -378,6 +378,62 @@ class TestDataCreator {
                 }
             */
             context.getBean(TripController.class).createTrip(trip);
+
+            trip = new Trip(
+                    "Wijn tour in de Bordeaux",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
+                            "\n" +
+                            "Nunc in pharetra odio. Sed finibus venenatis volutpat. Phasellus eget arcu aliquet, placerat ipsum ac, venenatis augue. Aliquam id nibh in lacus mollis posuere. Etiam egestas a mauris nec molestie. Donec lacus diam, placerat a sollicitudin non, volutpat vel leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed a tristique lectus, vel laoreet massa. Vestibulum euismod commodo purus, ut mollis diam finibus et.\n" +
+                            "\n" +
+                            "Nullam neque nibh, pharetra quis felis et, maximus sagittis felis. Donec vitae lorem viverra, tincidunt mauris vitae, dictum mauris. In hac habitasse platea dictumst. Cras auctor mi ipsum, ac elementum turpis rutrum eget. Maecenas dignissim aliquet libero, eu pharetra urna. In hac habitasse platea dictumst. Sed facilisis enim at arcu facilisis, vitae cursus enim fermentum. Mauris mattis, arcu a accumsan commodo, sem dolor gravida lectus, non finibus massa eros id metus. Quisque eleifend turpis ac purus convallis dictum. Mauris commodo nisl ut ante malesuada ultrices. Praesent ut dolor sodales, tristique erat ut, porttitor libero. Mauris eu tortor risus. Pellentesque fermentum ligula id venenatis sollicitudin. Cras eu sem ipsum. Aliquam sagittis viverra arcu, sed luctus mi cursus vel.\n" +
+                            "\n" +
+                            "Nullam convallis, erat sed fermentum blandit, orci mauris pellentesque ipsum, quis luctus sapien magna sit amet libero. Suspendisse placerat auctor nisi in blandit. Donec vestibulum, urna ac pharetra accumsan, diam risus hendrerit felis, eu lacinia turpis ligula ut nisi. Suspendisse semper mauris a arcu scelerisque accumsan. Curabitur efficitur odio nec turpis eleifend lacinia. Nullam ac turpis in nisl ullamcorper commodo malesuada placerat nibh. Integer ultricies aliquam dui pellentesque pulvinar. Duis efficitur, eros ut ullamcorper iaculis, nibh libero fermentum tortor, non fermentum nulla tortor ut ante. Aenean viverra massa ut dui tempor accumsan.\n" +
+                            "\n" +
+                            "Mauris tristique mollis dolor quis hendrerit. Sed justo lectus, consectetur in arcu et, venenatis iaculis purus. Nunc vel tellus velit. Vestibulum at diam ullamcorper, malesuada massa vel, tempor eros. Etiam fermentum leo felis, ac interdum velit venenatis ac. Nam ultrices turpis quis vehicula semper. Proin hendrerit orci bibendum efficitur blandit. Ut finibus vehicula nunc, a pharetra diam feugiat eu. Nulla in tincidunt dui. Mauris pulvinar est a tortor ultricies, et luctus nisi luctus. Donec suscipit, nunc id dictum dignissim, massa quam sodales ligula, a pellentesque leo nisi quis arcu",
+                    "Aloha en welkom op Hawaiiaanse bodem, bekend van rieten rokjes, bloemenkransen en surfers. Natuurlijk is er meer. Per binnenlandse vluchten maak je kennis met de vier grootste eilanden. Relaxen op Waikiki Beach en shoppen in hoofdstad Honolulu op Oahu, actieve vulkanen ontdekken op Big Island, wandelen door tropische landschappen op het groene Kauai en genieten van de zonsondergang op bloemeneiland Maui. Alsof je op ieder eiland in een andere wereld stapt.",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFwlyP-6UoPmreBcTvAbQz8DUmqn6v4vcrhqS_JwkrdrmPwTXMnQ",
+                    1599,
+                    0);
+
+            destination = context.getBean(DestinationController.class).getByCityName("Bordeaux");
+
+            if (destination.isPresent()) {
+                trip.addDestination(destination.get());
+            }
+
+            if (destination.isPresent()) {
+                trip.addDestination(destination.get());
+            }
+
+            context.getBean(TripController.class).createTrip(trip);
+
+            trip = new Trip(
+                    "Tapa's in Barcelona",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
+                            "\n" +
+                            "Nunc in pharetra odio. Sed finibus venenatis volutpat. Phasellus eget arcu aliquet, placerat ipsum ac, venenatis augue. Aliquam id nibh in lacus mollis posuere. Etiam egestas a mauris nec molestie. Donec lacus diam, placerat a sollicitudin non, volutpat vel leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed a tristique lectus, vel laoreet massa. Vestibulum euismod commodo purus, ut mollis diam finibus et.\n" +
+                            "\n" +
+                            "Nullam neque nibh, pharetra quis felis et, maximus sagittis felis. Donec vitae lorem viverra, tincidunt mauris vitae, dictum mauris. In hac habitasse platea dictumst. Cras auctor mi ipsum, ac elementum turpis rutrum eget. Maecenas dignissim aliquet libero, eu pharetra urna. In hac habitasse platea dictumst. Sed facilisis enim at arcu facilisis, vitae cursus enim fermentum. Mauris mattis, arcu a accumsan commodo, sem dolor gravida lectus, non finibus massa eros id metus. Quisque eleifend turpis ac purus convallis dictum. Mauris commodo nisl ut ante malesuada ultrices. Praesent ut dolor sodales, tristique erat ut, porttitor libero. Mauris eu tortor risus. Pellentesque fermentum ligula id venenatis sollicitudin. Cras eu sem ipsum. Aliquam sagittis viverra arcu, sed luctus mi cursus vel.\n" +
+                            "\n" +
+                            "Nullam convallis, erat sed fermentum blandit, orci mauris pellentesque ipsum, quis luctus sapien magna sit amet libero. Suspendisse placerat auctor nisi in blandit. Donec vestibulum, urna ac pharetra accumsan, diam risus hendrerit felis, eu lacinia turpis ligula ut nisi. Suspendisse semper mauris a arcu scelerisque accumsan. Curabitur efficitur odio nec turpis eleifend lacinia. Nullam ac turpis in nisl ullamcorper commodo malesuada placerat nibh. Integer ultricies aliquam dui pellentesque pulvinar. Duis efficitur, eros ut ullamcorper iaculis, nibh libero fermentum tortor, non fermentum nulla tortor ut ante. Aenean viverra massa ut dui tempor accumsan.\n" +
+                            "\n" +
+                            "Mauris tristique mollis dolor quis hendrerit. Sed justo lectus, consectetur in arcu et, venenatis iaculis purus. Nunc vel tellus velit. Vestibulum at diam ullamcorper, malesuada massa vel, tempor eros. Etiam fermentum leo felis, ac interdum velit venenatis ac. Nam ultrices turpis quis vehicula semper. Proin hendrerit orci bibendum efficitur blandit. Ut finibus vehicula nunc, a pharetra diam feugiat eu. Nulla in tincidunt dui. Mauris pulvinar est a tortor ultricies, et luctus nisi luctus. Donec suscipit, nunc id dictum dignissim, massa quam sodales ligula, a pellentesque leo nisi quis arcu",
+                    "Aloha en welkom op Hawaiiaanse bodem, bekend van rieten rokjes, bloemenkransen en surfers. Natuurlijk is er meer. Per binnenlandse vluchten maak je kennis met de vier grootste eilanden. Relaxen op Waikiki Beach en shoppen in hoofdstad Honolulu op Oahu, actieve vulkanen ontdekken op Big Island, wandelen door tropische landschappen op het groene Kauai en genieten van de zonsondergang op bloemeneiland Maui. Alsof je op ieder eiland in een andere wereld stapt.",
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO18jO8RCQ6gZS01na9dhPswiJxsE115reGYEqRGYYdfS-Ky4I7A",
+                    1599,
+                    0);
+
+            destination = context.getBean(DestinationController.class).getByCityName("Barcelona");
+
+            if (destination.isPresent()) {
+                trip.addDestination(destination.get());
+            }
+
+            if (destination.isPresent()) {
+                trip.addDestination(destination.get());
+            }
+
+            context.getBean(TripController.class).createTrip(trip);
         }
     }
 
