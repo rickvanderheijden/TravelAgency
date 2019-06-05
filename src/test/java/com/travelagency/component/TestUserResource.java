@@ -69,7 +69,8 @@ public class TestUserResource {
     @Test
     public void testGetAllUsersWithUserAccount() {
         login(UserLogin, UserPassword);
-        RestAssured.given().contentType("application/json").header(header).get("/users/all").then().statusCode(StatusCodeForbidden);
+        int numberOfUsers = RestAssured.given().contentType("application/json").header(header).get("/users/all").jsonPath().getList("").size();
+        Assert.assertTrue(numberOfUsers > 0);
     }
 
     @Test
