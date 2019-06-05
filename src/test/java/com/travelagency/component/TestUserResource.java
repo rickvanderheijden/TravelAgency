@@ -51,8 +51,8 @@ public class TestUserResource {
         login(UserLogin, UserPassword);
         ResponseBody responseBody = RestAssured.given().contentType("application/json").header(header).get("/users/user").getBody();
 
-        Assert.assertEquals(expectedFirstname, responseBody.jsonPath().get("firstname"));
-        Assert.assertEquals(expectedLastname, responseBody.jsonPath().get("lastname"));
+        Assert.assertEquals(expectedFirstname, responseBody.jsonPath().get("firstName"));
+        Assert.assertEquals(expectedLastname, responseBody.jsonPath().get("lastName"));
         Assert.assertEquals(expectedEmailAddress, responseBody.jsonPath().get("emailAddress"));
         Assert.assertEquals(expectedEnabled, responseBody.jsonPath().get("enabled"));
         Assert.assertEquals(expectedAuthorities.get("name"), ((HashMap<String, String>)responseBody.jsonPath().getList("authorities").get(0)).get("name"));

@@ -47,7 +47,7 @@ public class HotelController {
 
     public Optional<Hotel> updateHotel(Long id, Hotel updatedHotel) {
         if(!hotelRepository.existsById(id)){
-            return null;
+            return Optional.empty();
         }
         Address address = updatedHotel.getAddress();
         if (address == null) return Optional.empty();

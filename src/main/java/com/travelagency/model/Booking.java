@@ -18,38 +18,29 @@ public class Booking {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "trip_id")
+    @NotNull
+    private Long tripId;
+
+    @Column(name = "base_price")
+    private int basePrice;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User booker;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @Column(name = "number_of_travelers")
     private int numberOfTravelers = 2;
 
-    @ManyToOne
-    @JoinColumn(name = "trip_id")
-    @NotNull
-    private Trip trip;
-
-    @ManyToMany(cascade = { CascadeType.MERGE })
-    @JoinTable(name = "booking_hotel",
+    @OneToMany(cascade = { CascadeType.MERGE })
+    @JoinTable(name = "booking_bookingitem",
             joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "hotel_id", referencedColumnName = "id"))
-    private List<BookableHotel> hotels = new ArrayList<>();
-
-    @ManyToMany(cascade = { CascadeType.MERGE })
-    @JoinTable(name = "booking_tripitem",
-            joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
-    private List<TripItem> tripItems = new ArrayList<>();
-
-    @Column(name = "total_price", length = 10)
-    private int totalPrice = -1;
-
-    @Column(name = "startdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
-    private Date startDate;
-
-    @Column(name = "enddate")
-    @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
-    private Date endDate;
+            inverseJoinColumns = @JoinColumn(name = "bookingitem_id", referencedColumnName = "id"))
+    private List<BookingItem> bookingItems = new ArrayList<>();
 
     @Column(name = "booked")
     private boolean booked;
@@ -57,12 +48,8 @@ public class Booking {
     @Column(name = "paid")
     private boolean paid;
 
-    public Booking() {
-    }
-
-    public Booking(@NotNull Trip trip) {
-        this.trip = trip;
-    }
+    @Column(name = "booking_date")
+    private Date bookingDate;
 
     public Long getId() {
         return id;
@@ -72,85 +59,52 @@ public class Booking {
         this.id = id;
     }
 
+    public Long getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public User getBooker() {
+        return booker;
+    }
+
+    public void setBooker(User booker) {
+        this.booker = booker;
+    }
+
     public int getNumberOfTravelers() {
         return numberOfTravelers;
     }
 
-    public boolean setNumberOfTravelers(int numberOfTravelers) {
-        boolean result = false;
-
-        if (numberOfTravelers > 0) {
-            this.numberOfTravelers = numberOfTravelers;
-            result = true;
-        }
-
-        return result;
+    public void setNumberOfTravelers(int numberOfTravelers) {
+        this.numberOfTravelers = numberOfTravelers;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public List<BookingItem> getBookingItems() {
+        return bookingItems;
     }
 
-    public Trip getTrip() {
-        return this.trip;
+    public void setBookingItems(List<BookingItem> bookingItems) {
+        this.bookingItems = bookingItems;
     }
 
-    public int getTotalPrice() {
-        if (totalPrice < 0) {
-            return trip.getTotalPrice();
-        }
-
-        return totalPrice;
+    public boolean isBooked() {
+        return booked;
     }
 
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public List<TripItem> getTripItems() {
-        return this.tripItems;
-    }
-
-    public void setTripItems(List<TripItem> tripItems) {
-        this.tripItems = tripItems;
-    }
-
-    public boolean addTripItem(TripItem tripItem){
-        if(tripItems.contains(tripItem))
-            return false;
-
-        return tripItems.add(tripItem);
-    }
-
-    public List<BookableHotel> getHotels() {
-        return hotels;
-    }
-
-    public void setHotels(List<BookableHotel> hotels) {
-        this.hotels = hotels;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public boolean removeTripItem(TripItem tripItem){
-        if(!tripItems.contains(tripItem))
-            return false;
-
-        return tripItems.remove(tripItem);
+    public void setBooked(boolean booked) {
+        this.booked = booked;
     }
 
     public boolean isPaid() {
@@ -161,11 +115,19 @@ public class Booking {
         this.paid = paid;
     }
 
-    public boolean isBooked() {
-        return booked;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setBooked(boolean booked) {
-        this.booked = booked;
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
     }
 }

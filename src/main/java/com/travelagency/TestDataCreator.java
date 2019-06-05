@@ -23,7 +23,7 @@ class TestDataCreator {
         TestDataCreator.context = context;
     }
 
-    public void createTestData() throws IOException, URISyntaxException {
+    public void createTestData() {
         createTestUsers();
         createTestContinents();
         createTestCountries();
