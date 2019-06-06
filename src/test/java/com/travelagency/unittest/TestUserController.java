@@ -37,8 +37,8 @@ public class TestUserController {
 
     private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
     private final TravelGroupRepository travelGroupRepository = Mockito.mock(TravelGroupRepository.class);
+    private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
 
     private UserController userController;
 
