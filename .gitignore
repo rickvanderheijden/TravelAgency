@@ -90,4 +90,3 @@ hs_err_pid*
 # End of https://www.gitignore.io/api/java,intellij
 *.bak
 target/*
-.idea/misc.xml
