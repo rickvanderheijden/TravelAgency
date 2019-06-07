@@ -112,4 +112,8 @@ public class Hotel {
     public void setImageBlob(String imageBlob) {
         this.imageBlob = imageBlob;
     }
+
+    public int getAvailability() {
+        return 4;  //TODO: Calculate with reservations and date
+    }
 }
