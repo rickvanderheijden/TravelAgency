@@ -326,7 +326,7 @@ class TestDataCreator {
         if (context != null) {
 
             Trip trip = new Trip(
-                    "14-DAAGSE RONDREIS HAWAIIAN SPLENDORS",
+                    "14-Daagse rondreis Hawaiian Splendors",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
                             "\n" +
                             "Nunc in pharetra odio. Sed finibus venenatis volutpat. Phasellus eget arcu aliquet, placerat ipsum ac, venenatis augue. Aliquam id nibh in lacus mollis posuere. Etiam egestas a mauris nec molestie. Donec lacus diam, placerat a sollicitudin non, volutpat vel leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed a tristique lectus, vel laoreet massa. Vestibulum euismod commodo purus, ut mollis diam finibus et.\n" +
@@ -356,7 +356,7 @@ class TestDataCreator {
             context.getBean(TripController.class).createTrip(trip);
 
             trip = new Trip(
-                    "IN DE BAN VAN HET NOORDERLICHT",
+                    "In de ban van het Noorderlicht",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget augue iaculis sapien venenatis dapibus. Donec vitae metus eros. Cras imperdiet diam quis metus tempus aliquet. Vivamus ut tortor non elit commodo ultrices. Ut ac aliquam dui. Praesent vel libero lobortis, dapibus elit quis, venenatis mauris. Proin eu tempor leo, ac molestie dolor. Suspendisse potenti. Praesent sed arcu accumsan, congue ligula vitae, varius metus.\n" +
                             "\n" +
                             "Nunc in pharetra odio. Sed finibus venenatis volutpat. Phasellus eget arcu aliquet, placerat ipsum ac, venenatis augue. Aliquam id nibh in lacus mollis posuere. Etiam egestas a mauris nec molestie. Donec lacus diam, placerat a sollicitudin non, volutpat vel leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed a tristique lectus, vel laoreet massa. Vestibulum euismod commodo purus, ut mollis diam finibus et.\n" +
