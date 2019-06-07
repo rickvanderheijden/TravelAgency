@@ -60,18 +60,11 @@ public class TripController {
         return true;
     }
 
-    //TODO: Search trips methode ->Ismail
-    public Iterable<Trip> searchTrips(String searchInput) {
+    public Optional<List<Trip>> searchTripsName(String searchInput) {
         if(searchInput == null || searchInput.isEmpty()){
-            return null;
+            return Optional.empty();
         }
-
-        String[] searchKeywords = searchInput.split(" ");
-        Set<Trip> result = new HashSet<>();
-        for (String searchKeyword: searchKeywords) {
-            result.addAll(tripRepository.findDistinctByNameContains(searchKeyword));
-        }
-        return result;
+        return Optional.of(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(searchInput, searchInput, searchInput));
     }
 
     public Optional<List<Trip>> getAllTrips() {

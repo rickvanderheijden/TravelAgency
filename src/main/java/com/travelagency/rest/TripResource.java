@@ -60,4 +60,7 @@ public class TripResource {
 
     @RequestMapping(value = "/searchTrips", method = RequestMethod.POST)
     public Optional<List<Trip>> search(@Valid @RequestBody TripSearchDTO search) { return tripController.searchTripsFilter(search); }
+
+    @RequestMapping(value = "/searchTripsName", method = RequestMethod.POST)
+    public Optional<List<Trip>> searchByName(@Valid @RequestBody String name) { return tripController.searchTripsName(name); }
 }
