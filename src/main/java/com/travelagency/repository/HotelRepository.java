@@ -8,4 +8,5 @@ import java.util.List;
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
     List<Hotel> getByAddressCityName(String cityName);
     Hotel getFirstByAddressCityName(String cityName);
+    Hotel getFirstByName(String name);
 }
