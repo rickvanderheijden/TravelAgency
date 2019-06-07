@@ -29,9 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtAuthorizationTokenFilter authenticationTokenFilter;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
     @Value("/auth")
     private String authenticationPath;
 
