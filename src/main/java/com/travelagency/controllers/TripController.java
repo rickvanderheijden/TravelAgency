@@ -60,7 +60,7 @@ public class TripController {
         return true;
     }
 
-    public Optional<List<Trip>> searchTripsName(String searchInput) {
+    public Optional<List<Trip>> searchTripsKeyWord(String searchInput) {
         if(searchInput == null || searchInput.isEmpty()){
             return Optional.empty();
         }
