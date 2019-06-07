@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TravelGroupRepository extends JpaRepository<TravelGroup, Long> {
     TravelGroup findByName(String username);
-    List<TravelGroup> findByUser(User user);
+    List<TravelGroup> findByUsers(User user);
 }

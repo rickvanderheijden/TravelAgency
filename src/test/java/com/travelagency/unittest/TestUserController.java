@@ -44,7 +44,7 @@ public class TestUserController {
 
     @Before
     public void setUp() {
-        userController = new UserController(authorityRepository, userRepository, travelGroupRepository, jwtTokenUtil);
+        userController = new UserController(authorityRepository, userRepository, jwtTokenUtil, travelGroupRepository);
         when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority());
         when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority());
 
