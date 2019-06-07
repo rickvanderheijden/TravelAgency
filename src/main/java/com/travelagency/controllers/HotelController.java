@@ -86,4 +86,8 @@ public class HotelController {
     public Optional<Hotel> getFirstByAddressCityName(String name) {
         return Optional.ofNullable(hotelRepository.getFirstByAddressCityName(name));
     }
+
+    public Optional<Hotel> getHotelByName(String name) {
+        return Optional.ofNullable(hotelRepository.getFirstByName(name));
+    }
 }

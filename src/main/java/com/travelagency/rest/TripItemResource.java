@@ -35,7 +35,7 @@ public class TripItemResource {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Optional<TripItem> update(@PathVariable final Long id, @RequestBody TripItem tripItem) {
-        return Optional.ofNullable(tripItemController.updateTripItem(id,tripItem));
+        return tripItemController.updateTripItem(id,tripItem);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
