@@ -2,6 +2,8 @@ package com.travelagency.controllers;
 
 import com.travelagency.model.City;
 import com.travelagency.model.Destination;
+import com.travelagency.model.Hotel;
+import com.travelagency.model.TripItem;
 import com.travelagency.repository.DestinationRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,18 @@ public class DestinationController {
 
     private final DestinationRepository destinationRepository;
     private final GeographyController geographyController;
+    private final HotelController hotelController;
+    private final TripItemController tripItemController;
 
-    public DestinationController(DestinationRepository destinationRepository, GeographyController geographyController) {
+    public DestinationController(
+            DestinationRepository destinationRepository,
+            GeographyController geographyController,
+            HotelController hotelController,
+            TripItemController tripItemController) {
         this.destinationRepository= destinationRepository;
         this.geographyController = geographyController;
+        this.hotelController = hotelController;
+        this.tripItemController = tripItemController;
     }
 
     public Optional<Destination> createDestination(Destination destination) {
@@ -60,6 +70,36 @@ public class DestinationController {
         if(!this.destinationRepository.existsById(id)){
             return null;
         }
-        return this.destinationRepository.save(destination);
+
+        Destination destinationFromDatabase = this.getById(destination.getId());
+        Destination updatedDestination = this.setCityAndHotelAndTripItems(destination);
+        destinationFromDatabase.setName(destination.getName());
+        destinationFromDatabase.setHotel(updatedDestination.getHotel());
+        destinationFromDatabase.setCity(updatedDestination.getCity());
+        destinationFromDatabase.setTripItems(updatedDestination.getTripItems());
+
+        return this.destinationRepository.save(destinationFromDatabase);
+    }
+
+    private Destination setCityAndHotelAndTripItems(Destination destination) {
+        if (destination == null) return null;
+        City city = destination.getCity();
+        Hotel hotel = destination.getHotel();
+        List<TripItem> tripItems = destination.getTripItems();
+        destination.setCity(null);
+        destination.setHotel(null);
+        destination.setTripItems(null);
+
+        Optional<City> cityInDatabase = geographyController.getCity(city.getName());
+        Optional<Hotel> hotelInDatabase = hotelController.getHotelByName(hotel.getName());
+        for (TripItem tripItem : tripItems){
+            Optional<TripItem> tripItemInDatabase = Optional.ofNullable(tripItemController.getById(tripItem.getId()));
+            tripItemInDatabase.ifPresent(destination::addTripItem);
+        }
+        cityInDatabase.ifPresent(destination::setCity);
+
+        hotelInDatabase.ifPresent(destination::setHotel);
+
+        return destination;
     }
 }
