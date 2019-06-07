@@ -1,5 +1,15 @@
 package com.travelagency;
 
+import com.travelagency.controllers.GeographyController;
+import com.travelagency.controllers.TravelGroupController;
+import com.travelagency.controllers.UserController;
+import com.travelagency.model.*;
+import com.travelagency.rest.AuthenticationResource;
+import com.travelagency.rest.DataTranfersObjects.UserDTO;
+import com.travelagency.rest.TripResource;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import java.lang.reflect.Array;
 import com.travelagency.controllers.*;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
@@ -31,6 +41,7 @@ class TestDataCreator {
         createTestTripItems();
         createTestDestinations();
         createTestTrips();
+        createTestTravelGroups();
         createTestTravels();
     }
 
@@ -195,8 +206,7 @@ class TestDataCreator {
         }
     }
 
-    private void createTestCitiesNorthAmerica()
-    {
+    private void createTestCitiesNorthAmerica() {
         if (context != null) {
 
             String[][] cities = {
@@ -445,6 +455,26 @@ class TestDataCreator {
                 travel.setTripItems(tripItems);
 
                 context.getBean(TravelController.class).createTravel(travel);
+            }
+        }
+    }
+
+    private void createTestTravelGroups() {
+        if (context != null) {
+            String[] names = {"50+ Reisgroep", "De Daarduivels", "Beni 'fucking bloody' dorm Bastards",
+                    "De vriendloze", "De 5-vijvers"};
+
+            UserController userController = context.getBean(UserController.class);
+            TravelGroupController travelGroupController = context.getBean(TravelGroupController.class);
+
+            String username = "user";
+
+            for (String name : names) {
+                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name,userController.getUserByUsername(username).get().getId() );
+
+                if (travelGroup.isPresent()) {
+                    userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username).get().getId());
+                }
             }
         }
     }

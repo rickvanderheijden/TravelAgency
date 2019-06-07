@@ -2,8 +2,10 @@ package com.travelagency.controllers;
 
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
@@ -18,11 +20,13 @@ public class UserController {
 
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
+    private final TravelGroupRepository travelGroupRepository;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
+    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil) {
         this.authorityRepository = authorityRepository;
         this.userRepository = userRepository;
+        this.travelGroupRepository = travelGroupRepository;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -90,9 +94,9 @@ public class UserController {
     public boolean getIsUserAdmin(String token) {
         boolean isAdmin = false;
         Optional<User> user = getUserFromToken(token);
-        if(user.isPresent()) {
-            for( Authority authority : user.get().getAuthorities()) {
-                if(authority.getName() == AuthorityName.ROLE_ADMIN) {
+        if (user.isPresent()) {
+            for (Authority authority : user.get().getAuthorities()) {
+                if (authority.getName() == AuthorityName.ROLE_ADMIN) {
                     isAdmin = true;
                 }
             }
@@ -102,5 +106,20 @@ public class UserController {
 
     public List<Authority> getAllAuthorities() {
         return this.authorityRepository.findAll();
+    }
+
+    public List<TravelGroup> getTravelGroups(User user) { return this. travelGroupRepository.findByUsers(user);}
+
+    public boolean addTravelGroup(TravelGroup travelGroup, Long id) {
+        Optional<User> user = getUserById(id);
+        if (user.isPresent()) {
+            user.get().addTravelGroup(travelGroupRepository.findById(travelGroup.getId()).get());
+            userRepository.save(user.get());
+        }
+        return true;
+    }
+
+    public Optional<List<User>> getUserByUsernameContains(String username) {
+        return Optional.ofNullable(userRepository.findByUsernameContains(username));
     }
 }

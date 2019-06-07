@@ -1,6 +1,9 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Date;
 import java.util.List;
@@ -64,11 +67,21 @@ public class User {
     private Date lastPasswordResetDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private List<Authority> authorities;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinTable(
+            name = "user_travelgroup",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "travelgroup_id", referencedColumnName = "id")})
+    private List<TravelGroup> travelGroups;
 
     public Long getId() {
         return id;
@@ -140,5 +153,29 @@ public class User {
 
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public List<TravelGroup> getTravelGroups() {
+        return travelGroups;
+    }
+
+    public void setTravelGroups(List<TravelGroup> travelGroups) {
+        this.travelGroups = travelGroups;
+    }
+
+    public boolean addTravelGroup(TravelGroup travelGroup) {
+
+        if(travelGroups.contains(travelGroup))
+            return  false;
+
+        return travelGroups.add(travelGroup);
+    }
+
+    public boolean removeTravelGroup(TravelGroup travelGroup) {
+
+        if(!travelGroups.contains(travelGroup))
+            return  false;
+
+        return travelGroups.remove(travelGroup);
     }
 }
