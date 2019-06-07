@@ -1,6 +1,8 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,6 +43,14 @@ public class Booking {
             joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "bookingitem_id", referencedColumnName = "id"))
     private List<BookingItem> bookingItems = new ArrayList<>();
+
+    @OneToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinTable(name = "booking_payments",
+            joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "payment_id", referencedColumnName = "id"))
+    private List<Payment> payments = new ArrayList<>();
 
     @Column(name = "booked")
     private boolean booked;
@@ -129,5 +139,13 @@ public class Booking {
 
     public void setBookingDate(Date bookingDate) {
         this.bookingDate = bookingDate;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }
