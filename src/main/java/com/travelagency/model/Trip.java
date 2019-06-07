@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.*;
 import javax.persistence.*;
@@ -39,6 +40,16 @@ public class Trip {
     @Column(name = "discount", length = 10)
     private int discount;
 
+    @Column(name = "max_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int maxPersons;
+
+    @Column(name = "min_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int minPersons;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
@@ -60,6 +71,8 @@ public class Trip {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
+        this.minPersons = 1;
+        this.maxPersons = 20;
         this.destinations = new ArrayList<>();
     }
 
@@ -109,6 +122,22 @@ public class Trip {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(int maxPersons) {
+        this.maxPersons = maxPersons;
+    }
+
+    public int getMinPersons() {
+        return minPersons;
+    }
+
+    public void setMinPersons(int minPersons) {
+        this.minPersons = minPersons;
     }
 
     public List<Destination> getDestinations() {

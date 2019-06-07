@@ -90,4 +90,9 @@ public class HotelController {
     public Optional<Hotel> getHotelByName(String name) {
         return Optional.ofNullable(hotelRepository.getFirstByName(name));
     }
+
+    public int getAvailability(long id) {
+        Hotel hotel = getById(id);
+        return hotel.getAvailability();
+    }
 }

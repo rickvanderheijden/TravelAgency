@@ -14,44 +14,49 @@ import java.util.Optional;
 @RequestMapping("/hotels")
 public class HotelResource {
 
-    private final HotelController HotelController;
+    private final HotelController hotelController;
 
-    public HotelResource(HotelController HotelController) {
-        this.HotelController = HotelController;
+    public HotelResource(HotelController hotelController) {
+        this.hotelController = hotelController;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Hotel> createHotel(@Valid @RequestBody Hotel Hotel) {
-        Optional<Hotel> createdHotel = HotelController.createHotel(Hotel);
+        Optional<Hotel> createdHotel = hotelController.createHotel(Hotel);
         return createdHotel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public Optional<List<Hotel>> getAll() {
-        return HotelController.getAllHotels();
+        return hotelController.getAllHotels();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Optional<Hotel> getById( @PathVariable("id") long id) {
-        return Optional.ofNullable(HotelController.getById(id));
+        return Optional.ofNullable(hotelController.getById(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteHotel(@PathVariable("id") long id) {
-        return HotelController.deleteHotel(id);
+        return hotelController.deleteHotel(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<Hotel> update(@PathVariable final Long id, @RequestBody Hotel Hotel) {
-        return HotelController.updateHotel(id,Hotel);
+        return hotelController.updateHotel(id,Hotel);
     }
 
     @GetMapping(value = "/city/{name}")
     public Optional<List<Hotel>> getHotelsByCityName(@PathVariable("name") String cityName) {
-        return HotelController.getByCityName(cityName);
+        return hotelController.getByCityName(cityName);
+    }
+
+    @GetMapping(value = "/getAvailability/{id}")
+    public int getAvailability(@PathVariable("id") long id) {
+        return hotelController.getAvailability(id);
     }
 
 }
