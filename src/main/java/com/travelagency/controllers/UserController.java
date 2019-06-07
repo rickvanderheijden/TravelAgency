@@ -20,14 +20,14 @@ public class UserController {
 
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
-    private final JwtTokenUtil jwtTokenUtil;
     private final TravelGroupRepository travelGroupRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil, TravelGroupRepository travelGroupRepository) {
+    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil) {
         this.authorityRepository = authorityRepository;
         this.userRepository = userRepository;
-        this.jwtTokenUtil = jwtTokenUtil;
         this.travelGroupRepository = travelGroupRepository;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     public Optional<Long> createUser(UserDTO userDTO) {
