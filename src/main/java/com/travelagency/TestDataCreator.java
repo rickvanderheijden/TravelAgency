@@ -182,6 +182,7 @@ class TestDataCreator {
                     {"Malaga", "Spanje"},
                     {"Madrid", "Spanje"},
                     {"Valencia", "Spanje"},
+                    {"Reykjavik", "IJsland"}
             };
 
             GeographyController geographyController = context.getBean(GeographyController.class);
@@ -370,11 +371,12 @@ class TestDataCreator {
                     1645,
                     0);
 
-            /*
-                if (tripItem.isPresent()) {
-                    trip.addTripItem(tripItem.get());
-                }
-            */
+            destination = context.getBean(DestinationController.class).getByCityName("Reykjavik");
+
+            if (destination.isPresent()) {
+                trip.addDestination(destination.get());
+            }
+
             context.getBean(TripController.class).createTrip(trip);
 
             trip = new Trip(
@@ -394,10 +396,6 @@ class TestDataCreator {
                     0);
 
             destination = context.getBean(DestinationController.class).getByCityName("Bordeaux");
-
-            if (destination.isPresent()) {
-                trip.addDestination(destination.get());
-            }
 
             if (destination.isPresent()) {
                 trip.addDestination(destination.get());
