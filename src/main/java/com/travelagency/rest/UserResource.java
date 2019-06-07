@@ -2,6 +2,7 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.Authority;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;
@@ -28,7 +29,6 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAll() {
         return userController.getAllUsers();
     }
@@ -58,7 +58,6 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> getById(@PathVariable final Long id) {
         return userController.getUserById(id);
     }
@@ -81,4 +80,18 @@ public class UserResource {
         return userController.getAllAuthorities();
     }
 
+    @RequestMapping(value = "/travelGroups/{id}", method = RequestMethod.GET)
+    public List<TravelGroup> getTravelGroups(@PathVariable final Long id) {
+        Optional<User> userOptional = userController.getUserById(id);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            return  userController.getTravelGroups(user);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/usernames/{username}", method = RequestMethod.GET)
+    public Optional<List<User>> getByUsernameContains(@PathVariable final String username) {
+        return userController.getUserByUsernameContains(username);
+    }
 }
