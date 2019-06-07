@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -51,9 +52,13 @@ public class TripItem {
     private Date date;
 
     @Column(name = "max_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
     private int maxPersons;
 
     @Column(name = "min_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
     private int minPersons;
 
     public TripItem() {}

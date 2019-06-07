@@ -49,11 +49,27 @@ public class TripItemController {
         return tripItemRepository.findAll().stream().findFirst();
     }
 
-    public TripItem updateTripItem(Long id, TripItem updatedTripItem) {
+    public Optional<TripItem> updateTripItem(Long id, TripItem updatedTripItem) {
         if(!this.tripItemRepository.existsById(id)){
             return null;
         }
-        return this.tripItemRepository.save(updatedTripItem);
+
+        Address address = updatedTripItem.getAddress();
+        if (address == null) return Optional.empty();
+
+        Optional<Address> addressInDatabase = geographyController.getAddress(address);
+        if (!addressInDatabase.isPresent()){
+            Optional<City> optionalCity = geographyController.getCity(address.getCity().getName());
+            if(!optionalCity.isPresent()){
+                return Optional.empty();
+            }
+            Optional<Address> createdAddress = geographyController.createAddress(address.getAddressLine(), address.getZipCode(), optionalCity.get());
+            createdAddress.ifPresent(updatedTripItem::setAddress);
+        } else {
+            updatedTripItem.setAddress(addressInDatabase.get());
+        }
+
+        return Optional.of(this.tripItemRepository.save(updatedTripItem));
     }
 
     public boolean deleteTripItem(Long id) {
