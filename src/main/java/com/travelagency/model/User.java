@@ -5,20 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -82,6 +73,14 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "travelgroup_id", referencedColumnName = "id")})
     private List<TravelGroup> travelGroups;
+
+    @OneToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinTable(name = "user_payments",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "payment_id", referencedColumnName = "id"))
+    private List<Payment> payments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -177,5 +176,13 @@ public class User {
             return  false;
 
         return travelGroups.remove(travelGroup);
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }
