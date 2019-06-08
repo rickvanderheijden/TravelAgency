@@ -29,4 +29,12 @@ public class TripSearchDTO {
     public String getTo() {
         return to;
     }
+
+    public boolean countryPresent() {
+        return this.country != null;
+    }
+
+    public boolean continentPresent() {
+        return this.continent != null;
+    }
 }

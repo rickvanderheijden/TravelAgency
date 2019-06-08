@@ -60,7 +60,7 @@ public class TripController {
         return true;
     }
 
-    public Optional<List<Trip>> searchTripsKeyWord(String searchInput) {
+    public Optional<List<Trip>> searchTripsByKeyWord(String searchInput) {
         if(searchInput == null || searchInput.isEmpty()){
             return Optional.empty();
         }
@@ -77,22 +77,12 @@ public class TripController {
     }
 
     public Optional<List<Trip>> searchTripsFilter(TripSearchDTO search) {
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null && search.getTo() != null) {
-            return Optional.empty();
-        }
-
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null) {
-            return Optional.empty();
-        }
-
-        if(search.getCountry() != null) {
+        if(search.countryPresent()) {
             return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
-        }
-
-        if(search.getContinent() != null) {
+        } else if(search.continentPresent()) {
             return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
+        } else {
+            return Optional.empty();
         }
-
-        return Optional.empty();
     }
 }
