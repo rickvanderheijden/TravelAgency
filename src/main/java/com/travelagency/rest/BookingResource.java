@@ -2,7 +2,6 @@ package com.travelagency.rest;
 
 import com.travelagency.controllers.BookingController;
 import com.travelagency.model.Booking;
-import com.travelagency.model.Hotel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
