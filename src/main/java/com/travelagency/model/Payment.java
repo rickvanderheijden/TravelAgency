@@ -26,13 +26,11 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentMethod method;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "booking_id")
-    private Booking booking;
+    @Column(name = "booking_id")
+    private Long bookingId;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "amount", length = 50)
     @NotNull
@@ -41,10 +39,10 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(@NotNull PaymentMethod method, Booking booking, User user, @NotNull double amount) {
+    public Payment(@NotNull PaymentMethod method, Long bookingId, Long userId, @NotNull double amount) {
         this.method = method;
-        this.booking = booking;
-        this.user = user;
+        this.bookingId = bookingId;
+        this.userId = userId;
         this.amount = amount;
     }
 
@@ -64,20 +62,20 @@ public class Payment {
         this.method = method;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public Long getBookingId() {
+        return bookingId;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public double getAmount() {

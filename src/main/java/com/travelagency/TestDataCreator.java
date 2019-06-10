@@ -5,15 +5,9 @@ import com.travelagency.controllers.TravelGroupController;
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
-import com.travelagency.rest.DataTranfersObjects.UserDTO;
-import com.travelagency.rest.TripResource;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.lang.reflect.Array;
 import com.travelagency.controllers.*;
-import com.travelagency.model.*;
-import com.travelagency.rest.AuthenticationResource;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Date;

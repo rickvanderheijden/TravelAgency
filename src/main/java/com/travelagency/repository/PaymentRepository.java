@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    List<Payment> findByUserUsername(String Username);
-    List<Payment> findAllByBooking_Id(Long bookingId);
-    Payment findFirstByUserUsername(String Username);
+    List<Payment> findAllByUserId(Long userId);
+    List<Payment> findAllByBookingId(Long bookingId);
 }

@@ -38,8 +38,8 @@ public class PaymentResource {
         return paymentController.getPaymentsByBookingId(id);
     }
 
-    @GetMapping(value = "/user/{username}")
-    public Optional<List<Payment>> getByBookingId(@PathVariable final String username) {
-        return paymentController.getPaymentsByUsername(username);
+    @GetMapping(value = "/user/{userId}")
+    public Optional<List<Payment>> getByUserId(@PathVariable final Long userId) {
+        return paymentController.getPaymentsByUserId(userId);
     }
 }
