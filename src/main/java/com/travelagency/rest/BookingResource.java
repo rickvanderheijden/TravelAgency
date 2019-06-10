@@ -3,9 +3,12 @@ package com.travelagency.rest;
 import com.travelagency.controllers.BookingController;
 import com.travelagency.model.Booking;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -44,5 +47,16 @@ public class BookingResource {
     @GetMapping(value = "/{id}")
     public Optional<Booking> getById(@PathVariable final Long id) {
         return bookingController.getById(id);
+    }
+
+    @GetMapping(value = "/token")
+    public Optional<List<Booking>> getBookingsByToken(HttpServletRequest request) {
+        return bookingController.getBookingsByToken(request);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public Optional<List<Booking>> getAll() {
+        return bookingController.getAllBookings();
     }
 }
