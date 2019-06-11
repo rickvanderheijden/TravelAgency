@@ -58,9 +58,8 @@ public class TripResource {
         return tripController.getAllTrips(limit);
     }
 
-    @RequestMapping(value = "/searchTrips", method = RequestMethod.POST)
-    public Optional<List<Trip>> search(@Valid @RequestBody TripSearchDTO search) { return tripController.searchTripsFilter(search); }
-
-    @RequestMapping(value = "/searchTripsByKeyword", method = RequestMethod.POST)
-    public Optional<List<Trip>> searchTripsByKeyword(@Valid @RequestBody String keyword) { return tripController.searchTripsByKeyword(keyword); }
+    @RequestMapping(value = "/searchTripsByKeywordAndCountryOrContinent", method = RequestMethod.POST)
+    public Optional<List<Trip>> searchTripsByKeywordAndCountryOrContinent(@Valid @RequestBody TripSearchDTO search ) {
+        return tripController.searchTripsByKeywordAndContinentOrCountry(search);
+    }
 }

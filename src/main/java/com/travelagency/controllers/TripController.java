@@ -60,13 +60,6 @@ public class TripController {
         return true;
     }
 
-    public Optional<List<Trip>> searchTripsByKeyword(String keyword) {
-        if(keyword == null || keyword.isEmpty()){
-            return Optional.empty();
-        }
-        return Optional.of(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
-    }
-
     public Optional<List<Trip>> getAllTrips() {
         return Optional.of(tripRepository.findAll());
     }
@@ -76,13 +69,29 @@ public class TripController {
         return Optional.of(tripRepository.findAll(limit).getContent());
     }
 
-    public Optional<List<Trip>> searchTripsFilter(TripSearchDTO search) {
-        if(search.countryPresent()) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
-        } else if(search.continentPresent()) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
+    public Optional<List<Trip>> searchTripsByKeywordAndContinentOrCountry(TripSearchDTO search) {
+        List<Trip> result = new ArrayList<>();
+        String keyword = search.getKeyword();
+
+        if (search.countryPresent()) {
+            result.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
+        } else if (search.continentPresent()) {
+            result.addAll(tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
+        } else if (search.keywordPresent()) {
+            result.addAll(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
+            return Optional.of(result);
+        }
+
+        if (search.keywordPresent()) {
+            List<Trip> response = new ArrayList<>();
+            for (Trip trip : result) {
+                if (trip.getDescription().toLowerCase().contains(keyword.toLowerCase()) || trip.getSummary().toLowerCase().contains(keyword.toLowerCase()) || trip.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                    response.add(trip);
+                }
+            }
+            return Optional.of(response);
         } else {
-            return Optional.empty();
+            return Optional.of(result);
         }
     }
 }
