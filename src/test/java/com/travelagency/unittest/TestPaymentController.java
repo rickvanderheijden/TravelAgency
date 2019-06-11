@@ -28,7 +28,7 @@ public class TestPaymentController {
 
     private PaymentController paymentController;
 
-    List<Payment> paymentsToReturn;
+    private List<Payment> paymentsToReturn;
 
     @Before
     public void setUp() {

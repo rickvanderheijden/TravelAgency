@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ConstantConditions")
 @Service
 public class PaymentController {
 
@@ -56,7 +57,7 @@ public class PaymentController {
     }
 
     public Optional<Payment> getById(Long id) {
-        return Optional.of(paymentRepository.getOne(id));
+        return Optional.ofNullable(paymentRepository.getOne(id));
     }
 
 
