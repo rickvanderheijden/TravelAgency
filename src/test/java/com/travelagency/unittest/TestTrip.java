@@ -75,7 +75,7 @@ public class TestTrip {
     }
 
     @Test
-    public void testGetDestinationsAfterAddingUnidenticalDestinations() {
+    public void testGetDestinationsAfterAddingUnIdenticalDestinations() {
         Destination destination  = Mockito.mock(Destination.class);
         Destination destination2 = Mockito.mock(Destination.class);
         trip.addDestination(destination);

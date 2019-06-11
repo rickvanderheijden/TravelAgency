@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-@SuppressWarnings("SameParameterValue")
+@SuppressWarnings({"SameParameterValue", "SpellCheckingInspection"})
 public class TestTripItemResource {
 
     private static final int StatusCodeOK = 200;

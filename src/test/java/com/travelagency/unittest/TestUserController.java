@@ -32,7 +32,7 @@ public class TestUserController {
     private static final String FirstName = "firstName";
     private static final String LastName = "lastName";
     private static final String EmailAddress = "emailAddress";
-    private static final String Token = "usertoken";
+    private static final String Token = "userToken";
     private static final Long Id = 131L;
 
     private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);

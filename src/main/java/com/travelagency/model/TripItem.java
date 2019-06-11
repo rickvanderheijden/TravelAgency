@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Entity
 @Table(name = "tripitem")
 public class TripItem {
