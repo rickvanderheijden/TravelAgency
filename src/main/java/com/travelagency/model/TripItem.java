@@ -139,11 +139,11 @@ public class TripItem {
 
     public int getMaximumNumberOfAttendees() { return maximumNumberOfAttendees; }
 
-    public void setMaximumNumberOfAttendees(int maxPersons) { this.maximumNumberOfAttendees = maxPersons; }
+    public void setMaximumNumberOfAttendees(int maximumNumberOfAttendees) { this.maximumNumberOfAttendees = maximumNumberOfAttendees; }
 
     public int getMinimumNumberOfAttendees() { return minimumNumberOfAttendees; }
 
-    public void setMinimumNumberOfAttendees(int minPersons) { this.minimumNumberOfAttendees = minPersons; }
+    public void setMinimumNumberOfAttendees(int minimumNumberOfAttendees) { this.minimumNumberOfAttendees = minimumNumberOfAttendees; }
 
     public List<Destination> getDestinations() { return this.destinations; }
 
