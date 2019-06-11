@@ -3,8 +3,10 @@ package com.travelagency.unittest;
 import com.travelagency.controllers.UserController;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
+import com.travelagency.model.TravelGroup;
 import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
+import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
@@ -27,21 +29,22 @@ public class TestUserController {
 
     private static final String UserName = "username";
     private static final String Password = "password";
-    private static final String FirstName = "firstname";
-    private static final String LastName = "lastname";
+    private static final String FirstName = "firstName";
+    private static final String LastName = "lastName";
     private static final String EmailAddress = "emailAddress";
     private static final String Token = "usertoken";
     private static final Long Id = 131L;
 
     private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
+    private final TravelGroupRepository travelGroupRepository = Mockito.mock(TravelGroupRepository.class);
     private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
 
     private UserController userController;
 
     @Before
     public void setUp() {
-        userController = new UserController(authorityRepository, userRepository, jwtTokenUtil);
+        userController = new UserController(authorityRepository, userRepository, travelGroupRepository, jwtTokenUtil);
         when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority());
         when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority());
 
@@ -205,8 +208,9 @@ public class TestUserController {
 
     private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress) {
         List<Authority> authorities = new ArrayList<>();
+        List<TravelGroup> travelGroups = new ArrayList<>();
         authorities.add(getAuthority());
-        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities);
+        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities, travelGroups);
     }
 
     private User getUser() {
@@ -220,8 +224,8 @@ public class TestUserController {
         user.setUsername(UserName);
         user.setPassword(bCryptPasswordEncoder.encode(Password));
         user.setAuthorities(authorities);
-        user.setFirstname(FirstName);
-        user.setLastname(LastName);
+        user.setFirstName(FirstName);
+        user.setLastName(LastName);
         user.setEmailAddress(EmailAddress);
         user.setEnabled(Boolean.TRUE);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));

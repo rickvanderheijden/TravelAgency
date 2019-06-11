@@ -29,9 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtAuthorizationTokenFilter authenticationTokenFilter;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
     @Value("/auth")
     private String authenticationPath;
 
@@ -78,7 +75,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/trips/**").permitAll()
+                .antMatchers("/travelgroups/**").permitAll()
+                .antMatchers("/destinations/**").permitAll()
                 .antMatchers("/tripItems/**").permitAll()
+                .antMatchers("/countries/**").permitAll()
+                .antMatchers("/continents/**").permitAll()
                 .antMatchers("/geo/**").permitAll()
                 .anyRequest().authenticated();
 

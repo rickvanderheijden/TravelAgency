@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_CREATED = "iat";
     private static final long serialVersionUID = -3301605591108950415L;
     @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
     private final Clock clock = DefaultClock.INSTANCE;

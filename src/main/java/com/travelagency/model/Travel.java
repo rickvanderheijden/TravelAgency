@@ -23,6 +23,12 @@ public class Travel {
     private Trip trip;
 
     @ManyToMany(cascade = { CascadeType.MERGE })
+    @JoinTable(name = "travel_hotel",
+            joinColumns = @JoinColumn(name = "travel_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "hotel_id", referencedColumnName = "id"))
+    private List<Hotel> hotels = new ArrayList<>();
+
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(name = "travel_tripitem",
             joinColumns = @JoinColumn(name = "travel_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
@@ -30,12 +36,6 @@ public class Travel {
 
     @Column(name = "total_price", length = 10)
     private int totalPrice = -1;
-
-    @Column(name = "booked")
-    private boolean booked;
-
-    @Column(name = "paid")
-    private boolean paid;
 
     public Travel() {
     }
@@ -94,19 +94,11 @@ public class Travel {
         return tripItems.remove(tripItem);
     }
 
-    public boolean isPaid() {
-        return paid;
+    public List<Hotel> getHotels() {
+        return hotels;
     }
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
-    }
-
-    public boolean isBooked() {
-        return booked;
-    }
-
-    public void setBooked(boolean booked) {
-        this.booked = booked;
+    public void setHotels(List<Hotel> hotels) {
+        this.hotels = hotels;
     }
 }

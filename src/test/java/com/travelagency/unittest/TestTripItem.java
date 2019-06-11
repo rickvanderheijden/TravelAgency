@@ -1,6 +1,6 @@
 package com.travelagency.unittest;
 
-        import com.travelagency.model.Address;
+import com.travelagency.model.Address;
         import com.travelagency.model.TripItem;
         import com.travelagency.model.TripItemType;
         import org.junit.After;
@@ -15,11 +15,17 @@ public class TestTripItem {
     private static final String Name = "Name";
     private static final String Name2 = "Name2";
     private static final String Description = "Description";
-    private static final String ImageUrl = "ImageUrl";
     private static TripItemType tripItemType;
     private static TripItemType tripItemType2;
     private static final int Price = 0;
     private static final int Price2 = 2;
+    private static final int MinimumNumberOfAttendees = 3;
+    private static final int MinimumNumberOfAttendeesDefault = 1;
+    private static final int MaximumNumberOfAttendees = 3;
+    private static final int MaximumNumberOfAttendeesDefault = 8;
+    private static final int NumberOfAttendees = 3;
+    private static final int NumberOfAttendeesDefault = 8;
+
     private static final Date Date = new Date();
     private static final Date Date2 = new Date();
     private TripItem tripItem;
@@ -27,7 +33,7 @@ public class TestTripItem {
     @Before
     public void setUp() {
         Address address = Mockito.mock(Address.class);
-        tripItem = new TripItem(tripItemType, Name, Description, ImageUrl, address, Price, Date);
+        tripItem = new TripItem(tripItemType, Name, Description, null, address, Price, Date, NumberOfAttendeesDefault);
     }
 
     @After
@@ -78,4 +84,31 @@ public class TestTripItem {
         Assert.assertEquals(a, tripItem.getAddress());
     }
 
+    @Test
+    public void testGetMinimumNumberOfAttendees() { Assert.assertEquals(MinimumNumberOfAttendeesDefault, tripItem.getMinimumNumberOfAttendees()); }
+
+    @Test
+    public void testSetMinimumNumberOfAttendees() {
+        tripItem.setMinimumNumberOfAttendees(MinimumNumberOfAttendees);
+        Assert.assertEquals(MinimumNumberOfAttendees, tripItem.getMinimumNumberOfAttendees()); }
+
+    @Test
+    public void testGetMaximumNumberOfAttendees() {
+        Assert.assertEquals(MaximumNumberOfAttendeesDefault, tripItem.getMaximumNumberOfAttendees());
+    }
+
+    @Test
+    public void testSetMaximumNumberOfAttendees() {
+        tripItem.setMaximumNumberOfAttendees(MaximumNumberOfAttendees);
+        Assert.assertEquals(MaximumNumberOfAttendees, tripItem.getMaximumNumberOfAttendees()); }
+
+    @Test
+    public void testNumberOfAttendees() {
+        Assert.assertEquals(NumberOfAttendeesDefault, tripItem.getNumberOfAttendees());
+    }
+
+    @Test
+    public void testSetNumberOfAttendees() {
+        tripItem.setNumberOfAttendees(NumberOfAttendees);
+        Assert.assertEquals(NumberOfAttendees, tripItem.getNumberOfAttendees()); }
 }

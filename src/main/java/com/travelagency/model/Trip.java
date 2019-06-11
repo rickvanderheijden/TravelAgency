@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.*;
 import javax.persistence.*;
@@ -39,11 +40,21 @@ public class Trip {
     @Column(name = "discount", length = 10)
     private int discount;
 
+    @Column(name = "max_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int maximumNumberOfTravelers;
+
+    @Column(name = "min_persons", length = 10)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int minimumNumberOfTravelers;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-    @JoinTable(name = "trip_tripitem",
+    @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tripitem_id", referencedColumnName = "id"))
-    private List<TripItem> tripItems;
+            inverseJoinColumns = @JoinColumn(name = "destination_id", referencedColumnName = "id"))
+    private List<Destination> destinations;
 
     public Trip() {}
 
@@ -60,7 +71,9 @@ public class Trip {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.tripItems = new ArrayList<>();
+        this.minimumNumberOfTravelers = 1;
+        this.maximumNumberOfTravelers = 20;
+        this.destinations = new ArrayList<>();
     }
 
     public Long getId() {
@@ -111,15 +124,31 @@ public class Trip {
         this.imageUrl = imageUrl;
     }
 
-    public List<TripItem> getTripItems() {
-        return tripItems;
+    public int getMaximumNumberOfTravelers() {
+        return maximumNumberOfTravelers;
     }
 
-    public void setTripItems(List<TripItem> tripItems) {
-        if (tripItems == null) {
-            this.tripItems = new ArrayList<>();
+    public void setMaximumNumberOfTravelers(int maximumNumberOfTravelers) {
+        this.maximumNumberOfTravelers = maximumNumberOfTravelers;
+    }
+
+    public int getMinimumNumberOfTravelers() {
+        return minimumNumberOfTravelers;
+    }
+
+    public void setMinimumNumberOfTravelers(int minimumNumberOfTravelers) {
+        this.minimumNumberOfTravelers = minimumNumberOfTravelers;
+    }
+
+    public List<Destination> getDestinations() {
+        return destinations;
+    }
+
+    public void setDestinations(List<Destination> destinations) {
+        if (destinations == null) {
+            this.destinations = new ArrayList<>();
         } else {
-            this.tripItems = tripItems;
+            this.destinations = destinations;
         }
     }
 
@@ -131,18 +160,18 @@ public class Trip {
         this.discount = discount;
     }
 
-    public boolean addTripItem(TripItem tripItem){
+    public boolean addDestination(Destination destination){
 
-        if(tripItems.contains(tripItem))
+        if(destinations.contains(destination))
             return false;
 
-        return tripItems.add(tripItem);
+        return destinations.add(destination);
     }
 
-    public boolean removeTripItem(TripItem tripItem){
-        if(!tripItems.contains(tripItem))
+    public boolean removeDestination(Destination destination){
+        if(!destinations.contains(destination))
             return false;
 
-        return tripItems.remove(tripItem);
+        return destinations.remove(destination);
     }
 }

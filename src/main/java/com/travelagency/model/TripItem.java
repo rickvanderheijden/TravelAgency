@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,9 +30,9 @@ public class TripItem {
     @NotNull
     private String description;
 
-    @Column(name = "image_url")
-    @NotNull
-    private String imageUrl;
+    @Column(name = "image_blob")
+    @Lob
+    private String imageBlob;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address_id")
@@ -43,23 +44,41 @@ public class TripItem {
 
     @ManyToMany(mappedBy = "tripItems", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Trip> trips;
+    private List<Destination> destinations;
 
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date date;
 
+    @Column(name = "maximum_number_of_attendees", length = 2000)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int maximumNumberOfAttendees;
+
+    @Column(name = "minimum_number_of_attendees", length = 2000)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int minimumNumberOfAttendees;
+
+    @Column(name = "number_of_attendees", length = 2000)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int numberOfAttendees;
+
     public TripItem() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageUrl, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date, @NotNull int numberOfAttendees) {
         this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
         this.date = date;
+        this.minimumNumberOfAttendees = 1;
+        this.maximumNumberOfAttendees = 8;
+        this.numberOfAttendees = numberOfAttendees;
     }
 
     public Long getId() {
@@ -94,14 +113,6 @@ public class TripItem {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public Address getAddress() {
         return address;
     }
@@ -126,7 +137,27 @@ public class TripItem {
         this.date = date;
     }
 
-    public List<Trip> getTrips() { return this.trips; }
+    public int getMaximumNumberOfAttendees() { return maximumNumberOfAttendees; }
 
-    public void setTrips(List<Trip> trips) { this.trips = trips; }
+    public void setMaximumNumberOfAttendees(int maximumNumberOfAttendees) { this.maximumNumberOfAttendees = maximumNumberOfAttendees; }
+
+    public int getMinimumNumberOfAttendees() { return minimumNumberOfAttendees; }
+
+    public void setMinimumNumberOfAttendees(int minimumNumberOfAttendees) { this.minimumNumberOfAttendees = minimumNumberOfAttendees; }
+
+    public List<Destination> getDestinations() { return this.destinations; }
+
+    public void setDestinations(List<Destination> destinations ) { this.destinations = destinations; }
+
+    public String getImageBlob() {
+        return imageBlob;
+    }
+
+    public void setImageBlob(String imageBlob) {
+        this.imageBlob = imageBlob;
+    }
+
+    public int getNumberOfAttendees() { return numberOfAttendees; }
+
+    public void setNumberOfAttendees(int numberOfAttendees) { this.numberOfAttendees = numberOfAttendees; }
 }
