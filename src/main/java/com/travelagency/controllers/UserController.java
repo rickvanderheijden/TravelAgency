@@ -62,7 +62,7 @@ public class UserController {
             User userInDB = userRepository.findByUsername(userDTO.getUsername());
 
             if ((username != null) && (userInDB != null) &&
-                    (username.equals(userDTO.getUsername()) || this.getIsUserAdmin(token))) {
+                    (username.equals(userDTO.getUsername()) || this.isUserAdmin(token))) {
                 userInDB.setEmailAddress(userDTO.getEmailAddress());
                 userInDB.setFirstName(userDTO.getFirstName());
                 userInDB.setLastName(userDTO.getLastName());
@@ -91,7 +91,7 @@ public class UserController {
         return getUserByUsername(username);
     }
 
-    public boolean getIsUserAdmin(String token) {
+    public boolean isUserAdmin(String token) {
         boolean isAdmin = false;
         Optional<User> user = getUserFromToken(token);
         if (user.isPresent()) {

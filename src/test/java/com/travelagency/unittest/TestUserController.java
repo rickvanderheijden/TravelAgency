@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
 public class TestUserController {
@@ -195,6 +196,33 @@ public class TestUserController {
     public void testGetUserByIdNull() {
         Optional<User> user = userController.getUserById(null);
         Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testIsUserAdminWhenAdmin() {
+        boolean result = testIsUserAdmin(true);
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testIsUserAdminWhenUser() {
+        boolean result = testIsUserAdmin(false);
+        Assert.assertFalse(result);
+    }
+
+    private boolean testIsUserAdmin(boolean isAdmin) {
+        Authority authority = Mockito.mock(Authority.class);
+        when(authority.getName()).thenReturn(isAdmin ? AuthorityName.ROLE_ADMIN : AuthorityName.ROLE_USER);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authority);
+
+        User user = Mockito.mock(User.class);
+        when(user.getAuthorities()).thenReturn(authorities);
+        String username = "UserName";
+        when(userRepository.findByUsername(username)).thenReturn(user);
+        when(jwtTokenUtil.getUsernameFromToken(any())).thenReturn(username);
+
+        return userController.isUserAdmin("token");
     }
 
     private boolean testUpdateUser(String token, UserDTO userDTO) {
