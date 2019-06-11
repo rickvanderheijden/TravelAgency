@@ -28,7 +28,7 @@ public class BookingItem {
     @NotNull
     private String description;
 
-    @Column(name = "number_of_attendees", length = 2000)
+    @Column(name = "number_of_attendees", length = 10)
     private int numberOfAttendees;
 
     @Column(name = "price", length = 10)
