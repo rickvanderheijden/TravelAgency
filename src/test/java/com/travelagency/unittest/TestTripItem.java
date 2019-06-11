@@ -15,17 +15,17 @@ public class TestTripItem {
     private static final String Name = "Name";
     private static final String Name2 = "Name2";
     private static final String Description = "Description";
-    private static final String ImageUrl = "ImageUrl";
     private static TripItemType tripItemType;
     private static TripItemType tripItemType2;
     private static final int Price = 0;
     private static final int Price2 = 2;
-    private static final int MinPersonsDefault = 1;
-    private static final int MinPersons = 3;
-    private static final int MaxPersonsDefault = 8;
+    private static final int MinimumNumberOfAttendees = 3;
+    private static final int MinimumNumberOfAttendeesDefault = 1;
+    private static final int MaximumNumberOfAttendees = 3;
+    private static final int MaximumNumberOfAttendeesDefault = 8;
     private static final int NumberOfAttendees = 3;
     private static final int NumberOfAttendeesDefault = 8;
-    private static final int MaxPersons = 3;
+
     private static final Date Date = new Date();
     private static final Date Date2 = new Date();
     private TripItem tripItem;
@@ -85,22 +85,22 @@ public class TestTripItem {
     }
 
     @Test
-    public void testGetMinPersons() { Assert.assertEquals(MinPersonsDefault, tripItem.getMinimumNumberOfAttendees()); }
+    public void testGetMinimumNumberOfAttendees() { Assert.assertEquals(MinimumNumberOfAttendeesDefault, tripItem.getMinimumNumberOfAttendees()); }
 
     @Test
-    public void testSetMinPersons() {
-        tripItem.setMinimumNumberOfAttendees(MinPersons);
-        Assert.assertEquals(MinPersons, tripItem.getMinimumNumberOfAttendees()); }
+    public void testSetMinimumNumberOfAttendees() {
+        tripItem.setMinimumNumberOfAttendees(MinimumNumberOfAttendees);
+        Assert.assertEquals(MinimumNumberOfAttendees, tripItem.getMinimumNumberOfAttendees()); }
 
     @Test
-    public void testGetMaxPersons() {
-        Assert.assertEquals(MaxPersonsDefault, tripItem.getMaximumNumberOfAttendees());
+    public void testGetMaximumNumberOfAttendees() {
+        Assert.assertEquals(MaximumNumberOfAttendeesDefault, tripItem.getMaximumNumberOfAttendees());
     }
 
     @Test
-    public void testSetMaxPersons() {
-        tripItem.setMaximumNumberOfAttendees(MaxPersons);
-        Assert.assertEquals(MaxPersons, tripItem.getMaximumNumberOfAttendees()); }
+    public void testSetMaximumNumberOfAttendees() {
+        tripItem.setMaximumNumberOfAttendees(MaximumNumberOfAttendees);
+        Assert.assertEquals(MaximumNumberOfAttendees, tripItem.getMaximumNumberOfAttendees()); }
 
     @Test
     public void testNumberOfAttendees() {

@@ -43,12 +43,12 @@ public class Trip {
     @Column(name = "max_persons", length = 10)
     @Range(min = 1, max = 1000)
     @NotNull
-    private int maxPersons;
+    private int maximumNumberOfTravelers;
 
     @Column(name = "min_persons", length = 10)
     @Range(min = 1, max = 1000)
     @NotNull
-    private int minPersons;
+    private int minimumNumberOfTravelers;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "trip_destination",
@@ -71,8 +71,8 @@ public class Trip {
         this.imageUrl = imageUrl;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.minPersons = 1;
-        this.maxPersons = 20;
+        this.minimumNumberOfTravelers = 1;
+        this.maximumNumberOfTravelers = 20;
         this.destinations = new ArrayList<>();
     }
 
@@ -124,20 +124,20 @@ public class Trip {
         this.imageUrl = imageUrl;
     }
 
-    public int getMaxPersons() {
-        return maxPersons;
+    public int getMaximumNumberOfTravelers() {
+        return maximumNumberOfTravelers;
     }
 
-    public void setMaxPersons(int maxPersons) {
-        this.maxPersons = maxPersons;
+    public void setMaximumNumberOfTravelers(int maximumNumberOfTravelers) {
+        this.maximumNumberOfTravelers = maximumNumberOfTravelers;
     }
 
-    public int getMinPersons() {
-        return minPersons;
+    public int getMinimumNumberOfTravelers() {
+        return minimumNumberOfTravelers;
     }
 
-    public void setMinPersons(int minPersons) {
-        this.minPersons = minPersons;
+    public void setMinimumNumberOfTravelers(int minimumNumberOfTravelers) {
+        this.minimumNumberOfTravelers = minimumNumberOfTravelers;
     }
 
     public List<Destination> getDestinations() {
