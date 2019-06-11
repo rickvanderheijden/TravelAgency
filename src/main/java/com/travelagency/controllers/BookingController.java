@@ -35,18 +35,14 @@ public class BookingController {
         if (booking.getBookingItems() != null) {
             for (BookingItem bookingItem : booking.getBookingItems()) {
                 Optional<BookingItem> item = bookingItemController.createBookingItem(bookingItem);
-                if (item.isPresent()) {
-                    bookingItems.add(item.get());
-                }
+                item.ifPresent(bookingItems::add);
             }
         }
         booking.setBookingItems(bookingItems);
 
         if (booking.getBooker() != null) {
             Optional<User> booker = userController.getUserById(booking.getBooker().getId());
-            if (booker.isPresent()) {
-                booking.setBooker(booker.get());
-            }
+            booker.ifPresent(booking::setBooker);
         }
 
         if (booking.getAddress() != null) {
@@ -55,13 +51,9 @@ public class BookingController {
                 booking.setAddress(address.get());
             } else {
                 address = geographyController.createAddress(booking.getAddress().getAddressLine(), booking.getAddress().getZipCode(), booking.getAddress().getCity());
-                if (address.isPresent()) {
-                    booking.setAddress(address.get());
-                }
+                address.ifPresent(booking::setAddress);
             }
         }
-
-        //TODO: Ophalen shizzle
 
         return Optional.of(bookingRepository.save(booking));
     }

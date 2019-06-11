@@ -29,9 +29,7 @@ public class TripController {
         if (trip.getDestinations() != null) {
             for (Destination destination : trip.getDestinations()) {
                 Optional<Destination> dest = destinationRepository.findById(destination.getId());
-                if (dest.isPresent()) {
-                    destinations.add(dest.get());
-                }
+                dest.ifPresent(destinations::add);
             }
         }
 
@@ -60,7 +58,7 @@ public class TripController {
         return true;
     }
 
-    //TODO: Search trips methode ->Ismail
+    //TODO: Search trips method ->Ismail
     public Iterable<Trip> searchTrips(String searchInput) {
         if(searchInput == null || searchInput.isEmpty()){
             return null;

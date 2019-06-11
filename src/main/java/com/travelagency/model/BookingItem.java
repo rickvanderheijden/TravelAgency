@@ -3,6 +3,7 @@ package com.travelagency.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Entity
 @Table(name = "bookingitem")
 public class BookingItem {

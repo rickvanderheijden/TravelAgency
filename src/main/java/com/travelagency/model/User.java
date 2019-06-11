@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Entity
 @Table(name = "user")
 public class User {

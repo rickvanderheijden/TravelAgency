@@ -59,7 +59,15 @@ public class TestAuthenticationResource {
 
     @Test
     public void testRegisterUser() {
-        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", true, null,null);
+        UserDTO user = new UserDTO(
+                "UsernameRegisterTest",
+                "Password",
+                "FirstName",
+                "LastName",
+                "EmailAddress",
+                true,
+                null,
+                null);
         RestAssured.given().contentType("application/json").body(user).when().post("/auth/register").then().statusCode(200);
     }
 
@@ -68,6 +76,6 @@ public class TestAuthenticationResource {
     public void testLoginValidCredentialsAndInvalidPath() {
 
         UserCredentials userCredentials = new UserCredentials("user", "user");
-        RestAssured.given().contentType("application/json").body(userCredentials).when().post("/doesnotexist").then().statusCode(401);
+        RestAssured.given().contentType("application/json").body(userCredentials).when().post("/doesNotExist").then().statusCode(401);
     }
 }

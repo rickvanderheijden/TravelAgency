@@ -55,8 +55,8 @@ public class PaymentController {
 
     }
 
-    public Payment getById(Long id) {
-        return paymentRepository.getOne(id);
+    public Optional<Payment> getById(Long id) {
+        return Optional.of(paymentRepository.getOne(id));
     }
 
 
@@ -71,5 +71,4 @@ public class PaymentController {
     public Optional<List<Payment>> getPaymentsByBookingId(Long bookingId) {
         return Optional.of(paymentRepository.findAllByBookingId(bookingId));
     }
-
 }
