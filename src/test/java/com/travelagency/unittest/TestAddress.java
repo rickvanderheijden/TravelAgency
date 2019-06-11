@@ -13,6 +13,7 @@ public class TestAddress {
     private static final String AddressLine2 = "AddressLine2";
     private static final String ZipCode = "ZipCode";
     private static final String ZipCode2 = "ZipCode2";
+    private static final Long Id = 1L;
     private Address address;
 
     @Before
@@ -24,6 +25,17 @@ public class TestAddress {
     @After
     public void tearDown() {
         address = null;
+    }
+
+    @Test
+    public void testGetIdInitial() {
+        Assert.assertNull(address.getId());
+    }
+
+    @Test
+    public void testSetAndGetId() {
+        address.setId(Id);
+        Assert.assertEquals(Id, address.getId());
     }
 
     @Test
