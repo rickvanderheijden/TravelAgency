@@ -148,4 +148,8 @@ public class Booking {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+    public void addPayment(Payment payment) {
+        this.payments.add(payment);
+    }
 }

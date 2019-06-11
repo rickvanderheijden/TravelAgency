@@ -25,17 +25,17 @@ public class PaymentController {
     public Optional<Payment> createPayment(Payment payment) {
         if (payment == null) return Optional.empty();
 
-        User user = payment.getUser();
-        Booking booking = payment.getBooking();
-        if (user == null) return Optional.empty();
-        if (booking == null) return Optional.empty();
+        Long userId = payment.getUserId();
+        Long bookingId = payment.getBookingId();
+        if (userId == null) return Optional.empty();
+        if (bookingId == null) return Optional.empty();
 
-        Optional<User> userInDatabase = userController.getUserByUsername(user.getUsername());
-        Optional<Booking> bookingInDatabase = bookingController.getById(booking.getId());
+        Optional<User> userInDatabase = userController.getUserById(userId);
+        Optional<Booking> bookingInDatabase = bookingController.getById(bookingId);
         if (!userInDatabase.isPresent()){
             return Optional.empty();
         } else {
-            payment.setUser(userInDatabase.get());
+            payment.setUserId(userInDatabase.get().getId());
         }
         if (!bookingInDatabase.isPresent()){
             return Optional.empty();
@@ -44,10 +44,15 @@ public class PaymentController {
             updateBooking.setPaid(true);
             Booking updatedBooking = bookingController.updateBooking(updateBooking);
 
-            payment.setBooking(updatedBooking);
+            payment.setBookingId(updatedBooking.getId());
         }
 
-        return Optional.of(paymentRepository.save(payment));
+        Payment saved = paymentRepository.save(payment);
+        bookingInDatabase.get().addPayment(saved);
+        bookingController.updateBooking(bookingInDatabase.get());
+
+        return Optional.of(saved);
+
     }
 
     public Payment getById(Long id) {
@@ -59,12 +64,12 @@ public class PaymentController {
         return Optional.of(paymentRepository.findAll());
     }
 
-    public Optional<List<Payment>> getPaymentsByUsername(String username) {
-        return Optional.of(paymentRepository.findByUserUsername(username));
+    public Optional<List<Payment>> getPaymentsByUserId(Long userId) {
+        return Optional.of(paymentRepository.findAllByUserId(userId));
     }
 
     public Optional<List<Payment>> getPaymentsByBookingId(Long bookingId) {
-        return Optional.of(paymentRepository.findAllByBooking_Id(bookingId));
+        return Optional.of(paymentRepository.findAllByBookingId(bookingId));
     }
 
 }

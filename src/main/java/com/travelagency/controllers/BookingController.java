@@ -3,6 +3,8 @@ package com.travelagency.controllers;
 import com.travelagency.model.*;
 import com.travelagency.repository.BookingRepository;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -12,16 +14,18 @@ public class BookingController {
     private final BookingItemController bookingItemController;
     private final GeographyController geographyController;
     private final UserController userController;
+    private final JwtController jwtController;
 
     public BookingController(
             BookingRepository bookingRepository,
             BookingItemController bookingItemController,
             GeographyController geographyController,
-            UserController userController){
+            UserController userController, JwtController jwtController){
         this.bookingRepository = bookingRepository;
         this.bookingItemController = bookingItemController;
         this.geographyController = geographyController;
         this.userController = userController;
+        this.jwtController = jwtController;
     }
 
     public Optional<Booking> createBooking(Booking booking) {
@@ -80,5 +84,15 @@ public class BookingController {
         }
         bookingRepository.deleteById(id);
         return true;
+    }
+
+    public Optional<List<Booking>> getBookingsByToken(HttpServletRequest request) {
+        User user = jwtController.userExists(request);
+        if( user == null) return  Optional.empty();
+        return Optional.ofNullable(bookingRepository.findAllByBooker_Username(user.getUsername()));
+    }
+
+    public Optional<List<Booking>> getAllBookings() {
+        return Optional.of(bookingRepository.findAll());
     }
 }
