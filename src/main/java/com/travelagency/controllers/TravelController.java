@@ -36,9 +36,7 @@ public class TravelController {
         if (travelTripItems != null) {
             for (TripItem tripItem : travelTripItems) {
                 Optional<TripItem> item = tripItemRepository.findById(tripItem.getId());
-                if (item.isPresent()) {
-                    tripItems.add(item.get());
-                }
+                item.ifPresent(tripItems::add);
             }
         }
 

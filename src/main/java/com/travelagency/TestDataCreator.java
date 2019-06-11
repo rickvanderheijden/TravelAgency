@@ -1,8 +1,5 @@
 package com.travelagency;
 
-import com.travelagency.controllers.GeographyController;
-import com.travelagency.controllers.TravelGroupController;
-import com.travelagency.controllers.UserController;
 import com.travelagency.model.*;
 import com.travelagency.rest.AuthenticationResource;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("SpellCheckingInspection")
 class TestDataCreator {
 
     private static ConfigurableApplicationContext context;
@@ -101,9 +99,7 @@ class TestDataCreator {
                 Destination destination = new Destination(city);
 
                 Optional<Hotel> hotel = hotelController.getFirstByAddressCityName(city.getName());
-                if (hotel.isPresent()) {
-                    destination.setHotel(hotel.get());
-                }
+                hotel.ifPresent(destination::setHotel);
 
                 Optional<List<TripItem>> tripItems = tripItemController.getByCityName(city.getName());
                 if (tripItems.isPresent() && !tripItems.get().isEmpty()) {
@@ -151,9 +147,7 @@ class TestDataCreator {
 
             for (String[] address : addresses) {
                 Optional<City> city = geographyController.getCity(address[2]);
-                if (city.isPresent()) {
-                    geographyController.createAddress(address[0], address[1], city.get());
-                }
+                city.ifPresent(value -> geographyController.createAddress(address[0], address[1], value));
             }
         }
     }
@@ -194,9 +188,7 @@ class TestDataCreator {
 
             for (String[] city : cities) {
                 Optional<Country> country = geographyController.getCountry(city[1]);
-                if (country.isPresent()) {
-                    geographyController.createCity(city[0], country.get());
-                }
+                country.ifPresent(value -> geographyController.createCity(city[0], value));
             }
         }
     }
@@ -232,9 +224,7 @@ class TestDataCreator {
 
             for (String[] city : cities) {
                 Optional<Country> country = geographyController.getCountry(city[1]);
-                if (country.isPresent()) {
-                    geographyController.createCity(city[0], country.get());
-                }
+                country.ifPresent(value -> geographyController.createCity(city[0], value));
             }
         }
     }
@@ -467,9 +457,7 @@ class TestDataCreator {
             for (String name : names) {
                 Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name,userController.getUserByUsername(username).get().getId() );
 
-                if (travelGroup.isPresent()) {
-                    userController.addTravelGroup(travelGroup.get(), userController.getUserByUsername(username).get().getId());
-                }
+                travelGroup.ifPresent(group -> userController.addTravelGroup(group, userController.getUserByUsername(username).get().getId()));
             }
         }
     }

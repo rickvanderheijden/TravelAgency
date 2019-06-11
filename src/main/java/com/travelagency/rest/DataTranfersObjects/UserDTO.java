@@ -18,11 +18,11 @@ public class UserDTO {
     private final List<Authority> authorities;
     private final List<TravelGroup> travelGroups;
 
-    public UserDTO(String username, String password, String firstname, String lastname, String emailAddress, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
+    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
         this.username = username;
         this.password = password;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.enabled = enabled;
         this.authorities = authorities;
