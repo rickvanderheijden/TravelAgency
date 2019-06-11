@@ -62,5 +62,5 @@ public class TripResource {
     public Optional<List<Trip>> search(@Valid @RequestBody TripSearchDTO search) { return tripController.searchTripsFilter(search); }
 
     @RequestMapping(value = "/searchTripsByKeyword", method = RequestMethod.POST)
-    public Optional<List<Trip>> searchByName(@Valid @RequestBody String name) { return tripController.searchTripsByKeyWord(name); }
+    public Optional<List<Trip>> searchTripsByKeyword(@Valid @RequestBody String keyword) { return tripController.searchTripsByKeyword(keyword); }
 }

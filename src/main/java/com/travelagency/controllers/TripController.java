@@ -60,11 +60,11 @@ public class TripController {
         return true;
     }
 
-    public Optional<List<Trip>> searchTripsByKeyWord(String searchInput) {
-        if(searchInput == null || searchInput.isEmpty()){
+    public Optional<List<Trip>> searchTripsByKeyword(String keyword) {
+        if(keyword == null || keyword.isEmpty()){
             return Optional.empty();
         }
-        return Optional.of(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(searchInput, searchInput, searchInput));
+        return Optional.of(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
     }
 
     public Optional<List<Trip>> getAllTrips() {
