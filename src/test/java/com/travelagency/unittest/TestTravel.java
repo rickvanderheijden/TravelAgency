@@ -57,7 +57,7 @@ public class TestTravel {
     }
 
     @Test
-    public void testGetTripItemsAfterAddingUnidenticalTripItems() {
+    public void testGetTripItemsAfterAddingUnIdenticalTripItems() {
         TripItem tripItem  = Mockito.mock(TripItem.class);
         TripItem tripItem2 = Mockito.mock(TripItem.class);
         travel.addTripItem(tripItem);

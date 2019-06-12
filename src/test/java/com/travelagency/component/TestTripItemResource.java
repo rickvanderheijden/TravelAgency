@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-@SuppressWarnings("SameParameterValue")
+@SuppressWarnings({"SameParameterValue", "SpellCheckingInspection"})
 public class TestTripItemResource {
 
     private static final int StatusCodeOK = 200;
@@ -32,7 +32,7 @@ public class TestTripItemResource {
         Country country = new Country("Nederland", continent);
         City city = new City("Rotterdam",country);
         Address address = new Address("Address", "1900AA", city);
-        TripItem tripItem = new TripItem(TripItemType.OUTING, "TripItem", "Description", null, address,10, new Date());
+        TripItem tripItem = new TripItem(TripItemType.OUTING, "TripItem", "Description", null, address,10, new Date(),8);
         RestAssured.given().contentType("application/json").header(header).body(tripItem).when().post("/tripItems/createTripItem").then().statusCode(StatusCodeOK);
     }
 
@@ -43,7 +43,7 @@ public class TestTripItemResource {
         Country country = new Country("GeenLand", continent);
         City city = new City("BestaatNiet",country);
         Address address = new Address("Address", "1900AA", city);
-        TripItem tripItem = new TripItem(TripItemType.OUTING, "TripItem", "Description", null, address,10, new Date());
+        TripItem tripItem = new TripItem(TripItemType.OUTING, "TripItem", "Description", null, address,10, new Date(),8);
         RestAssured.given().contentType("application/json").header(header).body(tripItem).when().post("/tripItems/createTripItem").then().statusCode(StatusCodeNotFound);
     }
 

@@ -51,7 +51,7 @@ public class TripItemController {
 
     public Optional<TripItem> updateTripItem(Long id, TripItem updatedTripItem) {
         if(!this.tripItemRepository.existsById(id)){
-            return null;
+            return Optional.empty();
         }
 
         Address address = updatedTripItem.getAddress();

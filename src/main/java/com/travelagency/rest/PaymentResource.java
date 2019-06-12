@@ -24,7 +24,7 @@ public class PaymentResource {
     }
 
     @GetMapping(value = "/{id}")
-    public Payment getById(@PathVariable final Long id) {
+    public Optional<Payment> getById(@PathVariable final Long id) {
         return paymentController.getById(id);
     }
 
@@ -33,7 +33,7 @@ public class PaymentResource {
         return paymentController.getAllPayments();
     }
 
-    @GetMapping(value = "/booking/{Id}")
+    @GetMapping(value = "/booking/{id}")
     public Optional<List<Payment>> getByBookingId(@PathVariable final Long id) {
         return paymentController.getPaymentsByBookingId(id);
     }

@@ -30,9 +30,7 @@ public class TripController {
         if (trip.getDestinations() != null) {
             for (Destination destination : trip.getDestinations()) {
                 Optional<Destination> dest = destinationRepository.findById(destination.getId());
-                if (dest.isPresent()) {
-                    destinations.add(dest.get());
-                }
+                dest.ifPresent(destinations::add);
             }
         }
 
@@ -60,7 +58,7 @@ public class TripController {
         tripRepository.deleteById(id);
         return true;
     }
-
+    
     public Optional<List<Trip>> getAllTrips() {
         return Optional.of(tripRepository.findAll());
     }

@@ -54,7 +54,7 @@ public class UserResource {
     @RequestMapping(value = "/is-admin", method = RequestMethod.GET)
     public boolean isUserAdmin(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader).substring(7);
-        return userController.getIsUserAdmin(token);
+        return userController.isUserAdmin(token);
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)

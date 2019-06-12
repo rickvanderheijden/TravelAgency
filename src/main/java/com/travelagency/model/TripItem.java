@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings("SpellCheckingInspection")
 @Entity
 @Table(name = "tripitem")
 public class TripItem {
@@ -51,19 +52,24 @@ public class TripItem {
     @NotNull
     private Date date;
 
-    @Column(name = "max_persons", length = 10)
+    @Column(name = "maximum_number_of_attendees", length = 2000)
     @Range(min = 1, max = 1000)
     @NotNull
-    private int maxPersons;
+    private int maximumNumberOfAttendees;
 
-    @Column(name = "min_persons", length = 10)
+    @Column(name = "minimum_number_of_attendees", length = 2000)
     @Range(min = 1, max = 1000)
     @NotNull
-    private int minPersons;
+    private int minimumNumberOfAttendees;
+
+    @Column(name = "number_of_attendees", length = 2000)
+    @Range(min = 1, max = 1000)
+    @NotNull
+    private int numberOfAttendees;
 
     public TripItem() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date, @NotNull int numberOfAttendees) {
         this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
@@ -71,8 +77,9 @@ public class TripItem {
         this.address = address;
         this.price = price;
         this.date = date;
-        this.minPersons = 1;
-        this.maxPersons = 8;
+        this.minimumNumberOfAttendees = 1;
+        this.maximumNumberOfAttendees = 8;
+        this.numberOfAttendees = numberOfAttendees;
     }
 
     public Long getId() {
@@ -131,13 +138,13 @@ public class TripItem {
         this.date = date;
     }
 
-    public int getMaxPersons() { return maxPersons; }
+    public int getMaximumNumberOfAttendees() { return maximumNumberOfAttendees; }
 
-    public void setMaxPersons(int maxPersons) { this.maxPersons = maxPersons; }
+    public void setMaximumNumberOfAttendees(int maximumNumberOfAttendees) { this.maximumNumberOfAttendees = maximumNumberOfAttendees; }
 
-    public int getMinPersons() { return minPersons; }
+    public int getMinimumNumberOfAttendees() { return minimumNumberOfAttendees; }
 
-    public void setMinPersons(int minPersons) { this.minPersons = minPersons; }
+    public void setMinimumNumberOfAttendees(int minimumNumberOfAttendees) { this.minimumNumberOfAttendees = minimumNumberOfAttendees; }
 
     public List<Destination> getDestinations() { return this.destinations; }
 
@@ -150,4 +157,8 @@ public class TripItem {
     public void setImageBlob(String imageBlob) {
         this.imageBlob = imageBlob;
     }
+
+    public int getNumberOfAttendees() { return numberOfAttendees; }
+
+    public void setNumberOfAttendees(int numberOfAttendees) { this.numberOfAttendees = numberOfAttendees; }
 }
