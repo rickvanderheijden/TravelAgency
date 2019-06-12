@@ -25,9 +25,9 @@ public class TestHotelController {
     private final GeographyController geographyController = Mockito.mock(GeographyController.class);
 
     private HotelController hotelController;
-    Hotel hotelMock;
-    City cityMock;
-    Address addressMock;
+    private Hotel hotelMock;
+    private City cityMock;
+    private Address addressMock;
     private List<Hotel> hotelsToReturn;
 
     @Before
