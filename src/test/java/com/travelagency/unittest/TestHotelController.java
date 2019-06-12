@@ -16,7 +16,6 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class TestHotelController {
     private static final Long ValidId = 1L;
     private static final Long InvalidId = 2L;
