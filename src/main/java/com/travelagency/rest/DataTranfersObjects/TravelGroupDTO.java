@@ -9,7 +9,7 @@ import java.util.List;
 public class TravelGroupDTO {
     private final String name;
     private final Long masterId;
-    private List<User> users;
+    private final List<User> users;
 
     public TravelGroupDTO(@NotNull String name, @NotNull Long masterId, List<User> users) {
         this.name = name;
