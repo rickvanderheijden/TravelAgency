@@ -69,44 +69,62 @@ public class TripController {
     }
 
     public Optional<List<Trip>> searchTripsByKeywordAndContinentOrCountry(TripSearchDTO search) {
-        List<Trip> result = new ArrayList<>();
-        List<Trip> distinct = new ArrayList<>();
+        List<Trip> tripsFromDestination;
+        List<Trip> tripsFromDate;
         String keyword = search.getKeyword();
 
-        if (search.fromPresent()) {
-            distinct.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(search.getFrom(), search.getFrom()));
-        } else if (search.toPresent()) {
-            distinct.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(search.getTo(), search.getTo()));
-        }
-
-        if (!distinct.isEmpty()) {
-            distinct.stream().distinct().collect(Collectors.toList());
-        }
-
-        if (search.countryPresent()) {
-            result.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
-        } else if (search.continentPresent()) {
-            result.addAll(tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
-        } else if (search.keywordPresent()) {
-            result.addAll(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
-        }
+        tripsFromDate = getTripsFromDate(search);
+        tripsFromDestination = getTripsFromDestination(search);
 
         if (search.fromPresent() || search.toPresent()) {
-            distinct.retainAll(result);
+            tripsFromDate.retainAll(tripsFromDestination);
         } else {
-            distinct = result;
+            tripsFromDate = tripsFromDestination;
         }
 
         if (search.keywordPresent()) {
             List<Trip> response = new ArrayList<>();
-            for (Trip trip : distinct) {
+            for (Trip trip : tripsFromDate) {
                 if (trip.getDescription().toLowerCase().contains(keyword.toLowerCase()) || trip.getSummary().toLowerCase().contains(keyword.toLowerCase()) || trip.getName().toLowerCase().contains(keyword.toLowerCase())) {
                     response.add(trip);
                 }
             }
             return Optional.of(response);
         } else {
-            return Optional.of(distinct);
+            return Optional.of(tripsFromDate);
         }
+    }
+
+    private List<Trip> getTripsFromDate(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDate = new ArrayList<>();
+
+        if (tripSearch.fromPresent() && tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getTo()));
+        } else if (tripSearch.fromPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getFrom()));
+        } else if (tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getTo(), tripSearch.getTo()));
+        }
+
+        if (!tripsFromDate.isEmpty()) {
+            tripsFromDate.stream().distinct().collect(Collectors.toList());
+        }
+
+        return tripsFromDate;
+    }
+
+    private List<Trip> getTripsFromDestination(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDestination = new ArrayList<>();
+        String keyword = tripSearch.getKeyword();
+
+        if (tripSearch.countryPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(tripSearch.getCountry()));
+        } else if (tripSearch.continentPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Continent_Name(tripSearch.getContinent()));
+        } else if (tripSearch.keywordPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
+        }
+
+        return tripsFromDestination;
     }
 }
