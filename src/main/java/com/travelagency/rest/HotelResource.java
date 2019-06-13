@@ -43,10 +43,10 @@ public class HotelResource {
         return hotelController.deleteHotel(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN')")
-    public Optional<Hotel> update(@PathVariable final Long id, @RequestBody Hotel Hotel) {
-        return hotelController.updateHotel(id,Hotel);
+    public Optional<Hotel> update(@Valid @RequestBody Hotel Hotel) {
+        return hotelController.updateHotel(Hotel);
     }
 
     @GetMapping(value = "/city/{name}")

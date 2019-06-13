@@ -20,7 +20,8 @@ public class BookingController {
             BookingRepository bookingRepository,
             BookingItemController bookingItemController,
             GeographyController geographyController,
-            UserController userController, JwtController jwtController){
+            UserController userController,
+            JwtController jwtController) {
         this.bookingRepository = bookingRepository;
         this.bookingItemController = bookingItemController;
         this.geographyController = geographyController;
@@ -37,12 +38,21 @@ public class BookingController {
                 Optional<BookingItem> item = bookingItemController.createBookingItem(bookingItem);
                 item.ifPresent(bookingItems::add);
             }
+        } else {
+            return Optional.empty();
         }
+
         booking.setBookingItems(bookingItems);
 
         if (booking.getBooker() != null) {
             Optional<User> booker = userController.getUserById(booking.getBooker().getId());
-            booker.ifPresent(booking::setBooker);
+            if (booker.isPresent()) {
+                booking.setBooker(booker.get());
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            return Optional.empty();
         }
 
         if (booking.getAddress() != null) {
@@ -53,6 +63,8 @@ public class BookingController {
                 address = geographyController.createAddress(booking.getAddress().getAddressLine(), booking.getAddress().getZipCode(), booking.getAddress().getCity());
                 address.ifPresent(booking::setAddress);
             }
+        } else {
+            return Optional.empty();
         }
 
         return Optional.of(bookingRepository.save(booking));
@@ -63,9 +75,7 @@ public class BookingController {
     }
 
     public Booking updateBooking(Booking updatedBooking) {
-        if(!bookingRepository.existsById(updatedBooking.getId())){
-            return null;
-        }
+        if ((updatedBooking == null) || !bookingRepository.existsById(updatedBooking.getId())) return null;
         return bookingRepository.save(updatedBooking);
     }
 
