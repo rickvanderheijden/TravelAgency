@@ -19,11 +19,11 @@ class TestDataCreator {
     TestDataCreator() {
     }
 
-    public void setContext(ConfigurableApplicationContext context) {
+    void setContext(ConfigurableApplicationContext context) {
         TestDataCreator.context = context;
     }
 
-    public void createTestData() {
+    void createTestData() {
         createTestUsers();
         createTestContinents();
         createTestCountries();
@@ -55,6 +55,55 @@ class TestDataCreator {
                     "adminLastName",
                     "admin@travelagency.com",
                     AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "arthurdoorgeest",
+                    "password",
+                    "Arthur",
+                    "Doorgeest",
+                    "arthur@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "rickvanderheijden",
+                    "password",
+                    "Rick",
+                    "van der Heijden",
+                    "rick@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "koensengers",
+                    "password",
+                    "Koen",
+                    "Sengers",
+                    "koen@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "roytimmers",
+                    "password",
+                    "Roy",
+                    "Timmers",
+                    "roy@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "ismaildalkilic",
+                    "password",
+                    "Ismail",
+                    "Dalkilic",
+                    "ismail@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "jeroendekort",
+                    "password",
+                    "Jeroen",
+                    "de Kort",
+                    "jeroen@travelagency.com",
+                    AuthorityName.ROLE_USER);
+
         }
     }
 
@@ -88,7 +137,7 @@ class TestDataCreator {
         createTestHotelsNorthAmerica();
     }
 
-    public void createTestDestinations() {
+    private void createTestDestinations() {
         if (context != null) {
             DestinationController destinationController = context.getBean(DestinationController.class);
             GeographyController geographyController = context.getBean(GeographyController.class);
@@ -455,9 +504,12 @@ class TestDataCreator {
             String username = "user";
 
             for (String name : names) {
-                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name,userController.getUserByUsername(username).get().getId() );
+                Optional<User> user = userController.getUserByUsername(username);
 
-                travelGroup.ifPresent(group -> userController.addTravelGroup(group, userController.getUserByUsername(username).get().getId()));
+                if (user.isPresent()) {
+                    Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name, user.get().getId());
+                    travelGroup.ifPresent(group -> userController.addTravelGroup(group, user.get().getId()));
+                }
             }
         }
     }
