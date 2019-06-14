@@ -66,6 +66,7 @@ public class UserController {
                 userInDB.setEmailAddress(userDTO.getEmailAddress());
                 userInDB.setFirstName(userDTO.getFirstName());
                 userInDB.setLastName(userDTO.getLastName());
+                userInDB.setAvatar(userDTO.getAvatar());
 
                 result = Optional.of(userRepository.save(userInDB));
             }
