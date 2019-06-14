@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@SuppressWarnings("SpellCheckingInspection")
 @Entity
 @Table(name = "travelgroup")
 public class TravelGroup {

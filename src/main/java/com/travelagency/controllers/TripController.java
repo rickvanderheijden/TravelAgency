@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TripController {
@@ -29,9 +30,7 @@ public class TripController {
         if (trip.getDestinations() != null) {
             for (Destination destination : trip.getDestinations()) {
                 Optional<Destination> dest = destinationRepository.findById(destination.getId());
-                if (dest.isPresent()) {
-                    destinations.add(dest.get());
-                }
+                dest.ifPresent(destinations::add);
             }
         }
 
@@ -59,21 +58,7 @@ public class TripController {
         tripRepository.deleteById(id);
         return true;
     }
-
-    //TODO: Search trips methode ->Ismail
-    public Iterable<Trip> searchTrips(String searchInput) {
-        if(searchInput == null || searchInput.isEmpty()){
-            return null;
-        }
-
-        String[] searchKeywords = searchInput.split(" ");
-        Set<Trip> result = new HashSet<>();
-        for (String searchKeyword: searchKeywords) {
-            result.addAll(tripRepository.findDistinctByNameContains(searchKeyword));
-        }
-        return result;
-    }
-
+    
     public Optional<List<Trip>> getAllTrips() {
         return Optional.of(tripRepository.findAll());
     }
@@ -83,23 +68,63 @@ public class TripController {
         return Optional.of(tripRepository.findAll(limit).getContent());
     }
 
-    public Optional<List<Trip>> searchTripsFilter(TripSearchDTO search) {
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null && search.getTo() != null) {
-            return Optional.empty();
+    public Optional<List<Trip>> searchTripsByKeywordAndContinentOrCountry(TripSearchDTO search) {
+        List<Trip> tripsFromDestination;
+        List<Trip> tripsFromDate;
+        String keyword = search.getKeyword();
+
+        tripsFromDate = getTripsFromDate(search);
+        tripsFromDestination = getTripsFromDestination(search);
+
+        if (search.fromPresent() || search.toPresent()) {
+            tripsFromDate.retainAll(tripsFromDestination);
+        } else {
+            tripsFromDate = tripsFromDestination;
         }
 
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null) {
-            return Optional.empty();
+        if (search.keywordPresent()) {
+            List<Trip> response = new ArrayList<>();
+            for (Trip trip : tripsFromDate) {
+                if (trip.getDescription().toLowerCase().contains(keyword.toLowerCase()) || trip.getSummary().toLowerCase().contains(keyword.toLowerCase()) || trip.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                    response.add(trip);
+                }
+            }
+            return Optional.of(response);
+        } else {
+            return Optional.of(tripsFromDate);
+        }
+    }
+
+    private List<Trip> getTripsFromDate(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDate = new ArrayList<>();
+
+        if (tripSearch.fromPresent() && tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getTo()));
+        } else if (tripSearch.fromPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getFrom()));
+        } else if (tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getTo(), tripSearch.getTo()));
         }
 
-        if(search.getCountry() != null) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
+        if (!tripsFromDate.isEmpty()) {
+            tripsFromDate.stream().distinct().collect(Collectors.toList());
         }
 
-        if(search.getContinent() != null) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
+        return tripsFromDate;
+    }
+
+    private List<Trip> getTripsFromDestination(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDestination = new ArrayList<>();
+        String keyword = tripSearch.getKeyword();
+
+        if (tripSearch.countryPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(tripSearch.getCountry()));
+        } else if (tripSearch.continentPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Continent_Name(tripSearch.getContinent()));
+        } else if (tripSearch.keywordPresent()) {
+            tripsFromDestination.addAll(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(keyword, keyword, keyword));
         }
 
-        return Optional.empty();
+        return tripsFromDestination;
     }
 }

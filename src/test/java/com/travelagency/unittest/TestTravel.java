@@ -57,12 +57,31 @@ public class TestTravel {
     }
 
     @Test
-    public void testGetTripItemsAfterAddingUnidenticalTripItems() {
+    public void testGetTripItemsAfterAddingUnIdenticalTripItems() {
         TripItem tripItem  = Mockito.mock(TripItem.class);
         TripItem tripItem2 = Mockito.mock(TripItem.class);
         travel.addTripItem(tripItem);
         travel.addTripItem(tripItem2);
 
         Assert.assertEquals(2, travel.getTripItems().size());
+    }
+
+    @Test
+    public void testGetIdInitial() {
+        Assert.assertNull(travel.getId());
+    }
+
+    @Test
+    public void testSetAndGetId() {
+        Long expectedId = 12L;
+        travel.setId(expectedId);
+        Assert.assertEquals(expectedId, travel.getId());
+    }
+
+    @Test
+    public void testSetAndGetTrip() {
+        Trip trip = Mockito.mock(Trip.class);
+        travel.setTrip(trip);
+        Assert.assertEquals(trip, travel.getTrip());
     }
 }

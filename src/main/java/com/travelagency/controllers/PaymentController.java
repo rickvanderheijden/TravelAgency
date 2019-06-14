@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ConstantConditions")
 @Service
 public class PaymentController {
 
@@ -55,8 +56,8 @@ public class PaymentController {
 
     }
 
-    public Payment getById(Long id) {
-        return paymentRepository.getOne(id);
+    public Optional<Payment> getById(Long id) {
+        return Optional.ofNullable(paymentRepository.getOne(id));
     }
 
 
@@ -71,5 +72,4 @@ public class PaymentController {
     public Optional<List<Payment>> getPaymentsByBookingId(Long bookingId) {
         return Optional.of(paymentRepository.findAllByBookingId(bookingId));
     }
-
 }

@@ -33,7 +33,7 @@ public class TestUserController {
     private static final String LastName = "lastName";
     private static final String EmailAddress = "emailAddress";
     private static final String avatar = "avatar-01.png";
-    private static final String Token = "usertoken";
+    private static final String Token = "userToken";
     private static final Long Id = 131L;
 
     private final AuthorityRepository authorityRepository = Mockito.mock(AuthorityRepository.class);
@@ -196,6 +196,33 @@ public class TestUserController {
     public void testGetUserByIdNull() {
         Optional<User> user = userController.getUserById(null);
         Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void testIsUserAdminWhenAdmin() {
+        boolean result = testIsUserAdmin(true);
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testIsUserAdminWhenUser() {
+        boolean result = testIsUserAdmin(false);
+        Assert.assertFalse(result);
+    }
+
+    private boolean testIsUserAdmin(boolean isAdmin) {
+        Authority authority = Mockito.mock(Authority.class);
+        when(authority.getName()).thenReturn(isAdmin ? AuthorityName.ROLE_ADMIN : AuthorityName.ROLE_USER);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authority);
+
+        User user = Mockito.mock(User.class);
+        when(user.getAuthorities()).thenReturn(authorities);
+        String username = "UserName";
+        when(userRepository.findByUsername(username)).thenReturn(user);
+        when(jwtTokenUtil.getUsernameFromToken(any())).thenReturn(username);
+
+        return userController.isUserAdmin("token");
     }
 
     private boolean testUpdateUser(String token, UserDTO userDTO) {

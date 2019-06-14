@@ -12,18 +12,18 @@ import org.junit.*;
 
 import java.util.*;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class TestUserResource {
 
     private static final int StatusCodeOK = 200;
     private static final int StatusCodeUnauthorized = 401;
-    private static final int StatusCodeForbidden = 403;
 
 
-    private static final String expectedFirstname = "userFirstName";
-    private static final String expectedLastname = "userLastName";
-    private static final String expectedEmailAddress = "user@travelagency.com";
-    private static final boolean expectedEnabled = true;
-    private static final HashMap<String, String> expectedAuthorities = new HashMap<>();
+    private static final String ExpectedFirstName = "userFirstName";
+    private static final String ExpectedLastName = "userLastName";
+    private static final String ExpectedEmailAddress = "user@travelagency.com";
+    private static final boolean ExpectedEnabled = true;
+    private static final HashMap<String, String> ExpectedAuthorities = new HashMap<>();
 
     private static final String UserLogin = "user";
     private static final String UserPassword = "user";
@@ -37,7 +37,7 @@ public class TestUserResource {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = 9000;
 
-        expectedAuthorities.put("name", AuthorityName.ROLE_USER.toString());
+        ExpectedAuthorities.put("name", AuthorityName.ROLE_USER.toString());
     }
 
     @Test
@@ -52,11 +52,11 @@ public class TestUserResource {
         login(UserLogin, UserPassword);
         ResponseBody responseBody = RestAssured.given().contentType("application/json").header(header).get("/users/user").getBody();
 
-        Assert.assertEquals(expectedFirstname, responseBody.jsonPath().get("firstName"));
-        Assert.assertEquals(expectedLastname, responseBody.jsonPath().get("lastName"));
-        Assert.assertEquals(expectedEmailAddress, responseBody.jsonPath().get("emailAddress"));
-        Assert.assertEquals(expectedEnabled, responseBody.jsonPath().get("enabled"));
-        Assert.assertEquals(expectedAuthorities.get("name"), ((HashMap<String, String>)responseBody.jsonPath().getList("authorities").get(0)).get("name"));
+        Assert.assertEquals(ExpectedFirstName, responseBody.jsonPath().get("firstName"));
+        Assert.assertEquals(ExpectedLastName, responseBody.jsonPath().get("lastName"));
+        Assert.assertEquals(ExpectedEmailAddress, responseBody.jsonPath().get("emailAddress"));
+        Assert.assertEquals(ExpectedEnabled, responseBody.jsonPath().get("enabled"));
+        Assert.assertEquals(ExpectedAuthorities.get("name"), ((HashMap<String, String>)responseBody.jsonPath().getList("authorities").get(0)).get("name"));
     }
 
     @Test
