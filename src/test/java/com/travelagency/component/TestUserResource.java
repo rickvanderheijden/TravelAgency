@@ -84,7 +84,7 @@ public class TestUserResource {
         login(AdminLogin, AdminPassword);
         List<Authority> authorities = Collections.singletonList(new Authority(AuthorityName.ROLE_USER));
         List<TravelGroup> travelGroups = new ArrayList<>();
-        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", true, authorities, travelGroups);
+        UserDTO user = new UserDTO("Username", "Password", "FirstName", "LastName", "EmailAddress", "avatar-08.png", true, authorities, travelGroups);
         RestAssured.given().contentType("application/json").header(header).body(user).when().post("/users/create").then().statusCode(StatusCodeOK);
     }
 

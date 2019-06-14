@@ -32,6 +32,7 @@ public class TestUserController {
     private static final String FirstName = "firstName";
     private static final String LastName = "lastName";
     private static final String EmailAddress = "emailAddress";
+    private static final String avatar = "avatar-01.png";
     private static final String Token = "usertoken";
     private static final Long Id = 131L;
 
@@ -83,7 +84,7 @@ public class TestUserController {
 
     @Test
     public void testCreateUserThatDoesNotExist() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
 
         Optional<Long> userId = userController.createUser(userDTO);
         Assert.assertTrue(userId.isPresent());
@@ -98,7 +99,7 @@ public class TestUserController {
 
     @Test
     public void testUpdateUserWithTokenNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
         Assert.assertFalse(testUpdateUser(null, userDTO));
     }
 
@@ -109,37 +110,37 @@ public class TestUserController {
 
     @Test
     public void testUpdateUserWithValidUser() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
         Assert.assertTrue(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithUserNameNull() {
-        UserDTO userDTO = createUserDTO(null, Password, FirstName, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(null, Password, FirstName, LastName, EmailAddress, avatar);
         Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithPasswordNull() {
-        UserDTO userDTO = createUserDTO(UserName, null, FirstName, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, null, FirstName, LastName, EmailAddress, avatar);
         Assert.assertTrue(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithFirstNameNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, null, LastName, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, Password, null, LastName, EmailAddress, avatar);
         Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithLastNameNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, null, EmailAddress);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, null, EmailAddress, avatar);
         Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
     @Test
     public void testUpdateUserWithEmailAddressNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, null);
+        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, null,avatar);
         Assert.assertFalse(testUpdateUser(Token, userDTO));
     }
 
@@ -206,11 +207,11 @@ public class TestUserController {
         return new Authority(AuthorityName.ROLE_USER);
     }
 
-    private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress) {
+    private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress, String avatar) {
         List<Authority> authorities = new ArrayList<>();
         List<TravelGroup> travelGroups = new ArrayList<>();
         authorities.add(getAuthority());
-        return new UserDTO(userName, password, firstName, lastName, emailAddress, true, authorities, travelGroups);
+        return new UserDTO(userName, password, firstName, lastName, emailAddress, avatar, true, authorities, travelGroups);
     }
 
     private User getUser() {

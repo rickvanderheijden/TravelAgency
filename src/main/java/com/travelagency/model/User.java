@@ -48,6 +48,9 @@ public class User {
     @Size(min = 4, max = 50)
     private String emailAddress;
 
+    @Column(name = "avatar", length = 50)
+    private String avatar;
+
     @Column(name = "enabled")
     @NotNull
     private Boolean enabled;
@@ -184,5 +187,13 @@ public class User {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

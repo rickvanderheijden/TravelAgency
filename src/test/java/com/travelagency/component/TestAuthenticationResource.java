@@ -59,7 +59,7 @@ public class TestAuthenticationResource {
 
     @Test
     public void testRegisterUser() {
-        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", true, null,null);
+        UserDTO user = new UserDTO("UsernameRegisterTest", "Password", "FirstName", "LastName", "EmailAddress", "avatar-01.png", true, null,null);
         RestAssured.given().contentType("application/json").body(user).when().post("/auth/register").then().statusCode(200);
     }
 
