@@ -4,6 +4,7 @@ import com.travelagency.model.Travel;
 import com.travelagency.model.TripItem;
 import com.travelagency.repository.TravelRepository;
 import com.travelagency.repository.TripItemRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class TravelController {
     }
 
     public Optional<Travel> getById(Long id) {
-        return Optional.of(travelRepository.getOne(id));
+        return Optional.ofNullable(travelRepository.getOne(id));
     }
 
     public Optional<Travel> createTravel(Travel travel) {
@@ -42,11 +43,14 @@ public class TravelController {
 
         travel.setTripItems(tripItems);
 
-        return Optional.of(travelRepository.save(travel));
+        return Optional.ofNullable(travelRepository.save(travel));
     }
 
     public Optional<List<Travel>> getAllTravels(int maximumNumber) {
-        Pageable limit = PageRequest.of(0,maximumNumber);
-        return Optional.of(travelRepository.findAll(limit).getContent());
+        Pageable limit = maximumNumber > 0 ? PageRequest.of(0,maximumNumber) : Pageable.unpaged();
+        Page<Travel> travels = travelRepository.findAll(limit);
+
+        if (travels == null) return Optional.empty();
+        return Optional.of(travels.getContent());
     }
 }
