@@ -1,12 +1,11 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.travelagency.util.Dateparser;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -79,8 +78,8 @@ public class TripItem {
         this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
-        this.availableFrom = parseDate(availableFrom);
-        this.availableTo = parseDate(availableTo);
+        this.availableFrom = Dateparser.parseDate(availableFrom);
+        this.availableTo = Dateparser.parseDate(availableTo);
         this.minimumNumberOfAttendees = 1;
         this.maximumNumberOfAttendees = 8;
     }
@@ -167,14 +166,6 @@ public class TripItem {
 
     public void setImageBlob(String imageBlob) {
         this.imageBlob = imageBlob;
-    }
-
-    public static Date parseDate(String date) {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
-        } catch (ParseException e) {
-            return null;
-        }
     }
 
 }

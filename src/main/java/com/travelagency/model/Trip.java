@@ -1,10 +1,9 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.travelagency.util.Dateparser;
 import org.hibernate.validator.constraints.Range;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -84,8 +83,8 @@ public class Trip {
         this.discount = discount;
         this.minimumNumberOfTravelers = 1;
         this.maximumNumberOfTravelers = 20;
-        this.availableFrom = parseDate("2019-01-01");
-        this.availableTo = parseDate("2019-12-31");
+        this.availableFrom = Dateparser.parseDate("2019-01-01");
+        this.availableTo = Dateparser.parseDate("2019-12-31");
         this.destinations = new ArrayList<>();
     }
 
@@ -202,13 +201,5 @@ public class Trip {
 
     public void setAvailableTo(Date availableTo) {
         this.availableTo = availableTo;
-    }
-
-    public static Date parseDate(String date) {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
-        } catch (ParseException e) {
-            return null;
-        }
     }
 }
