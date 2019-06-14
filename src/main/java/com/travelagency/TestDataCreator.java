@@ -19,11 +19,11 @@ class TestDataCreator {
     TestDataCreator() {
     }
 
-    public void setContext(ConfigurableApplicationContext context) {
+    void setContext(ConfigurableApplicationContext context) {
         TestDataCreator.context = context;
     }
 
-    public void createTestData() {
+    void createTestData() {
         createTestUsers();
         createTestContinents();
         createTestCountries();
@@ -504,9 +504,12 @@ class TestDataCreator {
             String username = "user";
 
             for (String name : names) {
-                Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name,userController.getUserByUsername(username).get().getId() );
+                Optional<User> user = userController.getUserByUsername(username);
 
-                travelGroup.ifPresent(group -> userController.addTravelGroup(group, userController.getUserByUsername(username).get().getId()));
+                if (user.isPresent()) {
+                    Optional<TravelGroup> travelGroup = travelGroupController.createTravelGroup(name, user.get().getId());
+                    travelGroup.ifPresent(group -> userController.addTravelGroup(group, user.get().getId()));
+                }
             }
         }
     }
