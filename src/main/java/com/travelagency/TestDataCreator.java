@@ -46,6 +46,7 @@ class TestDataCreator {
                     "userFirstName",
                     "userLastName",
                     "user@travelagency.com",
+                    "avatar-07.png",
                     AuthorityName.ROLE_USER);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -54,6 +55,7 @@ class TestDataCreator {
                     "adminFirstName",
                     "adminLastName",
                     "admin@travelagency.com",
+                    "avatar-08.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(

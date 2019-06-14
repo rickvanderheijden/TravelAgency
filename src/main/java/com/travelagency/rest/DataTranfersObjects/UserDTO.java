@@ -14,27 +14,30 @@ public class UserDTO {
     private final String firstName;
     private final String lastName;
     private final String emailAddress;
+    private final String avatar;
     private final Boolean enabled;
     private final List<Authority> authorities;
     private final List<TravelGroup> travelGroups;
 
-    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
+    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, String avatar, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
+        this.avatar = avatar;
         this.enabled = enabled;
         this.authorities = authorities;
         this.travelGroups = travelGroups;
     }
 
-    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress) {
+    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, String avatar) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
+        this.avatar = avatar;
         this.enabled = true;
         this.authorities = new ArrayList<>();
         this.travelGroups = new ArrayList<>();
@@ -46,6 +49,7 @@ public class UserDTO {
         this.firstName = "";
         this.lastName = "";
         this.emailAddress = "";
+        this.avatar = "";
         this.enabled = true;
         this.authorities = new ArrayList<>();
         this.travelGroups = new ArrayList<>();
@@ -83,6 +87,10 @@ public class UserDTO {
         return travelGroups;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
     public User getUser() {
         User user = new User();
         user.setUsername(username);
@@ -90,6 +98,7 @@ public class UserDTO {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmailAddress(emailAddress);
+        user.setAvatar(avatar);
         user.setEnabled(enabled);
         user.setAuthorities(authorities);
         user.setTravelGroups(travelGroups);

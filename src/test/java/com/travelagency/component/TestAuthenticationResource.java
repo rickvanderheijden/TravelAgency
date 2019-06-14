@@ -65,6 +65,7 @@ public class TestAuthenticationResource {
                 "FirstName",
                 "LastName",
                 "EmailAddress",
+                "avatar-01.png",
                 true,
                 null,
                 null);

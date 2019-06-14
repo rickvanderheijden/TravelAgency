@@ -3,6 +3,8 @@ package com.travelagency.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Range;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,9 +31,10 @@ public class Trip {
     @NotNull
     private String description;
 
-    @Column(name = "image_url")
+    @Column(name = "image_blob")
     @NotNull
-    private String imageUrl;
+    @Lob
+    private String imageBlob;
 
     @Column(name = "total_price", length = 10)
     @NotNull
@@ -70,17 +73,19 @@ public class Trip {
             @NotNull String name,
             @NotNull String description,
             @NotNull String summary,
-            String imageUrl,
+            String imageBlob,
             @NotNull int totalPrice,
             int discount) {
         this.name = name;
         this.description = description;
         this.summary = summary;
-        this.imageUrl = imageUrl;
+        this.imageBlob = imageBlob;
         this.totalPrice = totalPrice;
         this.discount = discount;
         this.minimumNumberOfTravelers = 1;
         this.maximumNumberOfTravelers = 20;
+        this.availableFrom = parseDate("2019-01-01");
+        this.availableTo = parseDate("2019-12-31");
         this.destinations = new ArrayList<>();
     }
 
@@ -124,12 +129,12 @@ public class Trip {
         this.totalPrice = totalPrice;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageBlob() {
+        return imageBlob;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageBlob(String imageBlob) {
+        this.imageBlob = imageBlob;
     }
 
     public int getMaximumNumberOfTravelers() {
@@ -197,5 +202,13 @@ public class Trip {
 
     public void setAvailableTo(Date availableTo) {
         this.availableTo = availableTo;
+    }
+
+    public static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 }
