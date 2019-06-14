@@ -36,12 +36,12 @@ public class User {
 
     @Column(name = "firstname", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 1, max = 50)
     private String firstName;
 
     @Column(name = "lastname", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 1, max = 50)
     private String lastName;
 
     @Column(name = "email_address", length = 50)
