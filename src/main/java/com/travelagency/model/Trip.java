@@ -50,6 +50,14 @@ public class Trip {
     @NotNull
     private int minimumNumberOfTravelers;
 
+    @Column(name = "available_from")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableFrom;
+
+    @Column(name = "available_to")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableTo;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
@@ -173,5 +181,21 @@ public class Trip {
             return false;
 
         return destinations.remove(destination);
+    }
+
+    public Date getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(Date availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public Date getAvailableTo() {
+        return availableTo;
+    }
+
+    public void setAvailableTo(Date availableTo) {
+        this.availableTo = availableTo;
     }
 }
