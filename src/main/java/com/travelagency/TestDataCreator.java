@@ -55,6 +55,55 @@ class TestDataCreator {
                     "adminLastName",
                     "admin@travelagency.com",
                     AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "arthurdoorgeest",
+                    "password",
+                    "Arthur",
+                    "Doorgeest",
+                    "arthur@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "rickvanderheijden",
+                    "password",
+                    "Rick",
+                    "van der Heijden",
+                    "rick@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "koensengers",
+                    "password",
+                    "Koen",
+                    "Sengers",
+                    "koen@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "roytimmers",
+                    "password",
+                    "Roy",
+                    "Timmers",
+                    "roy@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "ismaildalkilic",
+                    "password",
+                    "Ismail",
+                    "Dalkilic",
+                    "ismail@travelagency.com",
+                    AuthorityName.ROLE_ADMIN);
+
+            context.getBean(AuthenticationResource.class).createUser(
+                    "jeroendekort",
+                    "password",
+                    "Jeroen",
+                    "de Kort",
+                    "jeroen@travelagency.com",
+                    AuthorityName.ROLE_USER);
+
         }
     }
 
@@ -88,7 +137,7 @@ class TestDataCreator {
         createTestHotelsNorthAmerica();
     }
 
-    public void createTestDestinations() {
+    private void createTestDestinations() {
         if (context != null) {
             DestinationController destinationController = context.getBean(DestinationController.class);
             GeographyController geographyController = context.getBean(GeographyController.class);
