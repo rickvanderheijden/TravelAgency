@@ -123,4 +123,13 @@ public class UserController {
     public Optional<List<User>> getUserByUsernameContains(String username) {
         return Optional.ofNullable(userRepository.findByUsernameContains(username));
     }
+
+    public boolean deleteUser(Long id) {
+        boolean doesExist = userRepository.existsById(id);
+        if(!doesExist){
+            return false;
+        }
+        userRepository.deleteById(id);
+        return true;
+    }
 }
