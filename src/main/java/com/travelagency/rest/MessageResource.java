@@ -2,15 +2,9 @@ package com.travelagency.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.travelagency.controllers.MessageController;
-import com.travelagency.controllers.TravelGroupController;
-import com.travelagency.controllers.UserController;
 import com.travelagency.model.Message;
-import com.travelagency.model.TravelGroup;
-import com.travelagency.model.User;
-import com.travelagency.rest.DataTranfersObjects.TravelGroupDTO;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;

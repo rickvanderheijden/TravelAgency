@@ -1,6 +1,5 @@
 package com.travelagency.repository;
 
-import com.travelagency.model.Address;
 import com.travelagency.model.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

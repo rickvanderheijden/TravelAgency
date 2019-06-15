@@ -88,14 +88,11 @@ public class TripController {
             for(String word : keywords) {
                 for (Trip trip : tripsFromDate) {
                     if (
-                            trip.getDescription().toLowerCase().contains(word.toLowerCase()) ||
+                            ( trip.getDescription().toLowerCase().contains(word.toLowerCase()) ||
                             trip.getSummary().toLowerCase().contains(word.toLowerCase()) ||
-                            trip.getName().toLowerCase().contains(word.toLowerCase())
+                            trip.getName().toLowerCase().contains(word.toLowerCase())) && !response.contains(trip)
                     ) {
-                        if(!response.contains(trip)){
                             response.add(trip);
-                        }
-
                     }
                 }
             }
