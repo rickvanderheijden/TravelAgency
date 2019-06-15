@@ -2,7 +2,6 @@ package com.travelagency.listeners;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.travelagency.controllers.JwtController;
-import com.travelagency.controllers.UserController;
 import com.travelagency.controllers.WebSocketController;
 import com.travelagency.model.User;
 import com.travelagency.model.UserStatus;
@@ -38,6 +37,7 @@ public class StompSessionConnectedEventListener implements ApplicationListener<S
 
         if(userFromToken.isPresent()) {
             UserStatus userStatus = new UserStatus(userFromToken.get().getId(), userFromToken.get().getUsername(), true);
+            logger.info(userFromToken.get().getUsername() + "connected");
             try {
                 this.webSocketController.sendMessage(userStatus.toJson());
             } catch (JsonProcessingException e) {
