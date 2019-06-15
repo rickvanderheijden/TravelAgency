@@ -4,7 +4,6 @@ import com.travelagency.controllers.MessageController;
 import com.travelagency.model.Message;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
