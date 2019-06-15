@@ -41,6 +41,6 @@ public class MessageResource {
 
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public Optional<Message> addMessage(@Valid @RequestBody Message message) {
-        return messageController.addMessage(message);
+        return messageController.addMessage(message); 
     }
 }
