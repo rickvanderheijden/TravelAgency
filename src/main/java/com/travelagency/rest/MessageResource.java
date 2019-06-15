@@ -1,12 +1,7 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.MessageController;
-import com.travelagency.controllers.TravelGroupController;
-import com.travelagency.controllers.UserController;
 import com.travelagency.model.Message;
-import com.travelagency.model.TravelGroup;
-import com.travelagency.model.User;
-import com.travelagency.rest.DataTranfersObjects.TravelGroupDTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
@@ -41,6 +36,6 @@ public class MessageResource {
 
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public Optional<Message> addMessage(@Valid @RequestBody Message message) {
-        return messageController.addMessage(message); 
+        return messageController.addMessage(message);
     }
 }

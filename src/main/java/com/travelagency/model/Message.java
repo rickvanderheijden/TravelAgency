@@ -33,6 +33,10 @@ public class Message {
         this.userTo = userTo;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getMessage() {
         return message;
     }
