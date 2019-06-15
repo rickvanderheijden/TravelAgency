@@ -1,6 +1,7 @@
 package com.travelagency.unittest;
 
 import com.travelagency.controllers.UserController;
+import com.travelagency.controllers.WebSocketController;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
 import com.travelagency.model.TravelGroup;
@@ -40,12 +41,13 @@ public class TestUserController {
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
     private final TravelGroupRepository travelGroupRepository = Mockito.mock(TravelGroupRepository.class);
     private final JwtTokenUtil jwtTokenUtil = Mockito.mock(JwtTokenUtil.class);
+    private final WebSocketController webSocketController = Mockito.mock(WebSocketController.class);
 
     private UserController userController;
 
     @Before
     public void setUp() {
-        userController = new UserController(authorityRepository, userRepository, travelGroupRepository, jwtTokenUtil);
+        userController = new UserController(authorityRepository, userRepository, travelGroupRepository, jwtTokenUtil, webSocketController);
         when(authorityRepository.findByName(AuthorityName.ROLE_USER)).thenReturn(getAuthority());
         when(authorityRepository.findByName(AuthorityName.ROLE_ADMIN)).thenReturn(getAuthority());
 
