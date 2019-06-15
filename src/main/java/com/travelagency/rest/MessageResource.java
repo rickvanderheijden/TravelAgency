@@ -1,5 +1,6 @@
 package com.travelagency.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.travelagency.controllers.MessageController;
 import com.travelagency.controllers.TravelGroupController;
 import com.travelagency.controllers.UserController;
@@ -40,7 +41,7 @@ public class MessageResource {
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.POST)
-    public Optional<Message> addMessage(@Valid @RequestBody Message message) {
+    public Optional<Message> addMessage(@Valid @RequestBody Message message) throws JsonProcessingException {
         return messageController.addMessage(message);
     }
 }

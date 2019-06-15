@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findAllByTravelGroupTo(long travelGroupId);
-    List<Message> findAllByUserTo(long id);
-    List<Message> findAllByUserFrom(long id);
+    List<Message> findAllByReceiverId(long id);
+    List<Message> findAllBySender_Id(long id);
 
 }

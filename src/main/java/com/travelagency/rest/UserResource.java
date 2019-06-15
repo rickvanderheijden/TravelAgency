@@ -105,9 +105,5 @@ public class UserResource {
         return userController.getUserByUsernameContains(username);
     }
 
-    @RequestMapping(value = "/message", method = RequestMethod.POST)
-    public boolean message(@RequestBody final String message) {
-        return userController.sendMessage(message);
-    }
 
 }

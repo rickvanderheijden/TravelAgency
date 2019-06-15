@@ -22,14 +22,12 @@ public class UserController {
     private final UserRepository userRepository;
     private final TravelGroupRepository travelGroupRepository;
     private final JwtTokenUtil jwtTokenUtil;
-    private final WebSocketController webSocketController;
 
-    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil, WebSocketController webSocketController) {
+    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil) {
         this.authorityRepository = authorityRepository;
         this.userRepository = userRepository;
         this.travelGroupRepository = travelGroupRepository;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.webSocketController = webSocketController;
     }
 
     public Optional<Long> createUser(UserDTO userDTO) {
@@ -135,8 +133,4 @@ public class UserController {
         return true;
     }
 
-    public boolean sendMessage(String message) {
-        this.webSocketController.sendMessage(message);
-        return true;
-    }
 }
