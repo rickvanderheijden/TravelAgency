@@ -21,12 +21,10 @@ public class StompSessionConnectedEventListener implements ApplicationListener<S
     private static final Logger logger = LoggerFactory.getLogger(StompSessionConnectedEventListener.class);
 
     private final JwtController jwtController;
-    private final UserController userController;
     private final WebSocketController webSocketController;
 
-    public StompSessionConnectedEventListener(JwtController jwtController, UserController userController, WebSocketController webSocketController) {
+    public StompSessionConnectedEventListener(JwtController jwtController, WebSocketController webSocketController) {
         this.jwtController = jwtController;
-        this.userController = userController;
         this.webSocketController = webSocketController;
     }
 
@@ -39,7 +37,6 @@ public class StompSessionConnectedEventListener implements ApplicationListener<S
         Optional<User> userFromToken = this.jwtController.getUserFromToken(token);
 
         if(userFromToken.isPresent()) {
-            logger.info(userFromToken.get().getUsername());
             UserStatus userStatus = new UserStatus(userFromToken.get().getId(), userFromToken.get().getUsername(), true);
             try {
                 this.webSocketController.sendMessage(userStatus.toJson());
@@ -47,7 +44,5 @@ public class StompSessionConnectedEventListener implements ApplicationListener<S
                 e.printStackTrace();
             }
         }
-
-        logger.info(token);
     }
 }
