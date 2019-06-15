@@ -1,9 +1,10 @@
 package com.travelagency.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "destination")
+@Table(name = "message")
 public class Message {
 
     @Id
@@ -12,25 +13,27 @@ public class Message {
     private Long id;
 
     @Column(name = "message")
+    @NotNull
     private String message;
 
-    @Column(name = "user_id_from")
-    private Long userFrom;
+    @Column(name = "sender_id")
+    @NotNull
+    private Long senderId;
 
     @Column(name = "travelgroup_id_to")
     private Long travelGroupTo;
 
-    @Column(name = "user_id_to")
-    private Long userTo;
+    @Column(name = "receiver_id")
+    private Long receiverId;
 
     public Message() {
     }
 
-    public Message(String message, Long userFrom, Long travelGroupTo, Long userTo) {
+    public Message(@NotNull String message, @NotNull Long senderId, Long travelGroupTo, Long receiverId) {
         this.message = message;
-        this.userFrom = userFrom;
+        this.senderId = senderId;
         this.travelGroupTo = travelGroupTo;
-        this.userTo = userTo;
+        this.receiverId = receiverId;
     }
 
     public String getMessage() {
@@ -41,12 +44,12 @@ public class Message {
         this.message = message;
     }
 
-    public Long getUserFrom() {
-        return userFrom;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public void setUserFrom(Long userFrom) {
-        this.userFrom = userFrom;
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
     }
 
     public Long getTravelGroupTo() {
@@ -57,11 +60,11 @@ public class Message {
         this.travelGroupTo = travelGroupTo;
     }
 
-    public Long getUserTo() {
-        return userTo;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setUserTo(Long userTo) {
-        this.userTo = userTo;
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 }
