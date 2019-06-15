@@ -1,9 +1,16 @@
 package com.travelagency.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.annotations.CreationTimestamp;
+
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
-@Table(name = "destination")
+@Table(name = "message")
 public class Message {
 
     @Id
@@ -11,30 +18,33 @@ public class Message {
     @GeneratedValue
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date createdAt;
+
     @Column(name = "message")
+    @NotNull
     private String message;
 
-    @Column(name = "user_id_from")
-    private Long userFrom;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
     @Column(name = "travelgroup_id_to")
     private Long travelGroupTo;
 
-    @Column(name = "user_id_to")
-    private Long userTo;
+    @Column(name = "receiver_id")
+    private Long receiverId;
 
     public Message() {
     }
 
-    public Message(String message, Long userFrom, Long travelGroupTo, Long userTo) {
+    public Message(@NotNull String message, @NotNull User sender, Long travelGroupTo, Long receiverId) {
         this.message = message;
-        this.userFrom = userFrom;
+        this.sender = sender;
         this.travelGroupTo = travelGroupTo;
-        this.userTo = userTo;
-    }
-
-    public Long getId() {
-        return id;
+        this.receiverId = receiverId;
     }
 
     public String getMessage() {
@@ -45,12 +55,20 @@ public class Message {
         this.message = message;
     }
 
-    public Long getUserFrom() {
-        return userFrom;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserFrom(Long userFrom) {
-        this.userFrom = userFrom;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public Long getTravelGroupTo() {
@@ -61,11 +79,27 @@ public class Message {
         this.travelGroupTo = travelGroupTo;
     }
 
-    public Long getUserTo() {
-        return userTo;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setUserTo(Long userTo) {
-        this.userTo = userTo;
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public String toJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(this);
+
+        System.out.println(jsonString);
+        return jsonString;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

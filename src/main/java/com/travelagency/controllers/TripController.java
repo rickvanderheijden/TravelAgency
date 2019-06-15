@@ -92,10 +92,7 @@ public class TripController {
                             trip.getSummary().toLowerCase().contains(word.toLowerCase()) ||
                             trip.getName().toLowerCase().contains(word.toLowerCase())
                     ) {
-                        if(!response.contains(trip)){
-                            response.add(trip);
-                        }
-
+                        if (!response.contains(trip)) response.add(trip);
                     }
                 }
             }

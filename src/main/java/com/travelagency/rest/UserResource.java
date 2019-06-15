@@ -104,4 +104,6 @@ public class UserResource {
     public Optional<List<User>> getByUsernameContains(@PathVariable final String username) {
         return userController.getUserByUsernameContains(username);
     }
+
+
 }

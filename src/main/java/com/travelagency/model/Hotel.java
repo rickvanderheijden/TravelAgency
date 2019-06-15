@@ -1,5 +1,7 @@
 package com.travelagency.model;
 
+import com.travelagency.util.Dateparser;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -33,28 +35,35 @@ public class Hotel {
     @NotNull
     private int price;
 
-    @Column(name = "date")
+    @Column(name = "available_from")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date date;
+    private Date availableFrom;
+
+    @Column(name = "available_to")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date availableTo;
 
     public Hotel() {}
 
-    public Hotel(@NotNull String name, @NotNull String description, @NotNull Address address, @NotNull int price, @NotNull Date date) {
+    public Hotel(@NotNull String name, @NotNull String description, @NotNull Address address, @NotNull int price, @NotNull String availableFrom, @NotNull String availableTo) {
         this.name = name;
         this.description = description;
         this.address = address;
         this.price = price;
-        this.date = date;
+        this.availableFrom = Dateparser.parseDate(availableFrom);
+        this.availableTo = Dateparser.parseDate(availableTo);
     }
 
-    public Hotel(@NotNull String name, @NotNull String description, String imageBlob, Address address, @NotNull int price, @NotNull Date date) {
+    public Hotel(@NotNull String name, @NotNull String description, String imageBlob, Address address, @NotNull int price, @NotNull String availableFrom, @NotNull String availableTo) {
         this.name = name;
         this.description = description;
         this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
-        this.date = date;
+        this.availableFrom = Dateparser.parseDate(availableFrom);
+        this.availableTo = Dateparser.parseDate(availableTo);
     }
 
     public Long getId() {
@@ -97,12 +106,20 @@ public class Hotel {
         this.price = price;
     }
 
-    public Date getDate() {
-        return this.date;
+    public Date getAvailableFrom() {
+        return this.availableFrom;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAvailableFrom(Date availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public Date getAvailableTo() {
+        return availableTo;
+    }
+
+    public void setAvailableTo(Date availableTo) {
+        this.availableTo = availableTo;
     }
 
     public String getImageBlob() {
@@ -114,6 +131,6 @@ public class Hotel {
     }
 
     public int getAvailability() {
-        return 4;  //TODO: Calculate with reservations and date
+        return 4;  //TODO: Calculate with reservations and availableFrom
     }
 }
