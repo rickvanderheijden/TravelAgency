@@ -66,6 +66,7 @@ public class UserController {
                 userInDB.setEmailAddress(userDTO.getEmailAddress());
                 userInDB.setFirstName(userDTO.getFirstName());
                 userInDB.setLastName(userDTO.getLastName());
+                userInDB.setAvatar(userDTO.getAvatar());
 
                 result = Optional.of(userRepository.save(userInDB));
             }
@@ -121,5 +122,14 @@ public class UserController {
 
     public Optional<List<User>> getUserByUsernameContains(String username) {
         return Optional.ofNullable(userRepository.findByUsernameContains(username));
+    }
+
+    public boolean deleteUser(Long id) {
+        boolean doesExist = userRepository.existsById(id);
+        if(!doesExist){
+            return false;
+        }
+        userRepository.deleteById(id);
+        return true;
     }
 }

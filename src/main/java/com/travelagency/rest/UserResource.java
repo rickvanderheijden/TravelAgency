@@ -7,6 +7,7 @@ import com.travelagency.model.User;
 import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,15 @@ public class UserResource {
     public Optional<User> update(HttpServletRequest request, @RequestBody final UserDTO userDTO) {
         String token = request.getHeader(tokenHeader).substring(7);
         return userController.updateUser(token, userDTO);
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteTrip(@PathVariable Long id) {
+        boolean isDeleted = this.userController.deleteUser(id);
+        if(!isDeleted){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)

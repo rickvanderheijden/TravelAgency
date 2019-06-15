@@ -44,4 +44,11 @@ public class GeographyResource {
     public Optional<List<City>> getCitiesByCountryName(@PathVariable("countryName") String countryName) {
         return geographyController.getCitiesByCountryName(countryName);
     }
+
+    @GetMapping(value = "/getCountryByCityName/{cityName}")
+    public Optional<Country> getCountryByCityName(@PathVariable("cityName") String cityName) {
+        return geographyController.getCountryByCityName(cityName);
+    }
+
+
 }
