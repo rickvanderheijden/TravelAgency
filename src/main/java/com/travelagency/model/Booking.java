@@ -28,6 +28,9 @@ public class Booking {
     @Column(name = "base_price")
     private int basePrice;
 
+    @Column(name = "total_price")
+    private int totalPrice;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User booker;
@@ -53,8 +56,14 @@ public class Booking {
             inverseJoinColumns = @JoinColumn(name = "payment_id", referencedColumnName = "id"))
     private List<Payment> payments = new ArrayList<>();
 
-    @Column(name = "booked")
-    private boolean booked;
+    @OneToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinTable(name = "booking_travelers",
+            joinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "traveler_id", referencedColumnName = "id"))
+    private List<Traveler> travelers = new ArrayList<>();
+
 
     @Column(name = "paid")
     private boolean paid;
@@ -110,13 +119,6 @@ public class Booking {
         this.bookingItems = bookingItems;
     }
 
-    public boolean isBooked() {
-        return booked;
-    }
-
-    public void setBooked(boolean booked) {
-        this.booked = booked;
-    }
 
     public boolean isPaid() {
         return paid;
@@ -152,5 +154,24 @@ public class Booking {
 
     public void addPayment(Payment payment) {
         this.payments.add(payment);
+    }
+    public void addTraveler(Traveler traveler) {
+        this.travelers.add(traveler);
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public List<Traveler> getTravelers() {
+        return travelers;
+    }
+
+    public void setTravelers(List<Traveler> travelers) {
+        this.travelers = travelers;
     }
 }
