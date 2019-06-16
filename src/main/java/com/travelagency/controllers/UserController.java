@@ -7,8 +7,8 @@ import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
 import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
-import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -30,17 +30,18 @@ public class UserController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    public Optional<Long> createUser(UserDTO userDTO) {
-        if (userDTO == null) return Optional.empty();
+    public Optional<Long> createUser(User user) {
+        if (user == null) return Optional.empty();
 
-        User user = userDTO.getUser();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         List<Authority> authorities = new ArrayList<>();
-        for (Authority authority : userDTO.getAuthorities()) {
+        for (Authority authority : user.getAuthorities()) {
             authorities.add(authorityRepository.findByName(authority.getName()));
         }
 
         user.setAuthorities(authorities);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         User createdUser = userRepository.save(user);
         return Optional.ofNullable(createdUser.getId());
@@ -50,25 +51,23 @@ public class UserController {
         return this.userRepository.findAll();
     }
 
-    public Optional<User> updateUser(String token, UserDTO userDTO) {
-        if ((token == null) || (userDTO == null)) return Optional.empty();
+    public Optional<User> updateUser(String token, User user) {
+        if ((token == null) || (user == null)) return Optional.empty();
 
         Optional<User> result = Optional.empty();
 
-        if ((userDTO.getUsername() != null) && (userDTO.getEmailAddress() != null) &&
-                (userDTO.getFirstName() != null) && (userDTO.getLastName() != null)) {
+        if (user.isValid()) {
+            String currentUsername = jwtTokenUtil.getUsernameFromToken(token);
+            User currentUser = userRepository.findByUsername(currentUsername);
+            Optional<User> userInDB = userRepository.findById(user.getId());
 
-            String username = jwtTokenUtil.getUsernameFromToken(token);
-            User userInDB = userRepository.findByUsername(userDTO.getUsername());
+            if (userInDB.isPresent() && (currentUser.getId().equals(user.getId()) || this.isUserAdmin(token))) {
+                userInDB.get().setEmailAddress(user.getEmailAddress());
+                userInDB.get().setFirstName(user.getFirstName());
+                userInDB.get().setLastName(user.getLastName());
+                userInDB.get().setAvatar(user.getAvatar());
 
-            if ((username != null) && (userInDB != null) &&
-                    (username.equals(userDTO.getUsername()) || this.isUserAdmin(token))) {
-                userInDB.setEmailAddress(userDTO.getEmailAddress());
-                userInDB.setFirstName(userDTO.getFirstName());
-                userInDB.setLastName(userDTO.getLastName());
-                userInDB.setAvatar(userDTO.getAvatar());
-
-                result = Optional.of(userRepository.save(userInDB));
+                result = Optional.of(userRepository.save(userInDB.get()));
             }
         }
 
