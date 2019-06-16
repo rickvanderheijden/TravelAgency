@@ -2,7 +2,6 @@ package com.travelagency.unittest;
 
 import com.travelagency.controllers.*;
 import com.travelagency.model.*;
-import com.travelagency.repository.BookingRepository;
 import com.travelagency.repository.TravelRepository;
 import com.travelagency.repository.TripItemRepository;
 import org.junit.After;
@@ -10,12 +9,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +23,7 @@ public class TestTravelController {
     private static final Long ValidId = 1L;
 
     private final TravelRepository travelRepository = Mockito.mock(TravelRepository.class);
-    private final TripItemRepository tripItemRepository = Mockito.mock(TripItemRepository.class);;
+    private final TripItemRepository tripItemRepository = Mockito.mock(TripItemRepository.class);
 
     private TravelController travelController;
     private Travel travelMock;
