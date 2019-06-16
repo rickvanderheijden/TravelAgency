@@ -72,4 +72,19 @@ public class PaymentController {
     public Optional<List<Payment>> getPaymentsByBookingId(Long bookingId) {
         return Optional.of(paymentRepository.findAllByBookingId(bookingId));
     }
+
+    public boolean setPaid(Long id) {
+        Optional<Booking> optionalBooking = bookingController.getById(id);
+        if(!optionalBooking.isPresent()) return false;
+
+        Booking booking = optionalBooking.get();
+        Payment payment = new Payment();
+        payment.setBookingId(booking.getId());
+        payment.setMethod(PaymentMethod.BANK_TRANSFER);
+        payment.setUserId(booking.getBooker().getId());
+        payment.setAmount(booking.getTotalPrice());
+
+        Optional<Payment> optionalPayment = createPayment(payment);
+        return optionalPayment.isPresent();
+    }
 }

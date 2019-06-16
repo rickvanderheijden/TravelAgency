@@ -64,7 +64,7 @@ class TestDataCreator {
                     "Arthur",
                     "Doorgeest",
                     "arthur@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-08.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -73,7 +73,7 @@ class TestDataCreator {
                     "Rick",
                     "van der Heijden",
                     "rick@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-04.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -82,7 +82,7 @@ class TestDataCreator {
                     "Koen",
                     "Sengers",
                     "koen@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-07.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -91,7 +91,7 @@ class TestDataCreator {
                     "Roy",
                     "Timmers",
                     "roy@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-03.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -100,7 +100,7 @@ class TestDataCreator {
                     "Ismail",
                     "Dalkilic",
                     "ismail@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-02.png",
                     AuthorityName.ROLE_ADMIN);
 
             context.getBean(AuthenticationResource.class).createUser(
@@ -109,7 +109,7 @@ class TestDataCreator {
                     "Jeroen",
                     "de Kort",
                     "jeroen@travelagency.com",
-                    "avatar-01.png",
+                    "avatar-09.png",
                     AuthorityName.ROLE_USER);
 
         }
