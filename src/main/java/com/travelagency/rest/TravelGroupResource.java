@@ -30,9 +30,15 @@ public class TravelGroupResource {
     }
 
     @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
-    public Optional<TravelGroup> creatTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
+    public Optional<TravelGroup> createTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
         TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
         return travelGroupController.createTravelGroup(travelGroup);
+    }
+
+    @RequestMapping(value = "/updateTravelGroup", method = RequestMethod.POST)
+    public Optional<TravelGroup> updateTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
+        TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
+        return travelGroupController.updateTravelGroup(travelGroup);
     }
 
     @RequestMapping(value = "/addUser/{id}", method = RequestMethod.POST)

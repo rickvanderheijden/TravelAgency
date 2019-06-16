@@ -23,7 +23,8 @@ public class UserController {
     private final TravelGroupRepository travelGroupRepository;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository, TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil) {
+    public UserController(AuthorityRepository authorityRepository, UserRepository userRepository,
+                          TravelGroupRepository travelGroupRepository, JwtTokenUtil jwtTokenUtil) {
         this.authorityRepository = authorityRepository;
         this.userRepository = userRepository;
         this.travelGroupRepository = travelGroupRepository;
@@ -109,7 +110,9 @@ public class UserController {
         return this.authorityRepository.findAll();
     }
 
-    public List<TravelGroup> getTravelGroups(User user) { return this. travelGroupRepository.findByUsers(user);}
+    public List<TravelGroup> getTravelGroups(User user) {
+        return this.travelGroupRepository.findByUsers(user);
+    }
 
     public boolean addTravelGroup(TravelGroup travelGroup, Long id) {
         Optional<User> user = getUserById(id);
@@ -120,13 +123,28 @@ public class UserController {
         return true;
     }
 
+    public boolean removeTravelGroup(TravelGroup travelGroup) {
+        Optional<List<User>> users = getUserByTravelGroup(travelGroup);
+        if (users.isPresent()) {
+            for (User user : users.get()) {
+                user.removeTravelGroup(travelGroupRepository.findById(travelGroup.getId()).get());
+                userRepository.save(user);
+            }
+        }
+        return true;
+    }
+
+    public Optional<List<User>> getUserByTravelGroup(TravelGroup travelGroup) {
+        return Optional.ofNullable(userRepository.findByTravelGroups(travelGroup));
+    }
+
     public Optional<List<User>> getUserByUsernameContains(String username) {
         return Optional.ofNullable(userRepository.findByUsernameContains(username));
     }
 
     public boolean deleteUser(Long id) {
         boolean doesExist = userRepository.existsById(id);
-        if(!doesExist){
+        if (!doesExist) {
             return false;
         }
         userRepository.deleteById(id);

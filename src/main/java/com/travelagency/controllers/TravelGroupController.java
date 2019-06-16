@@ -44,11 +44,16 @@ public class TravelGroupController {
 
     public TravelGroup getById(Long id) { return  this.travelGroupRepository.getOne(id); }
 
-    public TravelGroup updateTravelGroup(TravelGroup updatedTravelGroup) {
+    public Optional<TravelGroup> updateTravelGroup(TravelGroup updatedTravelGroup) {
         if(!this.travelGroupRepository.existsById(updatedTravelGroup.getId())){
             return  null;
         }
-        return this.travelGroupRepository.save(updatedTravelGroup);
+        Optional<TravelGroup> returnTravelGroup = Optional.of(travelGroupRepository.save(updatedTravelGroup));
+        userController.removeTravelGroup(returnTravelGroup.get());
+        for (User user: updatedTravelGroup.getUsers())
+            this.userController.addTravelGroup(updatedTravelGroup, user.getId());
+
+        return returnTravelGroup;
     }
 
     public  boolean deleteTravelGroup (Long id) {
