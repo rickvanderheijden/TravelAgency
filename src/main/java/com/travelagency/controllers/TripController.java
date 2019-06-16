@@ -5,6 +5,7 @@ import com.travelagency.repository.DestinationRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import com.travelagency.rest.DataTranfersObjects.TripSearchDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,18 +37,21 @@ public class TripController {
 
         trip.setDestinations(destinations);
 
-        return Optional.of(tripRepository.save(trip));
+        return Optional.ofNullable(tripRepository.save(trip));
     }
 
     public Optional<Trip> getById(Long id) {
         return tripRepository.findById(id);
     }
 
-    public Trip updateTrip(Trip updatedTrip) {
+    public Optional<Trip> updateTrip(Trip updatedTrip) {
+        if (updatedTrip == null) return Optional.empty();
+
         if(!tripRepository.existsById(updatedTrip.getId())){
-            return null;
+            return Optional.empty();
         }
-        return tripRepository.save(updatedTrip);
+
+        return Optional.ofNullable(tripRepository.save(updatedTrip));
     }
 
     public boolean deleteTrip(Long id) {
@@ -64,11 +68,15 @@ public class TripController {
     }
 
     public Optional<List<Trip>> getAllTrips(int maximumNumber) {
-        Pageable limit = PageRequest.of(0,maximumNumber);
-        return Optional.of(tripRepository.findAll(limit).getContent());
+        Pageable limit = maximumNumber > 0 ? PageRequest.of(0,maximumNumber) : Pageable.unpaged();
+        Page<Trip> trips = tripRepository.findAll(limit);
+        if (trips== null) return Optional.empty();
+        return Optional.of(trips.getContent());
     }
 
     public Optional<List<Trip>> searchTripsByKeywordAndContinentOrCountry(TripSearchDTO search) {
+        if (search == null) return Optional.empty();
+
         List<Trip> tripsFromDestination;
         List<Trip> tripsFromDate;
         String keyword = search.getKeyword();
