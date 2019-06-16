@@ -30,7 +30,7 @@ public class TravelGroupResource {
     }
 
     @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
-    public Optional<TravelGroup> createTrip(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
+    public Optional<TravelGroup> creatTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
         TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
         return travelGroupController.createTravelGroup(travelGroup);
     }
