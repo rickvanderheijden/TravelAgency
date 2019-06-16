@@ -1,6 +1,7 @@
 package com.travelagency.rest;
 
 import com.travelagency.controllers.BookingController;
+import com.travelagency.controllers.PaymentController;
 import com.travelagency.model.Booking;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class BookingResource {
 
     private final BookingController bookingController;
+    private final PaymentController paymentController;
 
-    public BookingResource(BookingController bookingController) {
+    public BookingResource(BookingController bookingController, PaymentController paymentController) {
         this.bookingController = bookingController;
+        this.paymentController = paymentController;
     }
 
     @PostMapping()
@@ -58,5 +61,11 @@ public class BookingResource {
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<List<Booking>> getAll() {
         return bookingController.getAllBookings();
+    }
+
+    @GetMapping(value = "/paid/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean setPaid( @PathVariable final Long id) {
+        return paymentController.setPaid(id);
     }
 }

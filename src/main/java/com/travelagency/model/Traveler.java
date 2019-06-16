@@ -15,12 +15,12 @@ public class Traveler {
 
     @Column(name = "firstName", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 2, max = 50)
     private String firstName;
 
     @Column(name = "lastName", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 2, max = 50)
     private String lastName;
 
     public Long getId() {
