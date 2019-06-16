@@ -8,7 +8,6 @@ import com.travelagency.model.User;
 import com.travelagency.repository.AuthorityRepository;
 import com.travelagency.repository.TravelGroupRepository;
 import com.travelagency.repository.UserRepository;
-import com.travelagency.rest.DataTranfersObjects.UserDTO;
 import com.travelagency.security.JwtTokenUtil;
 import org.junit.After;
 import org.junit.Assert;
@@ -84,9 +83,9 @@ public class TestUserController {
 
     @Test
     public void testCreateUserThatDoesNotExist() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
+        User user = createUser(UserName, Password, FirstName, LastName, EmailAddress, avatar);
 
-        Optional<Long> userId = userController.createUser(userDTO);
+        Optional<Long> userId = userController.createUser(user);
         Assert.assertTrue(userId.isPresent());
         Assert.assertNotNull(userId.get());
     }
@@ -99,8 +98,8 @@ public class TestUserController {
 
     @Test
     public void testUpdateUserWithTokenNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
-        Assert.assertFalse(testUpdateUser(null, userDTO));
+        User user = createUser(UserName, Password, FirstName, LastName, EmailAddress, avatar);
+        Assert.assertFalse(testUpdateUser(null, user));
     }
 
     @Test
@@ -110,38 +109,38 @@ public class TestUserController {
 
     @Test
     public void testUpdateUserWithValidUser() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, EmailAddress, avatar);
-        Assert.assertTrue(testUpdateUser(Token, userDTO));
+        User user = createUser(UserName, Password, FirstName, LastName, EmailAddress, avatar);
+        Assert.assertTrue(testUpdateUser(Token, user));
     }
 
     @Test
     public void testUpdateUserWithUserNameNull() {
-        UserDTO userDTO = createUserDTO(null, Password, FirstName, LastName, EmailAddress, avatar);
-        Assert.assertFalse(testUpdateUser(Token, userDTO));
+        User user = createUser(null, Password, FirstName, LastName, EmailAddress, avatar);
+        Assert.assertFalse(testUpdateUser(Token, user));
     }
 
     @Test
     public void testUpdateUserWithPasswordNull() {
-        UserDTO userDTO = createUserDTO(UserName, null, FirstName, LastName, EmailAddress, avatar);
-        Assert.assertTrue(testUpdateUser(Token, userDTO));
+        User user = createUser(UserName, null, FirstName, LastName, EmailAddress, avatar);
+        Assert.assertTrue(testUpdateUser(Token, user));
     }
 
     @Test
     public void testUpdateUserWithFirstNameNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, null, LastName, EmailAddress, avatar);
-        Assert.assertFalse(testUpdateUser(Token, userDTO));
+        User user = createUser(UserName, Password, null, LastName, EmailAddress, avatar);
+        Assert.assertFalse(testUpdateUser(Token, user));
     }
 
     @Test
     public void testUpdateUserWithLastNameNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, null, EmailAddress, avatar);
-        Assert.assertFalse(testUpdateUser(Token, userDTO));
+        User user = createUser(UserName, Password, FirstName, null, EmailAddress, avatar);
+        Assert.assertFalse(testUpdateUser(Token, user));
     }
 
     @Test
     public void testUpdateUserWithEmailAddressNull() {
-        UserDTO userDTO = createUserDTO(UserName, Password, FirstName, LastName, null,avatar);
-        Assert.assertFalse(testUpdateUser(Token, userDTO));
+        User user = createUser(UserName, Password, FirstName, LastName, null,avatar);
+        Assert.assertFalse(testUpdateUser(Token, user));
     }
 
     @Test
@@ -225,20 +224,33 @@ public class TestUserController {
         return userController.isUserAdmin("token");
     }
 
-    private boolean testUpdateUser(String token, UserDTO userDTO) {
-        Optional<User> user = userController.updateUser(token, userDTO);
-        return user.isPresent();
+    private boolean testUpdateUser(String token, User user) {
+        Optional<User> updatedUser = userController.updateUser(token, user);
+        return updatedUser.isPresent();
     }
 
     private Authority getAuthority() {
         return new Authority(AuthorityName.ROLE_USER);
     }
 
-    private UserDTO createUserDTO(String userName, String password, String firstName, String lastName, String emailAddress, String avatar) {
+    private User createUser(String userName, String password, String firstName, String lastName, String emailAddress, String avatar) {
         List<Authority> authorities = new ArrayList<>();
         List<TravelGroup> travelGroups = new ArrayList<>();
         authorities.add(getAuthority());
-        return new UserDTO(userName, password, firstName, lastName, emailAddress, avatar, true, authorities, travelGroups);
+
+        User user = new User();
+        user.setId(Id);
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmailAddress(emailAddress);
+        user.setAvatar(avatar);
+        user.setEnabled(true);
+        user.setAuthorities(authorities);
+        user.setTravelGroups(travelGroups);
+
+        return user;
     }
 
     private User getUser() {
@@ -248,7 +260,7 @@ public class TestUserController {
         authorities.add(authorityRepository.findByName(AuthorityName.ROLE_USER));
 
         User user = new User();
-        user.setId(1L);
+        user.setId(Id);
         user.setUsername(UserName);
         user.setPassword(bCryptPasswordEncoder.encode(Password));
         user.setAuthorities(authorities);

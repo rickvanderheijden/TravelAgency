@@ -3,6 +3,7 @@ package com.travelagency.rest;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
+import com.travelagency.controllers.UserController;
 import com.travelagency.model.Authority;
 import com.travelagency.model.AuthorityName;
 import com.travelagency.model.User;
@@ -42,14 +43,20 @@ public class AuthenticationResource {
 
     private final UserDetailsService userDetailsService;
     private final AuthorityRepository authorityRepository;
+    private final UserController userController;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public AuthenticationResource(AuthorityRepository authorityRepository, UserRepository userRepository,
-                                  AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                  @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
+    public AuthenticationResource(
+            AuthorityRepository authorityRepository,
+            UserController userController,
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            JwtTokenUtil jwtTokenUtil,
+            @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
         this.authorityRepository = authorityRepository;
+        this.userController = userController;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -59,16 +66,14 @@ public class AuthenticationResource {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Long create(@RequestBody final UserDTO userDTO) {
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         User user = userDTO.getUser();
-
         List<Authority> authorities = new ArrayList<>();
-        authorities.add(authorityRepository.findByName(AuthorityName.ROLE_USER));
-
+        Authority authority = new Authority(AuthorityName.ROLE_USER);
+        authorities.add(authority);
         user.setAuthorities(authorities);
-        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        User createdUser = userRepository.save(user);
-        return createdUser.getId();
+
+        Optional<Long> createdUserId = userController.createUser(user);
+        return (createdUserId.orElse(null));
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
