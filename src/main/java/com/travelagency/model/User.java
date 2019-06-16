@@ -36,18 +36,21 @@ public class User {
 
     @Column(name = "firstname", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 1, max = 50)
     private String firstName;
 
     @Column(name = "lastname", length = 50)
     @NotNull
-    @Size(min = 4, max = 50)
+    @Size(min = 1, max = 50)
     private String lastName;
 
     @Column(name = "email_address", length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String emailAddress;
+
+    @Column(name = "avatar", length = 50)
+    private String avatar;
 
     @Column(name = "enabled")
     @NotNull
@@ -186,4 +189,13 @@ public class User {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }

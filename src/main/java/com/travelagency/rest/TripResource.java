@@ -27,11 +27,11 @@ public class TripResource {
 
     @RequestMapping(value = "/updateTrip", method = RequestMethod.PUT)
     public ResponseEntity<Trip> updateTrip(@Valid @RequestBody Trip trip) {
-        Trip updatedTrip = this.tripController.updateTrip(trip);
-        if(updatedTrip == null){
+        Optional<Trip> updatedTrip = this.tripController.updateTrip(trip);
+        if(!updatedTrip.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedTrip);
+        return ResponseEntity.ok(updatedTrip.get());
     }
 
     @RequestMapping(value = "/deleteTrip/{id}", method = RequestMethod.DELETE)
@@ -58,6 +58,8 @@ public class TripResource {
         return tripController.getAllTrips(limit);
     }
 
-    @RequestMapping(value = "/searchTrips", method = RequestMethod.POST)
-    public Optional<List<Trip>> search(@Valid @RequestBody TripSearchDTO search) { return tripController.searchTripsFilter(search); }
+    @RequestMapping(value = "/searchTripsByKeywordAndCountryOrContinent", method = RequestMethod.POST)
+    public Optional<List<Trip>> searchTripsByKeywordAndCountryOrContinent(@Valid @RequestBody TripSearchDTO search ) {
+        return tripController.searchTripsByKeywordAndContinentOrCountry(search);
+    }
 }

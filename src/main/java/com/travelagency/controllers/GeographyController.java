@@ -110,4 +110,15 @@ public class GeographyController {
         if(countryName == null) return Optional.empty();
         return Optional.ofNullable(cityRepository.findByCountry_Name(countryName));
     }
+
+    public Optional<Country> getCountryByCityName(String cityName) {
+        if(cityName == null) return Optional.empty();
+
+        City city = cityRepository.findByName(cityName);
+        if(city == null){
+           return Optional.empty();
+        }
+        return Optional.ofNullable(city.getCountry());
+
+    }
 }

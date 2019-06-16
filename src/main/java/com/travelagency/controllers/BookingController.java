@@ -12,6 +12,7 @@ public class BookingController {
 
     private final BookingRepository bookingRepository;
     private final BookingItemController bookingItemController;
+    private final TravelerController travelerController;
     private final GeographyController geographyController;
     private final UserController userController;
     private final JwtController jwtController;
@@ -19,11 +20,13 @@ public class BookingController {
     public BookingController(
             BookingRepository bookingRepository,
             BookingItemController bookingItemController,
+            TravelerController travelerController,
             GeographyController geographyController,
             UserController userController,
             JwtController jwtController) {
         this.bookingRepository = bookingRepository;
         this.bookingItemController = bookingItemController;
+        this.travelerController = travelerController;
         this.geographyController = geographyController;
         this.userController = userController;
         this.jwtController = jwtController;
@@ -32,9 +35,11 @@ public class BookingController {
     public Optional<Booking> createBooking(Booking booking) {
         if(booking == null) return Optional.empty();
 
+        int totalPrice = booking.getNumberOfTravelers() * booking.getBasePrice();
         List<BookingItem> bookingItems = new ArrayList<>();
         if (booking.getBookingItems() != null) {
             for (BookingItem bookingItem : booking.getBookingItems()) {
+                totalPrice += (bookingItem.getNumberOfAttendees() * bookingItem.getPrice());
                 Optional<BookingItem> item = bookingItemController.createBookingItem(bookingItem);
                 item.ifPresent(bookingItems::add);
             }
@@ -43,6 +48,21 @@ public class BookingController {
         }
 
         booking.setBookingItems(bookingItems);
+        booking.setTotalPrice(totalPrice);
+
+        if(booking.getNumberOfTravelers() > 1) {
+            List<Traveler> travelers = new ArrayList<>();
+            if (booking.getTravelers() != null) {
+                for (Traveler traveler : booking.getTravelers()) {
+                    Optional<Traveler> item = travelerController.createTraveler(traveler);
+                    item.ifPresent(travelers::add);
+                }
+            } else {
+                return Optional.empty();
+            }
+            booking.setTravelers(travelers);
+        }
+
 
         if (booking.getBooker() != null) {
             Optional<User> booker = userController.getUserById(booking.getBooker().getId());
@@ -97,4 +117,5 @@ public class BookingController {
     public Optional<List<Booking>> getAllBookings() {
         return Optional.of(bookingRepository.findAll());
     }
+
 }

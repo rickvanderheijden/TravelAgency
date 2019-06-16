@@ -5,10 +5,12 @@ import com.travelagency.repository.DestinationRepository;
 import com.travelagency.repository.TripRepository;
 import com.travelagency.model.Trip;
 import com.travelagency.rest.DataTranfersObjects.TripSearchDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TripController {
@@ -35,18 +37,21 @@ public class TripController {
 
         trip.setDestinations(destinations);
 
-        return Optional.of(tripRepository.save(trip));
+        return Optional.ofNullable(tripRepository.save(trip));
     }
 
     public Optional<Trip> getById(Long id) {
         return tripRepository.findById(id);
     }
 
-    public Trip updateTrip(Trip updatedTrip) {
+    public Optional<Trip> updateTrip(Trip updatedTrip) {
+        if (updatedTrip == null) return Optional.empty();
+
         if(!tripRepository.existsById(updatedTrip.getId())){
-            return null;
+            return Optional.empty();
         }
-        return tripRepository.save(updatedTrip);
+
+        return Optional.ofNullable(tripRepository.save(updatedTrip));
     }
 
     public boolean deleteTrip(Long id) {
@@ -57,47 +62,90 @@ public class TripController {
         tripRepository.deleteById(id);
         return true;
     }
-
-    //TODO: Search trips method ->Ismail
-    public Iterable<Trip> searchTrips(String searchInput) {
-        if(searchInput == null || searchInput.isEmpty()){
-            return null;
-        }
-
-        String[] searchKeywords = searchInput.split(" ");
-        Set<Trip> result = new HashSet<>();
-        for (String searchKeyword: searchKeywords) {
-            result.addAll(tripRepository.findDistinctByNameContains(searchKeyword));
-        }
-        return result;
-    }
-
+    
     public Optional<List<Trip>> getAllTrips() {
         return Optional.of(tripRepository.findAll());
     }
 
     public Optional<List<Trip>> getAllTrips(int maximumNumber) {
-        Pageable limit = PageRequest.of(0,maximumNumber);
-        return Optional.of(tripRepository.findAll(limit).getContent());
+        Pageable limit = maximumNumber > 0 ? PageRequest.of(0,maximumNumber) : Pageable.unpaged();
+        Page<Trip> trips = tripRepository.findAll(limit);
+        if (trips== null) return Optional.empty();
+        return Optional.of(trips.getContent());
     }
 
-    public Optional<List<Trip>> searchTripsFilter(TripSearchDTO search) {
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null && search.getTo() != null) {
-            return Optional.empty();
+    public Optional<List<Trip>> searchTripsByKeywordAndContinentOrCountry(TripSearchDTO search) {
+        if (search == null) return Optional.empty();
+
+        List<Trip> tripsFromDestination;
+        List<Trip> tripsFromDate;
+        String keyword = search.getKeyword();
+
+        tripsFromDate = getTripsFromDate(search);
+        tripsFromDestination = getTripsFromDestination(search);
+
+        if (search.fromPresent() || search.toPresent()) {
+            tripsFromDate.retainAll(tripsFromDestination);
+        } else {
+            tripsFromDate = tripsFromDestination;
         }
 
-        if(search.getContinent() != null && search.getCountry() != null && search.getFrom() != null) {
-            return Optional.empty();
+        if (search.keywordPresent()) {
+            List<Trip> response = new ArrayList<>();
+            String[] keywords = keyword.split(" ");
+            for(String word : keywords) {
+                for (Trip trip : tripsFromDate) {
+                    if (
+                            trip.getDescription().toLowerCase().contains(word.toLowerCase()) ||
+                            trip.getSummary().toLowerCase().contains(word.toLowerCase()) ||
+                            trip.getName().toLowerCase().contains(word.toLowerCase())
+                    ) {
+                        if (!response.contains(trip)) response.add(trip);
+                    }
+                }
+            }
+
+            return Optional.of(response);
+        } else {
+            return Optional.of(tripsFromDate);
+        }
+    }
+
+    private List<Trip> getTripsFromDate(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDate = new ArrayList<>();
+
+        if (tripSearch.fromPresent() && tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getTo()));
+        } else if (tripSearch.fromPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getFrom(), tripSearch.getFrom()));
+        } else if (tripSearch.toPresent()) {
+            tripsFromDate.addAll(tripRepository.findDistinctByAvailableFromLessThanAndAvailableToGreaterThan(tripSearch.getTo(), tripSearch.getTo()));
         }
 
-        if(search.getCountry() != null) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Name(search.getCountry()));
+        if (!tripsFromDate.isEmpty()) {
+            tripsFromDate.stream().distinct().collect(Collectors.toList());
         }
 
-        if(search.getContinent() != null) {
-            return Optional.of(this.tripRepository.findDistinctByDestinations_City_Country_Continent_Name(search.getContinent()));
-        }
+        return tripsFromDate;
+    }
 
-        return Optional.empty();
+    private List<Trip> getTripsFromDestination(TripSearchDTO tripSearch) {
+        List<Trip> tripsFromDestination = new ArrayList<>();
+        String keyword = tripSearch.getKeyword();
+
+
+
+            if (tripSearch.countryPresent()) {
+                tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(tripSearch.getCountry()));
+            } else if (tripSearch.continentPresent()) {
+                tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Continent_Name(tripSearch.getContinent()));
+            } else if (tripSearch.keywordPresent()) {
+                String[] keywords = keyword.split(" ");
+                for(String word : keywords) {
+                    tripsFromDestination.addAll(tripRepository.findDistinctByNameContainsOrSummaryContainsOrDescriptionContains(word, word, word));
+                }
+            }
+
+        return tripsFromDestination;
     }
 }

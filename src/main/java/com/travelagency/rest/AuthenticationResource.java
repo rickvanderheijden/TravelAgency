@@ -112,6 +112,7 @@ public class AuthenticationResource {
             String firstName,
             String lastName,
             String emailAddress,
+            String avatar,
             AuthorityName authorityName) {
 
         Authority authority = authorityRepository.findByName(authorityName);
@@ -126,6 +127,7 @@ public class AuthenticationResource {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmailAddress(emailAddress);
+        user.setAvatar(avatar);
         user.setEnabled(Boolean.TRUE);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
 

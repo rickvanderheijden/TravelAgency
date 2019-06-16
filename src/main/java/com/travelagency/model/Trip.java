@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.travelagency.util.Dateparser;
 import org.hibernate.validator.constraints.Range;
 
 import java.util.*;
@@ -29,9 +30,10 @@ public class Trip {
     @NotNull
     private String description;
 
-    @Column(name = "image_url")
+    @Column(name = "image_blob")
     @NotNull
-    private String imageUrl;
+    @Lob
+    private String imageBlob;
 
     @Column(name = "total_price", length = 10)
     @NotNull
@@ -50,6 +52,14 @@ public class Trip {
     @NotNull
     private int minimumNumberOfTravelers;
 
+    @Column(name = "available_from")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableFrom;
+
+    @Column(name = "available_to")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date availableTo;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "trip_destination",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
@@ -62,17 +72,19 @@ public class Trip {
             @NotNull String name,
             @NotNull String description,
             @NotNull String summary,
-            String imageUrl,
+            String imageBlob,
             @NotNull int totalPrice,
             int discount) {
         this.name = name;
         this.description = description;
         this.summary = summary;
-        this.imageUrl = imageUrl;
+        this.imageBlob = imageBlob;
         this.totalPrice = totalPrice;
         this.discount = discount;
         this.minimumNumberOfTravelers = 1;
         this.maximumNumberOfTravelers = 20;
+        this.availableFrom = Dateparser.parseDate("2019-01-01");
+        this.availableTo = Dateparser.parseDate("2019-12-31");
         this.destinations = new ArrayList<>();
     }
 
@@ -116,12 +128,12 @@ public class Trip {
         this.totalPrice = totalPrice;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageBlob() {
+        return imageBlob;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageBlob(String imageBlob) {
+        this.imageBlob = imageBlob;
     }
 
     public int getMaximumNumberOfTravelers() {
@@ -173,5 +185,21 @@ public class Trip {
             return false;
 
         return destinations.remove(destination);
+    }
+
+    public Date getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(Date availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public Date getAvailableTo() {
+        return availableTo;
+    }
+
+    public void setAvailableTo(Date availableTo) {
+        this.availableTo = availableTo;
     }
 }

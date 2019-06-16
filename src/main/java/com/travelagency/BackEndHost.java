@@ -27,6 +27,7 @@ public class BackEndHost implements WebMvcConfigurer {
     @Override
     public void	addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+                .allowCredentials(true)
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .allowedOrigins("http://localhost:4200");

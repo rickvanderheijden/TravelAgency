@@ -26,6 +26,7 @@ public class TestBookingController {
     private final GeographyController geographyController = Mockito.mock(GeographyController.class);
     private final UserController userController = Mockito.mock(UserController.class);
     private final JwtController jwtController = Mockito.mock(JwtController.class);
+    private final TravelerController travelerController = Mockito.mock(TravelerController.class);
 
     private BookingController bookingController;
     private Booking bookingMock;
@@ -38,7 +39,7 @@ public class TestBookingController {
 
     @Before
     public void setUp() {
-        bookingController = new BookingController(bookingRepository, bookingItemController, geographyController, userController, jwtController);
+        bookingController = new BookingController(bookingRepository, bookingItemController, travelerController, geographyController, userController, jwtController);
         bookingMock = Mockito.mock(Booking.class);
         bookerMock = Mockito.mock(User.class);
         addressMock = Mockito.mock(Address.class);

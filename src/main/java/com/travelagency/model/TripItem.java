@@ -1,6 +1,7 @@
 package com.travelagency.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.travelagency.util.Dateparser;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -47,39 +48,40 @@ public class TripItem {
     @JsonIgnore
     private List<Destination> destinations;
 
-    @Column(name = "date")
+    @Column(name = "available_from")
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date date;
+    private Date availableFrom;
 
-    @Column(name = "maximum_number_of_attendees", length = 2000)
+    @Column(name = "available_to")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date availableTo;
+
+    @Column(name = "maximum_number_of_attendees", length = 10)
     @Range(min = 1, max = 1000)
     @NotNull
     private int maximumNumberOfAttendees;
 
-    @Column(name = "minimum_number_of_attendees", length = 2000)
+    @Column(name = "minimum_number_of_attendees", length = 10)
     @Range(min = 1, max = 1000)
     @NotNull
     private int minimumNumberOfAttendees;
 
-    @Column(name = "number_of_attendees", length = 2000)
-    @Range(min = 1, max = 1000)
-    @NotNull
-    private int numberOfAttendees;
 
     public TripItem() {}
 
-    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull Date date, @NotNull int numberOfAttendees) {
+    public TripItem(@NotNull TripItemType tripItemType, @NotNull String name, @NotNull String description, @NotNull String imageBlob, @NotNull Address address, @NotNull int price, @NotNull String availableFrom, @NotNull String availableTo) {
         this.tripItemType = tripItemType;
         this.name = name;
         this.description = description;
         this.imageBlob = imageBlob;
         this.address = address;
         this.price = price;
-        this.date = date;
+        this.availableFrom = Dateparser.parseDate(availableFrom);
+        this.availableTo = Dateparser.parseDate(availableTo);
         this.minimumNumberOfAttendees = 1;
         this.maximumNumberOfAttendees = 8;
-        this.numberOfAttendees = numberOfAttendees;
     }
 
     public Long getId() {
@@ -130,12 +132,20 @@ public class TripItem {
         this.price = price;
     }
 
-    public Date getDate() {
-        return this.date;
+    public Date getAvailableFrom() {
+        return availableFrom;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAvailableFrom(Date availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public Date getAvailableTo() {
+        return availableTo;
+    }
+
+    public void setAvailableTo(Date availableTo) {
+        this.availableTo = availableTo;
     }
 
     public int getMaximumNumberOfAttendees() { return maximumNumberOfAttendees; }
@@ -158,7 +168,4 @@ public class TripItem {
         this.imageBlob = imageBlob;
     }
 
-    public int getNumberOfAttendees() { return numberOfAttendees; }
-
-    public void setNumberOfAttendees(int numberOfAttendees) { this.numberOfAttendees = numberOfAttendees; }
 }
