@@ -60,6 +60,7 @@ public class TestAuthenticationResource {
     @Test
     public void testRegisterUser() {
         UserDTO user = new UserDTO(
+                null,
                 "UsernameRegisterTest",
                 "Password",
                 "FirstName",

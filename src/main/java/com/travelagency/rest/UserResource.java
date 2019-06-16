@@ -37,17 +37,17 @@ public class UserResource {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
     public Optional<Long> create(@RequestBody final UserDTO userDTO) {
-        return userController.createUser(userDTO);
+        return userController.createUser(userDTO.getUser());
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public Optional<User> update(HttpServletRequest request, @RequestBody final UserDTO userDTO) {
         String token = request.getHeader(tokenHeader).substring(7);
-        return userController.updateUser(token, userDTO);
+        return userController.updateUser(token, userDTO.getUser());
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteTrip(@PathVariable Long id) {
+    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         boolean isDeleted = this.userController.deleteUser(id);
         if(!isDeleted){
             return ResponseEntity.notFound().build();

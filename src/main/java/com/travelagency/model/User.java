@@ -198,4 +198,7 @@ public class User {
         this.avatar = avatar;
     }
 
+    public boolean isValid() {
+        return ((id != null) && (username != null) && (emailAddress != null) && (firstName != null) && (lastName != null));
+    }
 }

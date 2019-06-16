@@ -9,6 +9,7 @@ import java.util.List;
 
 public class UserDTO {
 
+    private final Long id;
     private final String username;
     private final String password;
     private final String firstName;
@@ -19,7 +20,8 @@ public class UserDTO {
     private final List<Authority> authorities;
     private final List<TravelGroup> travelGroups;
 
-    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, String avatar, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
+    public UserDTO(Long id, String username, String password, String firstName, String lastName, String emailAddress, String avatar, Boolean enabled, List<Authority> authorities, List<TravelGroup> travelGroups) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -31,7 +33,8 @@ public class UserDTO {
         this.travelGroups = travelGroups;
     }
 
-    public UserDTO(String username, String password, String firstName, String lastName, String emailAddress, String avatar) {
+    public UserDTO(Long id, String username, String password, String firstName, String lastName, String emailAddress, String avatar) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -44,6 +47,7 @@ public class UserDTO {
     }
 
     public UserDTO() {
+        this.id = null;
         this.username = "";
         this.password = "";
         this.firstName = "";
@@ -53,6 +57,10 @@ public class UserDTO {
         this.enabled = true;
         this.authorities = new ArrayList<>();
         this.travelGroups = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -93,6 +101,7 @@ public class UserDTO {
 
     public User getUser() {
         User user = new User();
+        user.setId(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setFirstName(firstName);
