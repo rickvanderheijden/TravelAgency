@@ -7,11 +7,13 @@ import java.util.List;
 
 
 public class TravelGroupDTO {
+    private final Long id;
     private final String name;
     private final Long masterId;
     private final List<User> users;
 
-    public TravelGroupDTO(@NotNull String name, @NotNull Long masterId, List<User> users) {
+    public TravelGroupDTO(Long id, @NotNull String name, @NotNull Long masterId, List<User> users) {
+        this.id = id;
         this.name = name;
         this.masterId = masterId;
         this.users = users;
@@ -19,6 +21,16 @@ public class TravelGroupDTO {
 
     public TravelGroup getTravelGroup() {
         TravelGroup travelGroup = new TravelGroup();
+        travelGroup.setName(name);
+        travelGroup.setMasterId(masterId);
+        travelGroup.setUsers(users);
+
+        return travelGroup;
+    }
+
+    public TravelGroup getTravelGroupUpdate() {
+        TravelGroup travelGroup = new TravelGroup();
+        travelGroup.setId(id);
         travelGroup.setName(name);
         travelGroup.setMasterId(masterId);
         travelGroup.setUsers(users);

@@ -42,7 +42,7 @@ public class TravelGroupController {
         return Optional.of(travelGroupRepository.save(travelGroup));
     }
 
-    public TravelGroup getById(Long id) { return  this.travelGroupRepository.getOne(id); }
+    public Optional<TravelGroup> getById(Long id) { return  this.travelGroupRepository.findById(id); }
 
     public Optional<TravelGroup> updateTravelGroup(TravelGroup updatedTravelGroup) {
         if(!this.travelGroupRepository.existsById(updatedTravelGroup.getId())){

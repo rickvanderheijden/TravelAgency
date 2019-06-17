@@ -23,26 +23,31 @@ public class TravelGroupResource {
         this.userController = userController;
     }
 
+    @GetMapping(value = "/{id}")
+    public Optional<TravelGroup> getTravelGroup(@PathVariable final Long id) {
+        return travelGroupController.getById(id);
+    }
+
     @RequestMapping(value = "/users/{id}" , method = RequestMethod.GET)
     public List<User> getUsers(@PathVariable final Long id){
-        TravelGroup travelGroup = travelGroupController.getById(id);
+        TravelGroup travelGroup = travelGroupController.getById(id).get();
         return travelGroupController.getUsersByTravelGroupId(travelGroup);
     }
 
-    @RequestMapping(value = "/createTravelGroup", method = RequestMethod.POST)
+    @PostMapping
     public Optional<TravelGroup> createTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
         TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
         return travelGroupController.createTravelGroup(travelGroup);
     }
 
-    @RequestMapping(value = "/updateTravelGroup", method = RequestMethod.POST)
+    @PutMapping
     public Optional<TravelGroup> updateTravelGroup(@Valid @RequestBody TravelGroupDTO travelGroupDTO) {
-        TravelGroup travelGroup = travelGroupDTO.getTravelGroup();
+        TravelGroup travelGroup = travelGroupDTO.getTravelGroupUpdate();
         return travelGroupController.updateTravelGroup(travelGroup);
     }
 
     @RequestMapping(value = "/addUser/{id}", method = RequestMethod.POST)
     public boolean addUser(@Valid @RequestBody TravelGroup travelGroup, @PathVariable final Long id) {
-       return userController.addTravelGroup(travelGroup,id);
+        return userController.addTravelGroup(travelGroup,id);
     }
 }
