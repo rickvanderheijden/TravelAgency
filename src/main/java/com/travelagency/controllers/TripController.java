@@ -133,8 +133,6 @@ public class TripController {
         List<Trip> tripsFromDestination = new ArrayList<>();
         String keyword = tripSearch.getKeyword();
 
-
-
             if (tripSearch.countryPresent()) {
                 tripsFromDestination.addAll(tripRepository.findDistinctByDestinations_City_Country_Name(tripSearch.getCountry()));
             } else if (tripSearch.continentPresent()) {

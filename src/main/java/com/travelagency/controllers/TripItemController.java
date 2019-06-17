@@ -28,10 +28,14 @@ public class TripItemController {
 
         Optional<Address> addressInDatabase = geographyController.getAddress(address);
         if (!addressInDatabase.isPresent()){
-            Optional<City> optionalCity = geographyController.getCity(address.getCity().getName());
+            City addressCity = address.getCity();
+            if (addressCity == null) return Optional.empty();
+
+            Optional<City> optionalCity = geographyController.getCity(addressCity.getName());
             if(!optionalCity.isPresent()){
                 return Optional.empty();
             }
+
             Optional<Address> createdAddress = geographyController.createAddress(address.getAddressLine(), address.getZipCode(), optionalCity.get());
             createdAddress.ifPresent(tripItem::setAddress);
         } else {
@@ -41,16 +45,17 @@ public class TripItemController {
         return Optional.of(tripItemRepository.save(tripItem));
     }
 
-    public TripItem getById(Long id) {
-        return this.tripItemRepository.getOne(id);
+    public Optional<TripItem> getById(Long id) {
+        return Optional.ofNullable(tripItemRepository.getOne(id));
     }
 
     public Optional<TripItem> getFirst() {
         return tripItemRepository.findAll().stream().findFirst();
     }
 
-    public Optional<TripItem> updateTripItem(Long id, TripItem updatedTripItem) {
-        if(!this.tripItemRepository.existsById(id)){
+    public Optional<TripItem> updateTripItem(TripItem updatedTripItem) {
+        if (updatedTripItem == null) return Optional.empty();
+        if(!this.tripItemRepository.existsById(updatedTripItem.getId())){
             return Optional.empty();
         }
 
@@ -59,7 +64,10 @@ public class TripItemController {
 
         Optional<Address> addressInDatabase = geographyController.getAddress(address);
         if (!addressInDatabase.isPresent()){
-            Optional<City> optionalCity = geographyController.getCity(address.getCity().getName());
+            City addressCity = address.getCity();
+            if (addressCity == null) return Optional.empty();
+
+            Optional<City> optionalCity = geographyController.getCity(addressCity.getName());
             if(!optionalCity.isPresent()){
                 return Optional.empty();
             }
@@ -82,10 +90,15 @@ public class TripItemController {
     }
 
     public Optional<List<TripItem>> getByCityName(String cityName) {
+        if (cityName == null) return Optional.empty();
         return Optional.ofNullable(tripItemRepository.getByAddressCityName(cityName));
     }
 
     public Optional<List<TripItem>> getAllTripItems() {
-        return Optional.of(tripItemRepository.findAll());
+        List<TripItem> tripItems = tripItemRepository.findAll();
+        if (tripItems == null) {
+            return Optional.empty();
+        }
+        return Optional.of(tripItems);
     }
 }

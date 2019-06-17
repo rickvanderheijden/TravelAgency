@@ -132,7 +132,7 @@ public class TestTripController {
     }
 
     @Test
-    public void testGetAllTripsNoTravels() {
+    public void testGetAllTripsNoTrips() {
         when(tripRepository.findAll(any(Pageable.class))).thenReturn(null);
         Optional<List<Trip>> trips = tripController.getAllTrips();
         Assert.assertTrue(trips.isPresent());

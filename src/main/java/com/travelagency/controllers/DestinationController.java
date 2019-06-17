@@ -93,7 +93,7 @@ public class DestinationController {
         Optional<City> cityInDatabase = geographyController.getCity(city.getName());
         Optional<Hotel> hotelInDatabase = hotelController.getHotelByName(hotel.getName());
         for (TripItem tripItem : tripItems){
-            Optional<TripItem> tripItemInDatabase = Optional.ofNullable(tripItemController.getById(tripItem.getId()));
+            Optional<TripItem> tripItemInDatabase = tripItemController.getById(tripItem.getId());
             tripItemInDatabase.ifPresent(destination::addTripItem);
         }
         cityInDatabase.ifPresent(destination::setCity);
