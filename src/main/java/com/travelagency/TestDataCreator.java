@@ -154,6 +154,7 @@ class TestDataCreator {
 
             for (City city : geographyController.getAllCities()) {
                 Destination destination = new Destination(city);
+                destination.setName(city.getName());
 
                 Optional<Hotel> hotel = hotelController.getFirstByAddressCityName(city.getName());
                 if (hotel.isPresent()) {
