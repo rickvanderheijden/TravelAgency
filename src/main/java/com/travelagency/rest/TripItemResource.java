@@ -20,7 +20,7 @@ public class TripItemResource {
         this.tripItemController = tripItemController;
     }
 
-    @RequestMapping(value = "/createTripItem", method = RequestMethod.POST)
+    @PostMapping(value = "/createTripItem")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TripItem> createTripItem(@Valid @RequestBody TripItem tripItem) {
 
@@ -28,27 +28,27 @@ public class TripItemResource {
         return createdTripItem.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public Optional<TripItem> getById(@PathVariable final Long id) {
-        return Optional.ofNullable(tripItemController.getById(id));
+        return tripItemController.getById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Optional<TripItem> update(@PathVariable final Long id, @RequestBody TripItem tripItem) {
-        return tripItemController.updateTripItem(id,tripItem);
+    @PutMapping()
+    public Optional<TripItem> update(@RequestBody TripItem tripItem) {
+        return tripItemController.updateTripItem(tripItem);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Optional<Boolean> update(@PathVariable final Long id) {
+    @DeleteMapping(value = "/{id}")
+    public Optional<Boolean> delete(@PathVariable final Long id) {
         return Optional.of(tripItemController.deleteTripItem(id));
     }
 
-    @RequestMapping(value = "/first", method = RequestMethod.GET)
+    @GetMapping(value = "/first")
     public Optional<TripItem> getFirst() {
         return tripItemController.getFirst();
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public Optional<List<TripItem>> getAll() {
         return tripItemController.getAllTripItems();
     }
