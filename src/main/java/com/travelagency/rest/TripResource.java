@@ -27,11 +27,11 @@ public class TripResource {
 
     @RequestMapping(value = "/updateTrip", method = RequestMethod.PUT)
     public ResponseEntity<Trip> updateTrip(@Valid @RequestBody Trip trip) {
-        Trip updatedTrip = this.tripController.updateTrip(trip);
-        if(updatedTrip == null){
+        Optional<Trip> updatedTrip = this.tripController.updateTrip(trip);
+        if(!updatedTrip.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedTrip);
+        return ResponseEntity.ok(updatedTrip.get());
     }
 
     @RequestMapping(value = "/deleteTrip/{id}", method = RequestMethod.DELETE)
