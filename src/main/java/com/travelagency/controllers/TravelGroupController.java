@@ -46,7 +46,7 @@ public class TravelGroupController {
 
     public Optional<TravelGroup> updateTravelGroup(TravelGroup updatedTravelGroup) {
         if(!this.travelGroupRepository.existsById(updatedTravelGroup.getId())){
-            return  null;
+            return Optional.empty();
         }
         Optional<TravelGroup> returnTravelGroup = Optional.of(travelGroupRepository.save(updatedTravelGroup));
         userController.removeTravelGroup(returnTravelGroup.get());

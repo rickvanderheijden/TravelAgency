@@ -1,25 +1,16 @@
 package com.travelagency.unittest;
 
 import com.travelagency.controllers.GeographyController;
-import com.travelagency.controllers.TripController;
 import com.travelagency.controllers.TripItemController;
 import com.travelagency.model.*;
-import com.travelagency.repository.DestinationRepository;
 import com.travelagency.repository.TripItemRepository;
-import com.travelagency.repository.TripRepository;
-import com.travelagency.rest.DataTranfersObjects.TripSearchDTO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.CachedIntrospectionResults;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
